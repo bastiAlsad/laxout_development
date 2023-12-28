@@ -1,0 +1,140 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.19.0/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{%load static%}
+<style>
+    .sized-box {
+        margin: 20px;
+        width: 100%;
+        height: 10px;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .button {
+        background-color: rgb(42, 67, 81);
+        border: none;
+        border-radius: 12px;
+        color: white;
+    }
+
+    .user-item {
+        height: 90px;
+        background-color: white;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        border-radius: 10px;
+        width: 70vw;
+        color: black;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        flex-direction: row;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .center-container {
+        position: absolute;
+        top: 60%;
+        border-radius: 10px;
+        left: 60%;
+        transform: translate(-60%, -60%);
+        overflow: hidden;
+    }
+</style>
+
+<header>
+    <h4 style="margin: 20px;">
+        So erhalten Sie Zugriff auf die App:
+    </h4>
+</header>
+
+<body>
+
+    <div style="margin: 20px;">
+        <div class="user-item"
+            style="height: auto; width: 100%; padding: 20px; flex-direction: column; display: flex; align-items: start; justify-content: start;">
+            <h6>
+                1: Laden Sie sich die App über den Qr-Code herunter
+            </h6>
+            <div id="qrcode">
+
+
+            </div>
+            <div class="sized-box">
+
+            </div>
+            <h6>
+                2: Erhalten Sie den Zugangscode
+            </h6>
+            <button onclick="copyToClipboard('{{login_token}}')" class="button">
+                Indem Sie diesen Button drücken
+            </button>
+
+            <div class="sized-box">
+
+            </div>
+            <h6>
+                3: In der App werden Sie nach einem Zugangscode gefragt. Bevor Sie die App in Schritt 5 für öffnen, schauen Sie sich bitte an, wie man den Zugangscode in die App einsetzt.
+            </h6>
+
+            <div class="sized-box">
+
+            </div>
+            <h6>
+                4: Um ihren Zugangscode in der App einsetzen zu können, müssen Sie auf das türkise Kreuz (unten auf dem Foto schwarz eingekreist) drücken. Sollte etwas nicht funktionieren gehen Sie zurück zum Tutorial und drücken Sie den "Indem Sie diesen Button drücken" Knopf nochmal. Anschließend sollten Sie den Code durch erneutes drücken des türkisen Kreuzes einsetzen können. Falls es immernoch Probleme gibt, müssen Sie den Code leider manuell abtippen. 
+            </h6>
+            <img src="{% static 'assets/images/Tutorial.jpg' %}" alt="" style="height: 500px; width: 250px;">
+            <div class="sized-box">
+
+            </div>
+            <h6>
+                5: Öffnen Sie nun die Laxout-App und drücken Sie auf das türkise Kreuz. Lesen Sie sich anschließend die allgemeinen Geschäftsbedingungen und die Datenschutzbestimmungen aufmerksam durch (Zum Öffnen der Texte drücken Sie auf die Wörter "Datenschutzerklärung" oder "AGBs"). Wenn Sie mit diesen Bestimmungen einverstanden sind, drücken Sie bitte auf den Kreis/Checkbox links neben den "Ich akzeptiere Die AGBs" und "Ich akzeptiere die Datenschutzerklärung"-Links. Anschließend können Sie auf den Loslegen Knopf am unteren Bildschirmrand drücken, und die App sollte sich öffnen. Wenn nichts passiert, stimmt etwas mit ihrem Zugangscode nicht. In diesem Fall fangen Sie bitte erneut bei Schritt 2 an, oder kontrollieren bei manueller Eingabe des Codes, ob es einen Tippfehler gibt. Sollte das öffnen der App immernoch nicht funktionieren, kontaktieren Sie bitte ihren Physiotherapeuten oder den Laxout-Support unter support@laxoutapp.com  
+            </h6>
+
+
+
+
+
+
+
+        </div>
+    </div>
+</body>
+
+<script>
+    function copyToClipboard(value) {
+        // Erstelle ein unsichtbares Textarea-Element
+        var textarea = document.createElement("textarea");
+        // Setze den Text, den du kopieren möchtest
+        textarea.value = value;
+        // Füge das Textarea-Element zum DOM hinzu
+        document.body.appendChild(textarea);
+        // Selektiere den Text im Textarea
+        textarea.select();
+        // Kopiere den Text in die Zwischenablage
+        document.execCommand('copy');
+        // Entferne das Textarea-Element aus dem DOM
+        document.body.removeChild(textarea);
+
+        // Optional: Feedback für den Benutzer
+        alert("Sie haben Ihren Zugangs-Code erfolgreich erhalten. Fahren Sie nun bitte mit Schritt 3 fort.");
+    }
+
+    var url = "http://127.0.0.1:8000/laxout/show-login-code/{{users.user_uid}}";
+
+    // Erstelle den QR-Code
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+        text: url,
+        width: 128,
+        height: 128
+    });
+</script>

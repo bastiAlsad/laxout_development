@@ -1,0 +1,24 @@
+{%extends 'laxout_app/main.html'%}
+{%block title%}Create User {%endblock title%}
+{%load crispy_forms_tags%}
+{%block praxisname%}User Erstellen{%endblock praxisname%}
+{%block content%}
+<div style="padding-left: 15px; width: 300px;">
+    <form method="post">
+        {%csrf_token%}{{form|crispy}}
+        <style>
+            .submit_button {
+                height: 30px;
+                width: 140px;
+                border-radius: 10px;
+                background-color: rgb(44, 67, 81);
+                color: white;
+                margin-left: 0px;
+                cursor: pointer;
+                border: none;
+            }
+        </style>
+        <button type="submit" class="submit_button">Nutzer Erstellen</button>
+    </form>
+</div>
+{%endblock content%}

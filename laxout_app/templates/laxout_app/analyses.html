@@ -1,0 +1,334 @@
+{%extends 'laxout_app/main.html'%}
+{%load crispy_forms_tags%}
+{%block praxisname%}
+Analysen
+{%endblock praxisname%}
+{%block content%}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    @media only screen and (min-width: 1200px) {
+        .row-basti-analysePage {
+            justify-content: start;
+            flex-direction: row;
+            align-items: center;
+            display: flex;
+        }
+
+        .analyse-container {
+            border-radius: 13px;
+            background-color: white;
+            width: 20vw;
+            height: 200px;
+            padding: 30px;
+            justify-content: start;
+            flex-direction: row;
+            display: flex;
+        }
+
+        .row-basti-analysePage-Charts {
+            justify-content: start;
+            flex-direction: row;
+            align-items: center;
+            display: flex;
+            padding-top: 40px;
+            padding-right: 50px;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            display: flex;
+            height: 60vh;
+            width: 80vw;
+        }
+    }
+
+    @media only screen and (max-width: 1199px) {
+        .row-basti-analysePage {
+            justify-content: start;
+            flex-direction: column;
+            align-items: center;
+            display: flex;
+        }
+
+        .analyse-container {
+            border-radius: 13px;
+            background-color: white;
+            width: 60vw;
+            height: 200px;
+            padding: 30px;
+            justify-content: start;
+            flex-direction: row;
+            display: flex;
+        }
+
+        .row-basti-analysePage-Charts {
+            justify-content: start;
+            
+            align-items: start;
+            display: flex;
+            padding-top: 40px;
+            padding-right: 50px;
+            flex-direction: column;
+            justify-content: space-between;
+            
+            display: flex;
+            height: 60vh;
+            width: 80vw;
+            margin-bottom: 250px;
+        }
+    }
+
+
+    .analyse-column {
+        justify-content: space-between;
+        align-items: start;
+        justify-items: start;
+        flex-direction: column;
+        padding-left: 30px;
+        display: flex;
+    }
+</style>
+
+<div style="padding: 40px;">
+    <div class="row-basti-analysePage" style="justify-content: space-between;">
+        <div class="analyse-container">
+            <div style="height: 140px; width: 5px; background-color: rgb(44, 67, 81); border-radius: 10px;">
+            </div>
+            <div class="analyse-column">
+                <h3>Nutzer</h3>
+                <div> </div>
+                <div style="font-size: 20px; color: grey;"> {{user_amount}} </div>
+                <div style="flex-direction: row; display: flex; justify-content: space-around; align-items: center;">
+
+
+                    insgesamt
+                </div>
+
+            </div>
+
+        </div>
+        <div class="analyse-container">
+            <div style="height: 140px; width: 5px; background-color: rgb(44, 67, 81); border-radius: 10px;"></div>
+            <div class="analyse-column">
+                <h3>Aktive Nutzer</h3>
+                <div> </div>
+                <div style="font-size: 20px; color: grey;"> {{active_user_amount}} </div>
+                <div style="flex-direction: row; display: flex; justify-content: space-around; align-items: center;">
+
+
+                    insgesamt
+                </div>
+
+            </div>
+
+        </div>
+        <div class="analyse-container">
+            <div style="height: 140px; width: 5px; background-color: rgb(44, 67, 81); border-radius: 10px;"></div>
+            <div class="analyse-column">
+                <h3>Logins </h3>
+                <div> </div>
+                <div style="font-size: 20px; color: grey;"> {{logins}}</div>
+                <div style="flex-direction: row; display: flex; justify-content: space-around; align-items: center;">
+
+
+                    in diesem Monat
+                </div>
+
+            </div>
+        </div>
+        <div class="analyse-container">
+            <div style="height: 140px; width: 5px; background-color: rgb(44, 67, 81); border-radius: 10px;"></div>
+            <div class="analyse-column">
+                <h3>Absolvierte Tests</h3>
+                <div> </div>
+                <div style="font-size: 20px; color: grey;"> {{tests}}</div>
+                <div style="flex-direction: row; display: flex; justify-content: space-around; align-items: center;">
+
+
+                    in diesem Monat
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row-basti-analysePage-Charts">
+
+        <canvas id="dougnut"></canvas>
+        <canvas id="line"></canvas>
+
+
+    </div>
+    <div style="padding-top: 40px;">
+        <canvas id="myChart"></canvas>
+    </div>
+
+
+
+
+</div>
+
+
+<script>
+    const user_amount = "{{user_amount}}";
+    const active_user_amount = "{{active_user_amount}}";
+
+    const indexes = "{{indexes}}";
+    var zero_two_pain = JSON.parse('{{ zero_two_pain|safe }}');
+    var three_five_pain = JSON.parse('{{three_five_pain}}');
+    var six_eight_pain = JSON.parse('{{six_eight_pain}}');
+    var nine_ten_pain = JSON.parse('{{nine_ten_pain}}');
+    const ctx = document.getElementById('myChart');
+    const donut = document.getElementById('dougnut');
+    const line = document.getElementById('line');
+
+
+
+
+    var indexes_labels = JSON.parse('{{index_labels}}');
+    var lastTenMonths = JSON.parse('{{ test|safe }}');
+
+    indexes_labels_strings = indexes_labels.map(function (item) {
+        if (item == 1) {
+            return "Januar";
+        }
+        if (item == 2) {
+            return "Februar";
+        }
+        if (item == 3) {
+            return "März";
+        }
+        if (item == 4) {
+            return "April";
+        }
+        if (item == 5) {
+            return "Mai";
+        }
+        if (item == 6) {
+            return "Juni";
+        }
+        if (item == 7) {
+            return "Juli";
+        }
+        if (item == 8) {
+            return "August";
+        }
+        if (item == 9) {
+            return "September";
+        }
+        if (item == 10) {
+            return "Oktober";
+        }
+        if (item == 11) {
+            return "November";
+        }
+        if (item == 12) {
+            return "Dezember";
+        }
+
+        return "";
+    })
+
+
+
+
+
+
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: indexes_labels_strings,
+            datasets: [{
+                label: 'Schmerzen 0-2',
+                data: zero_two_pain,
+                borderWidth: 1,
+                backgroundColor: "#2c4350"
+            },
+            {
+                label: 'Schmerzen 3-5',
+                data: three_five_pain,
+                borderWidth: 1,
+                backgroundColor: "#628AA0"
+            },
+            {
+                label: 'Schmerzen 6-8',
+                data: six_eight_pain,
+                borderWidth: 1,
+                backgroundColor: "#3E4950"
+            },
+            {
+                label: 'Schmerzen 9-10',
+                data: nine_ten_pain,
+                borderWidth: 1,
+                backgroundColor: "#232628"
+            },
+
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    new Chart(donut, {
+        type: 'doughnut',
+        data: {
+            labels: [
+                "aktiv",
+                'passiv',
+            ],
+            datasets: [{
+                label: 'My First Dataset',
+                data: [user_amount, active_user_amount],
+                backgroundColor: [
+                    'rgb(98, 138, 160)',
+                    'rgb(44, 67, 81)',
+                ],
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            layout: {
+                padding: {
+                    left: 50,
+                    top: 50,
+                    right: 50,
+                    bottom: 50
+                }
+            }
+        }
+    })
+
+    new Chart(line, {
+        type: 'line',
+        data: {
+            labels: indexes_labels_strings,
+            datasets: [{
+                label: 'Leistungsindex',
+                data: lastTenMonths,
+                borderWidth: 6,
+                borderColor: 'rgb(44, 67, 81)',
+            }]
+        },
+        options: {
+            layout: {
+                padding: {
+                    left: 50,
+                    top: 50,
+                    right: 50,
+                    bottom: 50
+                }
+            }
+        }
+    })
+</script>
+
+
+{%endblock content%}

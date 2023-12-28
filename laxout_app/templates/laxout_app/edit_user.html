@@ -1,0 +1,605 @@
+{% extends 'laxout_app/main.html' %}
+{% block title %}Edit User{% endblock title %}
+{%load static%}
+{% block praxisname %}Benutzer Verwalten{% endblock praxisname %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<style>
+    @media only screen and (min-width:1200px) {
+        .row-calender-user {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding-left: 30px;
+            padding-right: 30px;
+            height: 90vh;
+        }
+
+        .chart-legend-container {
+            height: 100%;
+            width: 30vw;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: start;
+            align-items: start;
+            padding-top: 30px;
+
+            border-radius: 10px;
+
+            color: black;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .calender-container {
+            height: 100%;
+            width: 50vw;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: start;
+            align-items: start;
+            padding-top: 60px;
+            margin-bottom: 20px;
+
+            border-radius: 10px;
+
+            color: black;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    @media only screen and (min-width:769px) and (max-width:1199px) {
+        .row-calender-user {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-left: 30px;
+            padding-right: 30px;
+            height: 90vh;
+        }
+
+        .chart-legend-container {
+            height: 100%;
+            width: 70vw;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: start;
+            align-items: start;
+            padding-top: 30px;
+            margin-bottom: 20px;
+
+            border-radius: 10px;
+
+            color: black;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .calender-container {
+            height: 100%;
+            width: 80vw;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: start;
+            align-items: start;
+            padding-top: 30px;
+            margin-bottom: 20px;
+
+            border-radius: 10px;
+
+            color: black;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+
+    }
+</style>
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="row-calender-user">
+    <div style="display: flex; flex-direction: column; align-items: flex-start;">
+        <div style="display: flex; flex-direction: row; align-items: center;">
+            <div style="padding-right: 25px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor"
+                    class="bi bi-person-circle" viewBox="0 0 16 16">
+                    <path fill="rgb(44, 67, 81)" d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                    <path fill="rgb(44, 67, 81)" fill-rule="evenodd"
+                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                </svg>
+            </div>
+            <h1 style="color: rgb(44, 67, 81);">
+                {{ users.laxout_user_name }}
+            </h1>
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div id="qrcode" style="margin-left: 40px;"></div>
+                <div style="margin-left: 30px;">
+                    {{users.user_uid}}
+                </div>
+            </div>
+        </div>
+        <div style="padding-top: 15px; padding-bottom: 15px;">
+            <h3 style="color: rgb(44, 67, 81);">
+                {{ users.note }}
+            </h3>
+        </div>
+        <div style="padding-bottom: 25px;">
+            {{ users.creation_date }}
+        </div>
+        <div class="chart-legend-container">
+            <canvas id="line"></canvas>
+
+            <div
+                style="display: flex; justify-content: space-between; flex-direction: row; align-items: center; justify-items: center; padding-left: 20px; padding-top: 20px;">
+                <div class="day" style="height: 50px; width: 70px;">
+                    24
+                </div>
+                <h4 style="padding-left: 20px;">
+                    Normaler Tag
+                </h4>
+            </div>
+
+            <div
+                style="display: flex; justify-content: space-between; flex-direction: row; align-items: center; justify-items: center; padding-left: 20px; padding-top: 20px;">
+                <div class="lastMeet" style="height: 50px; width: 70px; align-items: center; display: flex;">
+                    24
+                </div>
+                <h4 style="padding-left: 20px;">
+                    Letzer Termin
+                </h4>
+            </div>
+
+            <div
+                style="display: flex; justify-content: space-between; flex-direction: row; align-items: center; justify-items: center; padding-left: 20px; padding-top: 20px;">
+                <div class="done" style="height: 50px; width: 70px; align-items: center; display: flex;">
+                    24
+                </div>
+                <h4 style="padding-left: 20px;">
+                    Physio-Workout Erledigt
+                </h4>
+            </div>
+
+            <div
+                style="display: flex; justify-content: space-between; flex-direction: row; align-items: center; justify-items: center; padding-left: 20px; padding-top: 20px;">
+                <div class="today" style="height: 50px; width: 70px; align-items: center; display: flex;">
+                    24
+                </div>
+                <h4 style="padding-left: 20px;">
+                    Heute
+                </h4>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="calender-container">
+        <div
+            style="flex-direction: row; justify-content: space-between; padding-left: 30px; padding-right: 30px; display: flex; padding-top: 30px;">
+            <div>
+                <button id="prevMonth" style="background: none; border: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                        class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                        <path fill="rgb(44, 67, 81)"
+                            d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
+                    </svg>
+                </button>
+                <button id="nextMonth" style="background: none; border: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                        class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                        <path fill="rgb(44, 67, 81)"
+                            d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                    </svg>
+                </button>
+            </div>
+            <div id="display-date">
+                März 2023
+            </div>
+        </div>
+        <div id="calendar"></div>
+        <div
+            style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; justify-items: center;">
+
+            <button class="action-button" style="width: 200px; margin: 20px;" onclick="fetchSession()">
+                Heute war ein Termin
+            </button>
+            <div style="padding-left: 100px;"><input type="text" id="instruction-input"
+                    style="border: solid 2px black; color: black; background-color: white; border-radius: 12px; height: 40px; width: 250px;"
+                    placeholder="Anweisung für den Patienten" onsubmit="postUserInstruction('{{users.id}}')" onchange="postUserInstruction('{{users.id}}')"></div>
+
+        </div>
+        
+
+
+    </div>
+
+</div>
+
+<div style="padding-left: 30px; padding-top: 50px;">
+    <div
+        style="display: flex; flex-direction: row; justify-content: space-between; justify-items: center; align-items: center;padding-right: 30px;">
+        <h3 style="color: rgb(44, 67, 81);">
+            Eingestellte Übungen:
+        </h3>
+        <button class="action-button" onclick="addExercises('{{users.id}}')">
+            Hinzufügen
+        </button>
+    </div>
+    <!-- users.exercises.all -->
+
+    {% for exercises in workouts%}
+    {% if exercises %}
+    <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-around;">
+        <div class="user-item" style="justify-items: center; justify-content: space-between; height: 200px;">
+            <div style="padding-left: 30px; height: 100px; width: 100px;">
+                <img src="{%static exercises.imagePath %}" alt="" style="height: 100px; width: 100px;">
+            </div>
+            <div style="padding-right: 30px; width: 40vw;">
+
+                <h5 style="color: rgb(44, 67, 81);">
+                    {{ exercises.name }}
+                </h5>
+                <div style="justify-content: start; align-items: center;">
+                    <div style="color: grey; font-size: 13px;">
+                        <textarea id="{{exercises.id}}name" style="width: 100%; border: none;"
+                            onchange="makeVisible('{{exercises.id}}id')" readonly>{{ exercises.execution }}
+                           
+                        </textarea>
+                    </div>
+                    <button
+                        style="display: flex; justify-items: center; justify-content: center; align-items: center; width: 70; font-size: 16px; border: none; background-color: rgb(44, 67, 81); border-radius: 10px; height: 30px;"
+                        onclick="toggleEditMode('{{exercises.id}}name')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-pen" viewBox="0 0 16 16">
+                            <path fill="rgb(255,255,255)"
+                                d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
+                        </svg>
+                    </button>
+
+
+
+                </div>
+            </div>
+            <div
+                style="padding-right: 30px;color: rgb(44, 67, 81); flex-direction: row; align-items: center; justify-items: center;">
+                <input type="number" onchange="makeVisible('{{exercises.id}}id')"
+                    style="width: 40px; border: 2.4px solid rgb(44, 67, 81); border-radius: 10px; color: rgb(44, 67, 81); align-items: center;"
+                    placeholder="{{exercises.dauer}}" id="{{exercises.id}}">
+                {% if exercises.timer == True %}
+                sek
+                {% else %}
+                mal
+                {% endif %}
+            </div>
+
+            <div style="flex-direction: column; justify-content: center; align-items: center;  display: flex; ">
+                <div style="flex-direction: row; display: flex;">
+                    <button class="delete-button" style="width: 70; font-size: 16px;"
+                        onclick="deleteWorkout('{{exercises.id}}', '{{users.id}}')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-trash3" viewBox="0 0 16 16">
+                            <path fill="rgb(255, 255, 255)"
+                                d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-around;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor"
+                        class="bi bi-skip-forward-fill" viewBox="0 0 16 16">
+                        <path fill="rgb(44,67,81)"
+                            d="M15.5 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V8.753l-6.267 3.636c-.54.313-1.233-.066-1.233-.697v-2.94l-6.267 3.636C.693 12.703 0 12.324 0 11.693V4.308c0-.63.693-1.01 1.233-.696L7.5 7.248v-2.94c0-.63.693-1.01 1.233-.696L15 7.248V4a.5.5 0 0 1 .5-.5" />
+                    </svg>
+                    <h6 style="padding-right: 13px; padding-left: 10px;">
+                        {{exercises.skippedAmount}}-mal
+                    </h6>
+
+
+                </div>
+                <button class="text-button-arme " id="{{exercises.id}}id"
+                    onclick="refreshWorkout('{{exercises.id}}name','{{exercises.dauer}}', '{{exercises.id}}', '{{users.id}}')"
+                    style="visibility:hidden; padding-right: 25px; padding-top: 15px;">
+                    Speichern
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+
+    {% else %}
+    <p>Keine Übung zugewiesen</p>
+    {% endif %}
+    {%endfor%}
+
+
+</div>
+
+
+
+
+<script>
+
+    function postUserInstruction(id) {
+        let inputData = document.getElementById("instruction-input").value
+        let formedData = new FormData();
+        let token = "{{csrf_token}}";
+        formedData.append("csrfmiddlewaretoken", token);
+        formedData.append("instruction", inputData);
+
+        fetch("post-user-instruction/"+id+"/", {
+            headers: {
+                'X-CSRFToken': token,
+            },
+            method: "POST",
+            body: formedData
+        });
+    }
+
+    
+    function fetchSession() {
+        let formedData = new FormData();
+        let csrf_token = "{{csrf_token}}";
+        formedData.append("csrfmiddlewaretoken", csrf_token);
+        fetch('', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrf_token
+            },
+
+        });
+    }
+
+    var line = document.getElementById('line');
+    var labels = JSON.parse('{{labels}}');
+    var indexes = JSON.parse('{{userIndexes}}');
+    var workoutDates = JSON.parse('{{workoutDates|escapejs}}');
+    var lastMeetData = JSON.parse('{{lastMeet|escapejs}}'); // EEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRROR
+
+    function lastMeet(year, month, day) {
+        var date = new Date(year, month, day + 1); // month is zero-based in JavaScript Date
+        var formattedDate = date.toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+
+        // Compare formatted dates as strings
+
+        console.log(lastMeetData);
+        console.log(formattedDate)
+        return formattedDate === lastMeetData;
+    }
+
+
+
+
+
+    stringLabels = labels.map(function (item) {
+        if (item == 1) {
+            return "Januar";
+        }
+        if (item == 2) {
+            return "Februar";
+        }
+        if (item == 3) {
+            return "März";
+        }
+        if (item == 4) {
+            return "April";
+        }
+        if (item == 5) {
+            return "Mai";
+        }
+        if (item == 6) {
+            return "Juni";
+        }
+        if (item == 7) {
+            return "Juli";
+        }
+        if (item == 8) {
+            return "August";
+        }
+        if (item == 9) {
+            return "September";
+        }
+        if (item == 10) {
+            return "Oktober";
+        }
+        if (item == 11) {
+            return "November";
+        }
+        if (item == 12) {
+            return "Dezember";
+        }
+
+        return "";
+    });
+    var url = "http://127.0.0.1:8000/laxout/show-login-code/{{users.user_uid}}";
+
+    // Erstelle den QR-Code
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+        text: url,
+        width: 128,
+        height: 128
+    });
+
+    function makeVisible(cssId) {
+        element = document.getElementById(cssId);
+        element.style.visibility = 'visible';
+    }
+
+
+    function addExercises(id) {
+        window.location.href = "add-exercises/" + id;
+    }
+
+    function toggleEditMode(workoutName) {
+        const executionTextarea = document.getElementById(workoutName);
+        if (executionTextarea) {
+            executionTextarea.readOnly = !executionTextarea.readOnly;
+            executionTextarea.focus();
+        }
+    }
+
+    function refreshWorkout(cssId, newDauer, cssId2, userId) {
+        const executionTextarea = document.getElementById(cssId);
+        const inputDauer = document.getElementById(cssId2);
+        document.getElementById(cssId2 + "id").style.visibility = 'hidden';
+        let execution = executionTextarea.value;
+        let dauer = inputDauer.value;
+        let formedData = new FormData();
+        let token = "{{csrf_token}}";
+        formedData.append("csrfmiddlewaretoken", token);
+        formedData.append("execution", execution);
+        formedData.append("dauer", dauer);
+        formedData.append("id", cssId2);
+        formedData.append("userId", userId)
+        fetch("edit-user-workout/", {
+            headers: {
+                'X-CSRFToken': token,
+            },
+            method: "POST",
+            body: formedData
+        });
+    }
+
+    function deleteWorkout(workoutId, userId) {
+        let formedData = new FormData();
+        let token = "{{csrf_token}}";
+        formedData.append("csrfmiddlewaretoken", token);
+        formedData.append("id", workoutId);
+        formedData.append("userId", userId)
+        fetch("delete-user-workout/", {
+            headers: {
+                'X-CSRFToken': token,
+            },
+            method: "POST",
+            body: formedData
+        });
+        window.location.reload();
+    }
+
+    new Chart(line, {
+        type: 'line',
+        data: {
+            labels: stringLabels,
+            datasets: [{
+                label: 'Leistungsindex',
+                data: indexes,
+                borderWidth: 6,
+                borderColor: 'rgb(44, 67, 81)',
+            }]
+        },
+
+
+    });
+
+    function getMonthName(monthIndex) {
+        const monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+        return monthNames[monthIndex];
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const calendarContainer = document.getElementById("calendar");
+        const prevMonthButton = document.getElementById("prevMonth");
+        const nextMonthButton = document.getElementById("nextMonth");
+        const displayDate = document.getElementById("display-date");
+
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+
+        // Function to get exercise data for a specific day
+        function getExerciseData(year, month, day) {
+            // Check if the date (year, month, day) is in the workoutDates list
+            const currentDate = new Date(year, month, day);
+            return workoutDates.some(date => {
+                const workoutDate = new Date(date);
+                return (
+                    workoutDate.getFullYear() === currentDate.getFullYear() &&
+                    workoutDate.getMonth() === currentDate.getMonth() &&
+                    workoutDate.getDate() === currentDate.getDate()
+                );
+            });
+        }
+
+        // Function to update the calendar
+        function updateCalendar() {
+            // Clear existing calendar
+            calendarContainer.innerHTML = "";
+            displayDate.innerHTML = "";
+            displayDate.textContent = getMonthName(currentMonth) + " " + currentYear;
+
+            // Create header row with day names
+            const dayNames = ["So", "Mo", "Di", "Mit", "Don", "Fr", "Sa"];
+            dayNames.forEach(dayName => {
+                const dayElement = document.createElement("div");
+                dayElement.classList.add("day");
+                dayElement.textContent = dayName;
+                calendarContainer.appendChild(dayElement);
+            });
+
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+
+            // Create calendar cells
+            for (let day = 1; day <= daysInMonth + firstDayOfMonth; day++) {
+                const dayElement = document.createElement("div");
+                dayElement.classList.add("day");
+
+                if (day > firstDayOfMonth) {
+                    dayElement.textContent = day - firstDayOfMonth;
+
+                    // mark last session date
+                    const isLastMeet = lastMeet(currentYear, currentMonth, day - firstDayOfMonth);
+                    if (isLastMeet) {
+                        dayElement.classList.add("lastMeet");
+                    } else {
+                        // Check if exercise is done for the current day
+                        const isExerciseDone = getExerciseData(currentYear, currentMonth, day - firstDayOfMonth);
+                        if (isExerciseDone) {
+                            dayElement.classList.add("done");
+                        }
+                    }
+
+                    // Highlight today's date
+                    const today = new Date();
+                    if (day - firstDayOfMonth === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
+                        dayElement.classList.add("today");
+                    }
+                }
+                calendarContainer.appendChild(dayElement);
+            }
+
+        }
+
+        // Initial calendar update
+        updateCalendar();
+
+        // Event listeners for navigation buttons
+        prevMonthButton.addEventListener("click", function () {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            updateCalendar();
+        });
+
+        nextMonthButton.addEventListener("click", function () {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            updateCalendar();
+        });
+    });
+
+</script>
+
+
+{% endblock content %}
