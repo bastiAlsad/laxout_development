@@ -4,7 +4,7 @@
 {% block praxisname %}Benutzer Verwalten{% endblock praxisname %}
 {% load crispy_forms_tags %}
 {% block content %}
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
     @media only screen and (min-width:1200px) {
         .row-calender-user {
@@ -13,7 +13,7 @@
             justify-content: space-between;
             padding-left: 30px;
             padding-right: 30px;
-            height: 90vh;
+            height: 120vh;
         }
 
         .chart-legend-container {
@@ -321,6 +321,10 @@
 
 </div>
 
+<div style="padding-top: 40px;">
+    <canvas id="myChart"></canvas>
+</div>
+
 
 
 
@@ -597,6 +601,95 @@
             }
             updateCalendar();
         });
+    });
+
+    //Chart 
+    var indexes_labels = JSON.parse('{{index_labels}}');
+    var zero_two_pain = JSON.parse('{{ zero_two_pain|safe }}');
+    var three_five_pain = JSON.parse('{{three_five_pain}}');
+    var six_eight_pain = JSON.parse('{{six_eight_pain}}');
+    var nine_ten_pain = JSON.parse('{{nine_ten_pain}}');
+    const ctx = document.getElementById('myChart');
+
+    indexes_labels_strings = indexes_labels.map(function (item) {
+        if (item == 1) {
+            return "Januar";
+        }
+        if (item == 2) {
+            return "Februar";
+        }
+        if (item == 3) {
+            return "März";
+        }
+        if (item == 4) {
+            return "April";
+        }
+        if (item == 5) {
+            return "Mai";
+        }
+        if (item == 6) {
+            return "Juni";
+        }
+        if (item == 7) {
+            return "Juli";
+        }
+        if (item == 8) {
+            return "August";
+        }
+        if (item == 9) {
+            return "September";
+        }
+        if (item == 10) {
+            return "Oktober";
+        }
+        if (item == 11) {
+            return "November";
+        }
+        if (item == 12) {
+            return "Dezember";
+        }
+
+        return "";
+    })
+    
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: indexes_labels_strings,
+            datasets: [{
+                label: 'Schmerzen 0-2',
+                data: zero_two_pain,
+                borderWidth: 1,
+                backgroundColor: "#2c4350"
+            },
+            {
+                label: 'Schmerzen 3-5',
+                data: three_five_pain,
+                borderWidth: 1,
+                backgroundColor: "#628AA0"
+            },
+            {
+                label: 'Schmerzen 6-8',
+                data: six_eight_pain,
+                borderWidth: 1,
+                backgroundColor: "#3E4950"
+            },
+            {
+                label: 'Schmerzen 9-10',
+                data: nine_ten_pain,
+                borderWidth: 1,
+                backgroundColor: "#232628"
+            },
+
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
     });
 
 </script>

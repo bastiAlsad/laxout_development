@@ -34,6 +34,9 @@
         width: 40px;
         height: 40px;
     }
+    .delete-button.zoomed {
+        transform: scale(1.1);
+    }
 </style>
 
 <div class="row-basti"
@@ -73,6 +76,10 @@
     <button class="text-button-dehnung" style="font-size: small; margin-left: 30px; margin-right: 30px;"
         onclick="dehnungSelectedSetzen()">
         Dehnung
+    </button>
+    <button class="text-button-alles" style="font-size: small; margin-left: 30px; margin-right: 30px;"
+        onclick="allesSelectedSetzen()">
+        Alles
     </button>
 </div>
 
@@ -120,7 +127,9 @@
             <div style="flex-direction: row;">
                 <button class="delete-button"
                     style="display: flex; justify-items: center; justify-content: center; align-items: center; width: 70; font-size: 16px;"
-                    onclick="addWorkout('{{workout.name}}','{{workout.dauer}}', '{{workout.id}}')">
+                    onclick="addWorkout('{{workout.name}}','{{workout.dauer}}', '{{workout.id}}')"
+                    id="{{workout.id}}buttonId"
+                    >
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
                         class="bi bi-plus-circle" viewBox="0 0 16 16">
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
@@ -332,6 +341,11 @@
         setSelected2(2, '.text-button-dehnung');
 
     }
+    function allesSelectedSetzen() {
+        secondSelectedNumber = 7;
+        setSelected2(7, '.text-button-alles');
+
+    }
 
     function getWorkoutList(first, second) {
         let token = '{{ csrf_token }}';
@@ -377,6 +391,16 @@
     }
 
     function addWorkout(cssId, newDauer, cssId2) {
+        var button = document.getElementById(cssId2+'buttonId');
+
+        // Füge die Zoom-Klasse hinzu
+        button.classList.add('zoomed');
+
+        // Nach 300 Millisekunden (oder nach der Dauer der Animation) entferne die Zoom-Klasse
+        setTimeout(function() {
+            button.classList.remove('zoomed');
+        }, 300);
+
         const executionTextarea = document.getElementById(cssId);
         const inputDauer = document.getElementById(cssId2);
         let execution = executionTextarea.value;

@@ -48,6 +48,14 @@ class IndexesPhysios(models.Model):
     six_eight = models.IntegerField(default= 0)
     nine_ten = models.IntegerField(default= 0)
 
+class LaxoutUserPains(models.Model):
+    for_month = models.IntegerField(default=datetime.now().month)
+    created_by = models.IntegerField(default=None, blank=True)
+    zero_two = models.IntegerField(default= 0)
+    theree_five = models.IntegerField(default= 0)
+    six_eight = models.IntegerField(default= 0)
+    nine_ten = models.IntegerField(default= 0)
+
 class Coupon(models.Model):
     coupon_name = models.CharField(default="", max_length=200)
     coupon_text = models.CharField(default="", max_length=400)
@@ -71,7 +79,7 @@ class Laxout_Exercise(models.Model):
     appId = models.IntegerField(default=0)
     
 class LaxoutUser(models.Model):
-    user_uid = models.CharField(max_length=420, default=str(uuid4()), unique=True)
+    user_uid = models.CharField(max_length=420, default="")
     laxout_user_name = models.CharField(max_length=200, default="")
     laxout_credits = models.IntegerField(default=0)
     note = models.CharField(max_length=200, default="")
@@ -84,6 +92,7 @@ class LaxoutUser(models.Model):
     coupons = models.ManyToManyField(Coupon)
     last_meet = models.DateField(default = timezone.datetime.today())
     instruction = models.CharField(default = "", max_length = 200)
+    
     
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

@@ -20,7 +20,7 @@ from datetime import date, datetime
 @api_view(["POST"])
 def autorise_laxout_user(request):
     user_uid = request.data["user_uid"]
-    
+
     try:
         user = models.LaxoutUser.objects.get(user_uid=user_uid)
     except models.LaxoutUser.DoesNotExist:
@@ -28,13 +28,13 @@ def autorise_laxout_user(request):
 
     physio_instance = user.created_by
     try:
-        physio_index_instance = models.IndexesPhysios.objects.get(for_month = datetime.now().month)
+        physio_index_instance = models.IndexesPhysios.objects.get(
+            for_month=datetime.now().month
+        )
         physio_index_instance.logins += 1
         physio_index_instance.save()
     except:
-         models.IndexesPhysios.objects.create(created_by = physio_instance.id, logins = 1)
-
-        
+        models.IndexesPhysios.objects.create(created_by=physio_instance.id, logins=1)
 
     if not isinstance(physio_instance, User):
         return Response({"details": "physio not found for the given user"})
@@ -115,12 +115,14 @@ def post_leistungs_index(request):
     physio_instance = user_instance.created_by
 
     try:
-        physio_index_instance = models.IndexesPhysios.objects.get(for_month = datetime.now().month)
+        physio_index_instance = models.IndexesPhysios.objects.get(
+            for_month=datetime.now().month
+        )
         physio_index_instance.tests += 1
         physio_index_instance.save()
     except:
-         models.IndexesPhysios.objects.create(created_by = physio_instance.id, tests = 1)
-    
+        models.IndexesPhysios.objects.create(created_by=physio_instance.id, tests=1)
+
     return Response(status=status.HTTP_200_OK)
 
 
@@ -138,40 +140,150 @@ def post_pain_level(request):
     if pain_level == None:
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     physio_instance = models.UserProfile.objects.get(user=physio)
+
     painlevel = pain_level
- 
-    if painlevel<=2:
+
+    if painlevel <= 2:
         try:
-           physio_index_instance = models.IndexesPhysios.objects.get(for_month = datetime.now().month)
-           physio_index_instance.zero_two += 1
-           physio_index_instance.save()
+            physio_index_instance = models.IndexesPhysios.objects.get(
+                for_month=datetime.now().month
+            )
+            physio_index_instance.zero_two += 1
+            physio_index_instance.save()
         except:
-           models.IndexesPhysios.objects.create(created_by = physio_instance.id, zero_two = 1)
-    if painlevel>=3 and painlevel <= 5:
+            try:
+                models.IndexesPhysios.objects.get(
+                    created_by=physio_instance.id, for_month=datetime.now().month
+                )
+            except:
+                models.IndexesPhysios.objects.create(
+                    created_by=physio_instance.id, zero_two=1
+                )
+    if painlevel >= 3 and painlevel <= 5:
         try:
-           physio_index_instance = models.IndexesPhysios.objects.get(for_month = datetime.now().month)
-           physio_index_instance.theree_five += 1
-           physio_index_instance.save()
+            physio_index_instance = models.IndexesPhysios.objects.get(
+                for_month=datetime.now().month
+            )
+            physio_index_instance.theree_five += 1
+            physio_index_instance.save()
         except:
-           models.IndexesPhysios.objects.create(created_by = physio_instance.id, theree_five = 1)
-    if painlevel >=6 and painlevel <= 8:
+            try:
+                models.IndexesPhysios.objects.get(
+                    created_by=physio_instance.id, for_month=datetime.now().month
+                )
+            except:
+                models.IndexesPhysios.objects.create(
+                    created_by=physio_instance.id, theree_five=1
+                )
+    if painlevel >= 6 and painlevel <= 8:
         try:
-           physio_index_instance = models.IndexesPhysios.objects.get(for_month = datetime.now().month)
-           physio_index_instance.six_eight += 1
-           physio_index_instance.save()
+            physio_index_instance = models.IndexesPhysios.objects.get(
+                for_month=datetime.now().month
+            )
+            physio_index_instance.six_eight += 1
+            physio_index_instance.save()
         except:
-           models.IndexesPhysios.objects.create(created_by = physio_instance.id, six_eight = 1)
-    if painlevel >=9 and painlevel <= 10:
+            try:
+                models.IndexesPhysios.objects.get(
+                    created_by=physio_instance.id, for_month=datetime.now().month
+                )
+            except:
+                models.IndexesPhysios.objects.create(
+                    created_by=physio_instance.id, six_eight=1
+                )
+    if painlevel >= 9 and painlevel <= 10:
         try:
-           physio_index_instance = models.IndexesPhysios.objects.get(for_month = datetime.now().month)
-           physio_index_instance.nine_ten += 1
-           physio_index_instance.save()
+            physio_index_instance = models.IndexesPhysios.objects.get(
+                for_month=datetime.now().month
+            )
+            physio_index_instance.nine_ten += 1
+            physio_index_instance.save()
         except:
-           models.IndexesPhysios.objects.create(created_by = physio_instance.id, nine_ten = 1)
+            try:
+                models.IndexesPhysios.objects.get(
+                    created_by=physio_instance.id, for_month=datetime.now().month
+                )
+            except:
+                models.IndexesPhysios.objects.create(
+                    created_by=physio_instance.id, nine_ten=1
+                )
+
+    if painlevel <= 2:
+        try:
+            user_instance_pains = models.LaxoutUserPains.objects.get(
+                created_by=user_instance.id
+            )
+            user_instance_pains.zero_two += 1
+            user_instance_pains.save()
+            print("Saved pain 2")
+        except:
+            try:
+                models.LaxoutUserPains.objects.get(
+                    created_by=user_instance.id, for_month=datetime.now().month
+                )
+            except:
+                models.LaxoutUserPains.objects.create(
+                    created_by=user_instance.id, zero_two=1
+                )
+
+    if painlevel >= 3 and painlevel <= 5:
+        try:
+            user_instance_pains = models.LaxoutUserPains.objects.get(
+                created_by=user_instance.id
+            )
+            user_instance_pains.theree_five += 1
+            user_instance_pains.save()
+            print("Saved pain 5")
+        except:
+            try:
+                models.LaxoutUserPains.objects.get(
+                    created_by=user_instance.id, for_month=datetime.now().month
+                )
+            except:
+                models.LaxoutUserPains.objects.create(
+                    created_by=user_instance.id, theree_five=1
+                )
+
+    if painlevel >= 6 and painlevel <= 8:
+        try:
+            user_instance_pains = models.LaxoutUserPains.objects.get(
+                created_by=user_instance.id
+            )
+            user_instance_pains.six_eight += 1
+            user_instance_pains.save()
+            print("Saved pain 8")
+        except:
+            try:
+                models.LaxoutUserPains.objects.get(
+                    created_by=user_instance.id, for_month=datetime.now().month
+                )
+            except:
+                models.LaxoutUserPains.objects.create(
+                    created_by=user_instance.id, six_eight=1
+                )
+    if painlevel >= 9 and painlevel <= 10:
+        try:
+            user_instance_pains = models.LaxoutUserPains.objects.get(
+                created_by=user_instance.id
+            )
+            user_instance_pains.nine_ten += 1
+            user_instance_pains.save()
+            print("Saved pain 10")
+        except:
+            try:
+                models.LaxoutUserPains.objects.get(
+                    created_by=user_instance.id, for_month=datetime.now().month
+                )
+            except:
+                models.LaxoutUserPains.objects.create(
+                    created_by=user_instance.id, nine_ten=1
+                )
 
     return Response(status=status.HTTP_200_OK)
 
+
 #################################Coupon Logic######################################
+
 
 @api_view(["GET"])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
@@ -191,34 +303,34 @@ def get_coupons(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@api_view(['GET'])
+@api_view(["GET"])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def get_coupons_for_user(request):
-    user_uid = unquote(request.headers.get('user_uid'))
+    user_uid = unquote(request.headers.get("user_uid"))
     if user_uid == None:
-        return Response(status= status.HTTP_403_FORBIDDEN)
-    user_instance = models.LaxoutUser.objects.get(user_uid= user_uid)
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    user_instance = models.LaxoutUser.objects.get(user_uid=user_uid)
     if user_instance == None:
-        return Response(status= status.HTTP_403_FORBIDDEN)
+        return Response(status=status.HTTP_403_FORBIDDEN)
     coupons = user_instance.coupons.all()
     print("data sended getcouponuser")
-    serializer = serializers.CouponSerializer(coupons, many = True)
-    return Response(serializer.data, status= status.HTTP_200_OK)
-    
+    serializer = serializers.CouponSerializer(coupons, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
-@api_view(['POST'])
+
+@api_view(["POST"])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def buy_coupon(request):
-    user_uid = unquote(request.headers.get('user_uid'))
+    user_uid = unquote(request.headers.get("user_uid"))
     if user_uid == None:
-        return Response(status= status.HTTP_403_FORBIDDEN)
-    coupon_id = request.data['coupon_id']
-    coupon_instance = models.Coupon.objects.get(id = coupon_id)
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    coupon_id = request.data["coupon_id"]
+    coupon_instance = models.Coupon.objects.get(id=coupon_id)
     if coupon_instance == None:
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    user_instance = models.LaxoutUser.objects.get(user_uid= user_uid)
+    user_instance = models.LaxoutUser.objects.get(user_uid=user_uid)
     old_coins_amount = user_instance.laxout_credits
     if old_coins_amount > coupon_instance.coupon_price:
         print("sack")
@@ -230,86 +342,90 @@ def buy_coupon(request):
         user_instance.laxout_credits = old_coins_amount
         user_instance.coupons.add(coupon_instance)
         user_instance.save()
-        return Response({'rabatCode': coupon_instance.rabbat_code},status=status.HTTP_200_OK)
-    return Response({'details': "not enough coins"}, status= status.HTTP_406_NOT_ACCEPTABLE)
+        return Response(
+            {"rabatCode": coupon_instance.rabbat_code}, status=status.HTTP_200_OK
+        )
+    return Response(
+        {"details": "not enough coins"}, status=status.HTTP_406_NOT_ACCEPTABLE
+    )
 
 
-@api_view(['POST'])
+@api_view(["POST"])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def delete_coupon_user(request):
-    user_uid = unquote(request.headers.get('user_uid'))
+    user_uid = unquote(request.headers.get("user_uid"))
     if user_uid == None:
-        return Response(status= status.HTTP_403_FORBIDDEN)
-    coupon_id = request.data['coupon_id']
-    coupon_instance = models.Coupon.objects.get(id = coupon_id)
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    coupon_id = request.data["coupon_id"]
+    coupon_instance = models.Coupon.objects.get(id=coupon_id)
     if coupon_instance == None:
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    user_instance = models.LaxoutUser.objects.get(user_uid= user_uid)
-    to_delete = user_instance.coupons.get(id = coupon_id)
+    user_instance = models.LaxoutUser.objects.get(user_uid=user_uid)
+    to_delete = user_instance.coupons.get(id=coupon_id)
     user_instance.coupons.remove(to_delete)
     user_instance.save()
     return Response(status=status.HTTP_200_OK)
 
 
-
 #################################Coupon Logic######################################
 
 
-
-
-
-#complete exercise for user
-@api_view(['POST'])
+# complete exercise for user
+@api_view(["POST"])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def finish_exercise(request):
-    user_uid = unquote(request.headers.get('user_uid'))
+    user_uid = unquote(request.headers.get("user_uid"))
     if user_uid == None:
-        return Response(status= status.HTTP_403_FORBIDDEN)
-    user_instance = models.LaxoutUser.objects.get(user_uid = user_uid)
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    user_instance = models.LaxoutUser.objects.get(user_uid=user_uid)
     if user_instance == None:
-        return Response(status= status.HTTP_403_FORBIDDEN)
-    exercise_id = request.data['exercise_id']
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    exercise_id = request.data["exercise_id"]
     if exercise_id == None:
-        return Response(status= status.HTTP_500_INTERNAL_SERVER_ERROR)
-    models.DoneExercises.objects.create(exercise_id= exercise_id, laxout_user_id= user_instance.id)
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    models.DoneExercises.objects.create(
+        exercise_id=exercise_id, laxout_user_id=user_instance.id
+    )
     return Response(status=status.HTTP_201_CREATED)
 
 
-
-
-@api_view(['POST'])
+@api_view(["POST"])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def skip_exercise(request):
-    user_uid = unquote(request.headers.get('user_uid'))
+    user_uid = unquote(request.headers.get("user_uid"))
     if user_uid == None:
-        return Response(status= status.HTTP_403_FORBIDDEN)
-    user_instance = models.LaxoutUser.objects.get(user_uid = user_uid)
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    user_instance = models.LaxoutUser.objects.get(user_uid=user_uid)
     if user_instance == None:
-        return Response(status= status.HTTP_403_FORBIDDEN)
-    exercise_id = request.data['exercise_id']
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    exercise_id = request.data["exercise_id"]
     if exercise_id == None:
-        return Response(status= status.HTTP_500_INTERNAL_SERVER_ERROR)
-    models.SkippedExercises.objects.create(skipped_exercise_id= exercise_id, laxout_user_id= user_instance.id)
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    models.SkippedExercises.objects.create(
+        skipped_exercise_id=exercise_id, laxout_user_id=user_instance.id
+    )
     return Response(status=status.HTTP_200_OK)
-    
 
-@api_view(['POST'])
+
+@api_view(["POST"])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def finish_workout(request):
-    user_uid = unquote(request.headers.get('user_uid'))
+    user_uid = unquote(request.headers.get("user_uid"))
     if user_uid == None:
-        return Response(status= status.HTTP_403_FORBIDDEN)
-    user_instance = models.LaxoutUser.objects.get(user_uid = user_uid)
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    user_instance = models.LaxoutUser.objects.get(user_uid=user_uid)
     if user_instance == None:
-        return Response(status= status.HTTP_403_FORBIDDEN)
-    workout_id = request.data['workout_id']
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    workout_id = request.data["workout_id"]
     if workout_id == None:
-        return Response(status= status.HTTP_500_INTERNAL_SERVER_ERROR)
-    models.DoneWorkouts.objects.create(workout_id = workout_id, laxout_user_id = user_instance.id)
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    models.DoneWorkouts.objects.create(
+        workout_id=workout_id, laxout_user_id=user_instance.id
+    )
     if user_instance.last_login_2.date() != date.today():
         user_instance_coins = user_instance.laxout_credits
         user_instance_coins += 100
@@ -318,9 +434,11 @@ def finish_workout(request):
         user_instance.save()
     return Response(status=status.HTTP_201_CREATED)
 
-#note a skipped exercise
 
-@api_view(['GET'])
+# note a skipped exercise
+
+
+@api_view(["GET"])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def get_intruction(request):

@@ -11,6 +11,9 @@ from .models import (
     IndexesPhysios,
     DoneWorkouts,
     SkippedExercises,
+    DoneExercises,
+    Coupon,
+    LaxoutUserPains,
 )
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.http import HttpResponse
@@ -20,6 +23,7 @@ from django.contrib.auth import logout, authenticate, login
 from datetime import datetime
 import json
 from django.utils import timezone
+from uuid import uuid4
 
 
 class ExercisesModel:
@@ -37,7 +41,7 @@ class ExercisesModel:
         new_imagePath,
         new_appId,
         new_skippedAmount,
-        new_id
+        new_id,
     ):
         self.execution = new_execution
         self.name = new_name
@@ -109,6 +113,12 @@ def create_user(request):
         if form.is_valid():
             insteance = form.save(commit=False)
             insteance.created_by = request.user
+            new_user_uid = str(uuid4())
+            while LaxoutUser.objects.filter(user_uid=new_user_uid).exists():
+                new_user_uid = str(uuid4())
+            insteance.user_uid = new_user_uid
+            print("User Uid:{}".format(insteance.user_uid))
+
             insteance.save()
             return redirect("/home")
 
@@ -122,6 +132,23 @@ def delete_user(request, id=None):
     if id != None:
         object_to_delte = LaxoutUser.objects.get(id=id)
         if request.user == object_to_delte.created_by:
+            for exercis in object_to_delte.exercises.all():
+                exercis.delete()
+            for index in IndexesLaxoutUser.objects.filter(created_by=id).all():
+                index.delete()
+            for coupon in object_to_delte.coupons.all():
+                coupon.delete()
+            for doneWorkout in DoneWorkouts.objects.filter(laxout_user_id=id).all():
+                doneWorkout.delete()
+            for skippedExercise in SkippedExercises.objects.filter(
+                laxout_user_id=id
+            ).all():
+                skippedExercise.delete()
+            for doneExercise in DoneExercises.objects.filter(laxout_user_id=id).all():
+                doneExercise.delete()
+            for doneWorkout in DoneWorkouts.objects.filter(laxout_user_id=id).all():
+                doneWorkout.delete()
+
             object_to_delte.delete()
         return redirect("/home")
     return redirect("/home")
@@ -166,7 +193,6 @@ def edit_user(request, id=None):
                 count += z.index
                 store.append(z)
 
-      
         to_put = count / len(store)
         count = 0
         store = []
@@ -187,8 +213,6 @@ def edit_user(request, id=None):
             search_contains = None
         if insteance.laxout_user_id == user.id and search_contains != None:
             skipped_exercises.append(insteance)
-
-
 
     for exercise in users_exercises:
         for skipped_exercis in skipped_exercises:
@@ -212,7 +236,27 @@ def edit_user(request, id=None):
             )
         )
         skipped_amount = 0
+    laxout_user_pains_instances = LaxoutUserPains.objects.filter(created_by=id)
+    index_labels = []
+    zero_two_pain = []
+    theree_five_pain = []
+    six_eight_pain = []
+    nine_ten_pain = []
 
+    for she in laxout_user_pains_instances:
+        index_labels.append(she.for_month)
+
+    for he in laxout_user_pains_instances:
+        zero_two_pain.append(he.zero_two)
+
+    for we in laxout_user_pains_instances:
+        theree_five_pain.append(we.theree_five)
+
+    for they in laxout_user_pains_instances:
+        six_eight_pain.append(they.six_eight)
+
+    for me in laxout_user_pains_instances:
+        nine_ten_pain.append(me.nine_ten)
 
     context = {
         "user": user,
@@ -222,6 +266,12 @@ def edit_user(request, id=None):
         "labels": json.dumps(labels),
         "workoutDates": json.dumps(workout_dates),
         "lastMeet": json.dumps(last_meet),
+        "index_labels": json.dumps(index_labels),
+        "test": json.dumps(indexes),
+        "zero_two_pain": json.dumps(zero_two_pain),
+        "three_five_pain": json.dumps(theree_five_pain),
+        "six_eight_pain": json.dumps(six_eight_pain),
+        "nine_ten_pain": json.dumps(nine_ten_pain),
     }
 
     return render(
@@ -234,24 +284,89 @@ def edit_user(request, id=None):
 def get_workout_list(first, second):
     to_return = []
     uebungen_to_append = []
+    # Nacken
     if first == 0 and second == 0:
         uebungen_to_append = [1, 2, 3, 23, 48, 49]
     if first == 0 and second == 1:
         uebungen_to_append = [24, 25, 27, 28]
     if first == 0 and second == 2:
         uebungen_to_append = [4, 5, 19, 20, 21, 22]
+    if first == 0 and second == 7:
+        uebungen_to_append = [1, 2, 3, 23, 48, 49, 24, 25, 27, 28, 4, 5, 19, 20, 21, 22]
+    # Schultern
     if first == 1 and second == 0:
         uebungen_to_append = [1, 29, 30, 31, 41, 43, 44, 45, 46, 47, 48, 49, 67]
     if first == 1 and second == 1:
         uebungen_to_append = [26, 29, 37, 38, 39, 41, 42, 43, 64, 65, 66, 68, 69, 70]
     if first == 1 and second == 2:
         uebungen_to_append = [6, 7, 8, 9, 32, 33, 34, 35, 36]
+    if first == 1 and second == 7:
+        uebungen_to_append = [
+            6,
+            7,
+            8,
+            9,
+            32,
+            33,
+            34,
+            35,
+            36,
+            26,
+            29,
+            37,
+            38,
+            39,
+            41,
+            42,
+            43,
+            64,
+            65,
+            66,
+            68,
+            69,
+            70,
+            1,
+            29,
+            30,
+            31,
+            41,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            67,
+        ]
+    # mittlerer Rücken
     if first == 2 and second == 0:
         uebungen_to_append = [14, 117, 18, 105, 106, 107, 108, 109, 110]
     if first == 2 and second == 1:
         uebungen_to_append = [38, 96, 10, 103]
     if first == 2 and second == 2:
         uebungen_to_append = [15, 16, 94, 95]
+    if first == 2 and second == 7:
+        uebungen_to_append = [
+            15,
+            16,
+            94,
+            95,
+            38,
+            96,
+            10,
+            103,
+            14,
+            117,
+            18,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+        ]
+    # bauch rumpf
     if first == 3 and second == 0:
         uebungen_to_append = []
     if first == 3 and second == 1:
@@ -273,6 +388,36 @@ def get_workout_list(first, second):
         ]
     if first == 3 and second == 2:
         uebungen_to_append = [92, 93, 94, 95, 96, 112, 113, 114, 115, 116, 117, 118]
+    if first == 3 and second == 7:
+        uebungen_to_append = [
+            92,
+            93,
+            94,
+            95,
+            96,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            66,
+            97,
+            102,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            141,
+        ]
+        # Unterer Rücken
     if first == 4 and second == 0:
         uebungen_to_append = [
             10,
@@ -334,6 +479,63 @@ def get_workout_list(first, second):
             148,
             149,
         ]
+
+    if first == 4 and second == 7:
+        uebungen_to_append = [
+            12,
+            13,
+            94,
+            95,
+            112,
+            113,
+            114,
+            115,
+            117,
+            118,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            148,
+            149,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            124,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            158,
+            165,
+            166,
+            10,
+            11,
+            105,
+            106,
+            107,
+            108,
+            134,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            158,
+            165,
+            166,
+        ]
+    # Beine Füße
     if first == 5 and second == 0:
         uebungen_to_append = [40, 67, 104, 156, 158, 161, 162, 163, 164, 165]
     if first == 5 and second == 1:
@@ -356,11 +558,47 @@ def get_workout_list(first, second):
         ]
     if first == 5 and second == 2:
         uebungen_to_append = [148, 149, 150, 151, 152, 153, 154, 155, 166, 168]
+    if first == 5 and second == 7:
+        uebungen_to_append = [
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            166,
+            168,
+            123,
+            139,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            40,
+            67,
+            104,
+            156,
+            158,
+            161,
+            162,
+            163,
+            164,
+            165,
+        ]
+        # Arme Hände
+
     if first == 6 and second == 0:
-        uebungen_to_append = [50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 62, 63, 169]
-    if first == 6 and second == 1:
-        uebungen_to_append = [64, 65, 66, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77]
-    if first == 6 and second == 2:
         uebungen_to_append = [
             60,
             61,
@@ -380,6 +618,58 @@ def get_workout_list(first, second):
             90,
             91,
             111,
+        ]
+    if first == 6 and second == 1:
+        uebungen_to_append = [64, 65, 66, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77]
+    if first == 6 and second == 2:
+        uebungen_to_append = [50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 62, 63, 169]
+
+    if first == 6 and second == 7:
+        uebungen_to_append = [
+            60,
+            61,
+            67,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            111,
+            64,
+            65,
+            66,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            62,
+            63,
+            169,
         ]
 
     uebungen = Laxout_Exercise.objects.all()
@@ -432,7 +722,7 @@ def add_exercises(request, id=None, first=0, second=0):
             user_instance.save()
 
     workout_list = get_workout_list(0, 0)
-    return render(request, "laxout_app/add_exercises.html", {"workouts": workout_list})
+    return render(request, "laxout_app/add_exercises.html", {"workouts": workout_list, "userId":id})
 
 
 @login_required(login_url="login")
@@ -449,9 +739,7 @@ def edit_user_workout(
         print("new dauer:{}".format(new_dauer))
         print("new id:{}".format(new_id))
         user_instance = LaxoutUser.objects.get(id=user_id)
-        exercise_to_edit = user_instance.exercises.get(
-            id=new_id
-        )  
+        exercise_to_edit = user_instance.exercises.get(id=new_id)
         if new_execution:
             exercise_to_edit.execution = new_execution
         if new_dauer:
@@ -508,23 +796,26 @@ def analyses(request):
     devide = 0
     for user_index in user_indexes:
         devide += user_index.index
-    physio_index = devide / devide_by
+    if devide == 0:
+        physio_index = 0
+    else:
+        physio_index = devide / devide_by
     physio_instance = request.user
-    try:
-        physio_index_instance = IndexesPhysios.objects.get(
-            for_month=datetime.now().month
-        )
-        physio_index_instance.indexs = physio_index
-        physio_index_instance.save()
-    except:
-        IndexesPhysios.objects.create(created_by=physio_instance.id, logins=1)
-
-    # how many active users
     active_user_amount = 0
     for user in users:
         print(str(user.last_login_2.date) + "Last Login date")
         if days_between_today_and_date(user.last_login_2) < 14:
             active_user_amount += 1
+
+    try:
+        physio_index_instance = IndexesPhysios.objects.get(
+            for_month=datetime.now().month, created_by=physio_instance.id
+        )
+        print("maulwurf")
+        physio_index_instance.indexs = physio_index
+        physio_index_instance.save()
+    except:
+        IndexesPhysios.objects.create(created_by=physio_instance.id, logins=1)
 
     logins = IndexesPhysios.objects.get(
         created_by=request.user.id, for_month=datetime.now().month
@@ -532,6 +823,8 @@ def analyses(request):
     tests = IndexesPhysios.objects.get(
         created_by=request.user.id, for_month=datetime.now().month
     ).tests
+    # tests = 0
+    # logins = 0
 
     all_instances = IndexesPhysios.objects.filter(created_by=request.user.id)
     substitude_instances = []
@@ -589,9 +882,9 @@ def analyses(request):
 
 
 @login_required(login_url="login")
-def post_user_instruction(request, id = None):
+def post_user_instruction(request, id=None):
     new_instruction = request.POST.get("instruction")
-    user_insance = LaxoutUser.objects.get(id = id)
+    user_insance = LaxoutUser.objects.get(id=id)
     user_insance.instruction = new_instruction
     user_insance.save()
     return HttpResponse("All clear")
