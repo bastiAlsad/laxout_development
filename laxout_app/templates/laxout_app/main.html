@@ -146,6 +146,23 @@
             border-radius: 30px;
         }
 
+        .row-basti-addexercise {
+            justify-content: start;
+            flex-direction: row;
+            align-items: center;
+            display: flex;
+        }
+
+        .row-basti-addexercise.active {
+            justify-content: start;
+            flex-direction: row;
+            align-items: center;
+            display: flex;
+            background-color: rgba(230, 242, 255, 0.245);
+            height: 40px;
+            border-radius: 30px;
+        }
+
         .row-basti-settings {
             justify-content: start;
             flex-direction: row;
@@ -525,6 +542,8 @@
                 </svg>
                 <div style="padding-left: 20px;">Einstellungen</div>
             </div>
+            {%block additionalNavItem%}
+            {%endblock additionalNavItem%}
             <div class="row-basti"
                 style="padding-left: 10px; margin-bottom: 25px; background-color: rgb(44, 67, 81); height: 40px; border-radius: 30px;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear"
@@ -536,6 +555,8 @@
                 </svg>
                 <div style="padding-left: 20px; color: rgb(44, 67, 81);">Einstellungend</div>
             </div>
+
+           
 
         </div>
 
@@ -554,6 +575,7 @@
                 Logout
             </a>
         </div>
+
 
     </div>
     <div class="container-top">
@@ -593,6 +615,9 @@
     }
     if (currentPath === '/settings/' || currentPath === '/home/settings') {
         document.querySelector('.row-basti-settings').classList.add('active');
+    }
+    if (currentPath === '/new-exercise/' || currentPath === '/home/new-exercise') {
+        document.querySelector('.row-basti-addexercise').classList.add('active');
     }
 
 </script>

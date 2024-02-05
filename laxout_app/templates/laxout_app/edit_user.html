@@ -211,10 +211,11 @@
             </button>
             <div style="padding-left: 100px;"><input type="text" id="instruction-input"
                     style="border: solid 2px black; color: black; background-color: white; border-radius: 12px; height: 40px; width: 250px;"
-                    placeholder="Anweisung für den Patienten" onsubmit="postUserInstruction('{{users.id}}')" onchange="postUserInstruction('{{users.id}}')"></div>
+                    placeholder="Anweisung für den Patienten" onsubmit="postUserInstruction('{{users.id}}')"
+                    onchange="postUserInstruction('{{users.id}}')"></div>
 
         </div>
-        
+
 
 
     </div>
@@ -236,7 +237,31 @@
     {% for exercises in workouts%}
     {% if exercises %}
     <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-around;">
-        <div class="user-item" style="justify-items: center; justify-content: space-between; height: 200px;">
+
+        <div class="user-item"
+            style="justify-items: center; justify-content: space-between; height: 200px; width: 90%;">
+            <div>
+
+            </div>
+            <div
+                style="flex-direction: column; display: flex; justify-content: space-between; align-items: center; align-self: center; ">
+                <button style="background:none; border: none;" onclick="moveUp('{{exercises.id}}')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                        class="bi bi-chevron-up" viewBox="0 0 16 16">
+                        <path fill="rgb(44,67,81)" fill-rule="evenodd"
+                            d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                    </svg>
+                </button>
+                <div style="height: 75px ;"></div>
+                <button style="background:none; border: none;" onclick="moveDown('{{exercises.id}}')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                        class="bi bi-chevron-down" viewBox="0 0 16 16">
+                        <path fill="rgb(44,67,81)" fill-rule="evenodd"
+                            d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                    </svg>
+                </button>
+
+            </div>
             <div style="padding-left: 30px; height: 100px; width: 100px;">
                 <img src="{%static exercises.imagePath %}" alt="" style="height: 100px; width: 100px;">
             </div>
@@ -337,7 +362,7 @@
         formedData.append("csrfmiddlewaretoken", token);
         formedData.append("instruction", inputData);
 
-        fetch("post-user-instruction/"+id+"/", {
+        fetch("post-user-instruction/" + id + "/", {
             headers: {
                 'X-CSRFToken': token,
             },
@@ -346,7 +371,40 @@
         });
     }
 
-    
+    function moveUp(exerciseId) {
+        let formedData = new FormData();
+        let csrf_token = "{{csrf_token}}";
+        formedData.append("csrfmiddlewaretoken", csrf_token);
+        formedData.append("exercise_id", exerciseId);
+
+        fetch('{{users.id}}' + '/' + 'move-up/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrf_token
+            },
+            body: formedData
+
+        });
+        window.location.reload();
+    }
+
+    function moveDown(exerciseId) {
+        let formedData = new FormData();
+        let csrf_token = "{{csrf_token}}";
+        formedData.append("csrfmiddlewaretoken", csrf_token);
+        formedData.append("exercise_id", exerciseId);
+
+        fetch('{{users.id}}' + '/' + 'move-down/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrf_token
+            },
+            body: formedData  // Füge den body mit den Daten hinzu
+        });
+        window.location.reload();
+    }
+
+
     function fetchSession() {
         let formedData = new FormData();
         let csrf_token = "{{csrf_token}}";
@@ -651,7 +709,7 @@
 
         return "";
     })
-    
+
     new Chart(ctx, {
         type: 'bar',
         data: {

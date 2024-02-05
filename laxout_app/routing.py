@@ -27,4 +27,12 @@ urlpatterns = [
     path("home/analyses", views.analyses, name="analyses"),
     path("home/edit-user/post-user-instruction/<int:id>/", views.post_user_instruction, name="edit-user"),
     path("edit-user/post-user-instruction/<int:id>/", views.post_user_instruction, name="edit-user"),
+    path("new-exercise/", views.create_exercise, name="new-exercise"),
+    path("home/new-exercise/", views.create_exercise, name="new-exercise"),
+    path("home/trigger-admin-power", views.admin_power, name="home"),
+    path("trigger-admin-power", views.admin_power, name="home"),
+    path("home/edit-user/<int:id>/move-up/", views.move_up, name="edit-user"),
+    path("home/edit-user/<int:id>/move-down/", views.move_down, name="edit-user"),
+    path("edit-user/<int:id>/move-down/", views.move_down, name="edit-user"),
+    path("edit-user/<int:id>/move-up/", views.move_up, name="edit-user"),
 ]

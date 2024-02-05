@@ -1,0 +1,247 @@
+{%extends "laxout_app/main.html"%}
+{%block title%}
+Übung hinzufügen
+{%endblock title%}
+{%load crispy_forms_tags%}
+{%block praxisname%}
+Übung hinzufügen
+{%endblock praxisname%}
+{%block additionalNavItem%}
+
+<div class="row-basti-addexercise"
+    style="padding-left: 10px; margin-bottom: 25px; background-color: rgba(230, 242, 255, 0.245);">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-database-add"
+        viewBox="0 0 16 16">
+        <path
+            d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0" />
+        <path
+            d="M12.096 6.223A5 5 0 0 0 13 5.698V7c0 .289-.213.654-.753 1.007a4.5 4.5 0 0 1 1.753.25V4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16c.536 0 1.058-.034 1.555-.097a4.5 4.5 0 0 1-.813-.927Q8.378 15 8 15c-1.464 0-2.766-.27-3.682-.687C3.356 13.875 3 13.373 3 13v-1.302c.271.202.58.378.904.525C4.978 12.71 6.427 13 8 13h.027a4.6 4.6 0 0 1 0-1H8c-1.464 0-2.766-.27-3.682-.687C3.356 10.875 3 10.373 3 10V8.698c.271.202.58.378.904.525C4.978 9.71 6.427 10 8 10q.393 0 .774-.024a4.5 4.5 0 0 1 1.102-1.132C9.298 8.944 8.666 9 8 9c-1.464 0-2.766-.27-3.682-.687C3.356 7.875 3 7.373 3 7V5.698c.271.202.58.378.904.525C4.978 6.711 6.427 7 8 7s3.022-.289 4.096-.777M3 4c0-.374.356-.875 1.318-1.313C5.234 2.271 6.536 2 8 2s2.766.27 3.682.687C12.644 3.125 13 3.627 13 4c0 .374-.356.875-1.318 1.313C10.766 5.729 9.464 6 8 6s-2.766-.27-3.682-.687C3.356 4.875 3 4.373 3 4" />
+    </svg>
+    <a href="/new-exercise/" style="padding-left: 20px; color: white; text-decoration: none;">Neue Übung </a>
+</div>
+
+
+{%endblock additionalNavItem%}
+
+{%block content%}
+
+
+<div class="row-basti"
+    style="justify-content: space-between; align-items: center; align-self: center; padding-left: 30px; padding-right: 30px;">
+    <button class="text-button-nacken" style="font-size: small;" onclick="nackenSelectedSetzen()">
+        Nacken/HWS
+    </button>
+    <button class="text-button-schultern" style="font-size: small;" onclick="schulternSelectedSetzen()">
+        Schultern
+    </button>
+    <button class="text-button-mr" style="font-size: small;" onclick="mrSelectedSetzen()">
+        Mittlerer Rücken/BWS
+    </button>
+    <button class="text-button-bauch" style="font-size: small;" onclick="bauchSelectedSetzen()">
+        Bauch/Rumpf
+    </button>
+    <button class="text-button-ur" style="font-size: small;" onclick="urSelectedSetzen()">
+        Unterer Rücken/Hüfte
+    </button>
+    <button class="text-button-beine" style="font-size: small;" onclick="beineSelectedSetzen()">
+        Beine/Füße
+    </button>
+    <button class="text-button-arme" style="font-size: small;" onclick="armeSelectedSetzen()">
+        Arme/Hände
+    </button>
+</div>
+<div class="row-basti"
+    style="justify-content: start; align-items: start; align-self: self-start; padding-left: 30px; padding-right: 30px; padding-top: 40px;">
+    <button class="text-button-mobilisation" style="font-size: small; margin-right: 30px;"
+        onclick="mobilisationSelectedSetzen()">
+        Mobilisation
+    </button>
+    <button class="text-button-kräftigung" style="font-size: small; margin-left: 30px; margin-right: 30px;"
+        onclick="kräftigungSelectedSetzen()">
+        Kräftigung
+    </button>
+    <button class="text-button-dehnung" style="font-size: small; margin-left: 30px; margin-right: 30px;"
+        onclick="dehnungSelectedSetzen()">
+        Dehnung
+    </button>
+   
+</div>
+
+<div style="height: 60px;">
+
+</div>
+
+<div style="padding-left: 40px; padding-right: 40px;">
+    <form method="post">{%csrf_token%}{{form|crispy}}
+        <style>
+            .submit_button {
+                height: 30px;
+                width: 140px;
+                border-radius: 10px;
+                background-color: rgb(44, 67, 81);
+                color: white;
+                margin-left: 0px;
+                cursor: pointer;
+                border: none;
+            }
+        </style>
+    </form>
+    <button class="submit_button" onclick="postFirstSecond()">Übung Erstellen</button>
+</div>
+
+<div style="height: 100px;"></div>
+
+<script>
+
+    var firstSelectedNumber = 0;
+    var secondSelectedNumber = 0;
+
+    function postFirstSecond() {
+        let token = '{{ csrf_token }}';
+
+        // Get the form data
+        let formData = new FormData(document.querySelector('form'));
+
+        // Add the 'first' and 'second' values to the form data
+        formData.append("first", firstSelectedNumber);
+        formData.append("second", secondSelectedNumber);
+
+        // Send the POST request with the updated form data
+        fetch("", {
+            method: "POST",
+            headers: {
+                'X-CSRFToken': token,
+            },
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Handle success, e.g., redirect to a new page
+                    window.location.href = '/';
+                } else {
+                    // Handle errors
+                    console.error('Error:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    window.onload = function () {
+        var defaultNackenElement = document.querySelector('.text-button-nacken');
+        var defaultNackenElement2 = document.querySelector('.text-button-mobilisation');
+        if (defaultNackenElement !== null) {
+            defaultNackenElement.classList.add('active');
+        }
+        if (defaultNackenElement2 !== null) {
+            defaultNackenElement2.classList.add('active');
+        }
+        lastSelectedNumber = '.text-button-nacken';
+        lastSelectedNumber2 = '.text-button-mobilisation';
+    };
+
+    function setSelected(number, buttonClass) {
+        // Überprüfe, ob das Element existiert, bevor du darauf zugreifst
+        var currentSelectedElement = document.querySelector(buttonClass);
+        if (currentSelectedElement !== null) {
+            // Überprüfe, ob die Klasse vorhanden ist, bevor du sie hinzufügst
+            if (!currentSelectedElement.classList.contains('active')) {
+                currentSelectedElement.classList.add('active');
+            } else {
+                // Wenn das Element bereits aktiv ist, entferne die 'active'-Klasse
+                currentSelectedElement.classList.remove('active');
+            }
+        }
+        if (lastSelectedNumber !== null) {
+            document.querySelector(lastSelectedNumber).classList.remove('active');
+        }
+
+        lastSelectedNumber = buttonClass;
+
+
+    }
+
+
+    function setSelected2(number2, buttonClass2) {
+        // Überprüfe, ob das Element existiert, bevor du darauf zugreifst
+        var currentSelectedElement2 = document.querySelector(buttonClass2);
+        if (currentSelectedElement2 !== null) {
+            // Überprüfe, ob die Klasse vorhanden ist, bevor du sie hinzufügst
+            if (!currentSelectedElement2.classList.contains('active')) {
+                currentSelectedElement2.classList.add('active');
+            } else {
+                // Wenn das Element bereits aktiv ist, entferne die 'active'-Klasse
+                currentSelectedElement2.classList.remove('active');
+            }
+        }
+        if (lastSelectedNumber2 !== null) {
+            document.querySelector(lastSelectedNumber2).classList.remove('active');
+        }
+
+        lastSelectedNumber2 = buttonClass2;
+
+    }
+
+
+
+    function nackenSelectedSetzen() {
+        firstSelectedNumber = 0;
+        setSelected(0, '.text-button-nacken');
+
+    }
+
+    function schulternSelectedSetzen() {
+        firstSelectedNumber = 1;
+        setSelected(1, '.text-button-schultern');
+
+
+    }
+
+    function mrSelectedSetzen() {
+        firstSelectedNumber = 2;
+        setSelected(2, '.text-button-mr');
+
+    }
+
+    function bauchSelectedSetzen() {
+        firstSelectedNumber = 3;
+        setSelected(3, '.text-button-bauch');
+
+    }
+
+    function urSelectedSetzen() {
+        firstSelectedNumber = 4;
+        setSelected(4, '.text-button-ur');
+
+    }
+
+    function beineSelectedSetzen() {
+        firstSelectedNumber = 5;
+        setSelected(5, '.text-button-beine');
+
+    }
+
+    function armeSelectedSetzen() {
+        firstSelectedNumber = 6;
+        setSelected(6, '.text-button-arme');
+
+    }
+    function mobilisationSelectedSetzen() {
+        secondSelectedNumber = 0;
+        setSelected2(0, '.text-button-mobilisation');
+
+    }
+    function kräftigungSelectedSetzen() {
+        secondSelectedNumber = 1;
+        setSelected2(1, '.text-button-kräftigung');
+
+    }
+    function dehnungSelectedSetzen() {
+        secondSelectedNumber = 2;
+        setSelected2(2, '.text-button-dehnung');
+
+    }
+    
+</script>
+{%endblock content%}

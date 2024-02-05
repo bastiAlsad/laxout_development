@@ -14,7 +14,7 @@ from urllib.parse import unquote
 from laxout_app import models
 from . import serializers
 from django.utils import timezone
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 
 @api_view(["POST"])
@@ -27,17 +27,42 @@ def autorise_laxout_user(request):
         return Response({"details": "user not found"})
 
     physio_instance = user.created_by
+
+    if not isinstance(physio_instance, User):
+        return Response({"details": "physio not found for the given user"})
+
     try:
         physio_index_instance = models.IndexesPhysios.objects.get(
-            for_month=datetime.now().month
+            created_by=physio_instance.id,
+            for_month=datetime.now().month,
+            for_year=datetime.now().year,
         )
         physio_index_instance.logins += 1
         physio_index_instance.save()
     except:
-        models.IndexesPhysios.objects.create(created_by=physio_instance.id, logins=1)
+        try:
+            models.IndexesPhysios.objects.get(
+                created_by=physio_instance.id,
+                for_month=datetime.now().month,
+                for_year=datetime.now().year,
+            )
+        except:
+            try:
+                models.PhysioIndexCreationLog.objects.get(
+                    created_by=physio_instance.id,
+                    for_month=datetime.now().month,
+                    for_year=datetime.now().year,
+                )
+            except:
+                models.PhysioIndexCreationLog.objects.create(
+                    created_by=physio_instance.id
+                )
+                models.IndexesPhysios.objects.create(
+                    created_by=physio_instance.id, logins=0
+                )
 
-    if not isinstance(physio_instance, User):
-        return Response({"details": "physio not found for the given user"})
+    # physio_index_instance.logins += 1
+    # physio_index_instance.save()
 
     token, created = Token.objects.get_or_create(user=physio_instance)
     return Response({"token": token.key})
@@ -70,8 +95,20 @@ def get_exercises(request):
     user_instance = models.LaxoutUser.objects.get(user_uid=decoded_user_uid)
     if user_instance is None:
         return Response(status=status.HTTP_403_FORBIDDEN)
-    exercises = user_instance.exercises.all()
+    exercises = []
+    order_objects = models.Laxout_Exercise_Order_For_User.objects.filter(
+        laxout_user_id=user_instance.id
+    )
+    sorted_list = sorted(order_objects, key=lambda x: x.order)
+    for i in sorted_list:
+        exercises.append(models.Laxout_Exercise.objects.get(id=i.laxout_exercise_id))
+
+    exercises_ids = []
+    for i in exercises:
+        exercises_ids.append(i.id)
+    print("IDS THAT GET RETURNED:{}".format(exercises_ids))
     serializer = serializers.LaxoutExerciseSerializer(exercises, many=True)
+    # print(serializer.data)
     return Response(serializer.data)
 
 
@@ -116,12 +153,33 @@ def post_leistungs_index(request):
 
     try:
         physio_index_instance = models.IndexesPhysios.objects.get(
-            for_month=datetime.now().month
+            created_by=physio_instance.id,
+            for_month=datetime.now().month,
+            for_year=datetime.now().year,
         )
         physio_index_instance.tests += 1
         physio_index_instance.save()
     except:
-        models.IndexesPhysios.objects.create(created_by=physio_instance.id, tests=1)
+        try:
+            models.IndexesPhysios.objects.get(
+                created_by=physio_instance.id,
+                for_month=datetime.now().month,
+                for_year=datetime.now().year,
+            )
+        except:
+            try:
+                models.PhysioIndexCreationLog.objects.get(
+                    created_by=physio_instance.id,
+                    for_month=datetime.now().month,
+                    for_year=datetime.now().year,
+                )
+            except:
+                models.PhysioIndexCreationLog.objects.create(
+                    created_by=physio_instance.id
+                )
+                models.IndexesPhysios.objects.create(
+                    created_by=physio_instance.id, tests=1
+                )
 
     return Response(status=status.HTTP_200_OK)
 
@@ -130,6 +188,8 @@ def post_leistungs_index(request):
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def post_pain_level(request):
+    print(f"VERARSCT CHAT GPT MICH ?! {datetime.now().isocalendar()[1]}")
+
     user_uid = request.headers.get("user_uid")
     decoded_user_uid = unquote(user_uid)
     user_instance = models.LaxoutUser.objects.get(user_uid=decoded_user_uid)
@@ -146,138 +206,274 @@ def post_pain_level(request):
     if painlevel <= 2:
         try:
             physio_index_instance = models.IndexesPhysios.objects.get(
-                for_month=datetime.now().month
+                created_by=physio_instance.id,
+                for_month=datetime.now().month,
+                for_year=datetime.now().year,
+                for_week = datetime.now().isocalendar()[1]
             )
             physio_index_instance.zero_two += 1
             physio_index_instance.save()
         except:
             try:
                 models.IndexesPhysios.objects.get(
-                    created_by=physio_instance.id, for_month=datetime.now().month
+                    created_by=physio_instance.id,
+                    for_month=datetime.now().month,
+                    for_year=datetime.now().year,
+                    for_week = datetime.now().isocalendar()[1]
                 )
             except:
-                models.IndexesPhysios.objects.create(
-                    created_by=physio_instance.id, zero_two=1
-                )
+                try:
+                    models.PhysioIndexCreationLog.objects.get(
+                        created_by=physio_instance.id,
+                        for_month=datetime.now().month,
+                        for_year=datetime.now().year,
+                        for_week = datetime.now().isocalendar()[1]
+                    )
+                except:
+                    models.PhysioIndexCreationLog.objects.create(
+                        created_by=physio_instance.id
+                    )
+                    models.IndexesPhysios.objects.create(
+                        created_by=physio_instance.id, zero_two=1
+                    )
     if painlevel >= 3 and painlevel <= 5:
         try:
             physio_index_instance = models.IndexesPhysios.objects.get(
-                for_month=datetime.now().month
+                created_by=physio_instance.id,
+                for_month=datetime.now().month,
+                for_year=datetime.now().year,
+                for_week = datetime.now().isocalendar()[1]
             )
             physio_index_instance.theree_five += 1
             physio_index_instance.save()
         except:
             try:
                 models.IndexesPhysios.objects.get(
-                    created_by=physio_instance.id, for_month=datetime.now().month
+                    created_by=physio_instance.id,
+                    for_month=datetime.now().month,
+                    for_year=datetime.now().year,
+                    for_week = datetime.now().isocalendar()[1]
                 )
             except:
-                models.IndexesPhysios.objects.create(
-                    created_by=physio_instance.id, theree_five=1
-                )
+                try:
+                    models.PhysioIndexCreationLog.objects.get(
+                        created_by=physio_instance.id,
+                        for_month=datetime.now().month,
+                        for_year=datetime.now().year,
+                        for_week = datetime.now().isocalendar()[1]
+                    )
+                except:
+                    models.PhysioIndexCreationLog.objects.create(
+                        created_by=physio_instance.id
+                    )
+                    models.IndexesPhysios.objects.create(
+                        created_by=physio_instance.id, theree_five=1
+                    )
     if painlevel >= 6 and painlevel <= 8:
         try:
             physio_index_instance = models.IndexesPhysios.objects.get(
-                for_month=datetime.now().month
+                created_by=physio_instance.id,
+                for_month=datetime.now().month,
+                for_year=datetime.now().year,
+                for_week = datetime.now().isocalendar()[1]
             )
             physio_index_instance.six_eight += 1
             physio_index_instance.save()
         except:
             try:
                 models.IndexesPhysios.objects.get(
-                    created_by=physio_instance.id, for_month=datetime.now().month
+                    created_by=physio_instance.id,
+                    for_month=datetime.now().month,
+                    for_year=datetime.now().year,
+                    for_week = datetime.now().isocalendar()[1]
                 )
             except:
-                models.IndexesPhysios.objects.create(
-                    created_by=physio_instance.id, six_eight=1
-                )
+                try:
+                    models.PhysioIndexCreationLog.objects.get(
+                        created_by=physio_instance.id,
+                        for_month=datetime.now().month,
+                        for_year=datetime.now().year,
+                        for_week = datetime.now().isocalendar()[1]
+                    )
+                except:
+                    models.PhysioIndexCreationLog.objects.create(
+                        created_by=physio_instance.id
+                    )
+                    models.IndexesPhysios.objects.create(
+                        created_by=physio_instance.id, six_eight=1
+                    )
     if painlevel >= 9 and painlevel <= 10:
         try:
             physio_index_instance = models.IndexesPhysios.objects.get(
-                for_month=datetime.now().month
+                created_by=physio_instance.id,
+                for_month=datetime.now().month,
+                for_year=datetime.now().year,
+                for_week = datetime.now().isocalendar()[1]
             )
             physio_index_instance.nine_ten += 1
             physio_index_instance.save()
         except:
             try:
                 models.IndexesPhysios.objects.get(
-                    created_by=physio_instance.id, for_month=datetime.now().month
+                    created_by=physio_instance.id,
+                    for_month=datetime.now().month,
+                    for_year=datetime.now().year,
+                    for_week = datetime.now().isocalendar()[1]
                 )
             except:
-                models.IndexesPhysios.objects.create(
-                    created_by=physio_instance.id, nine_ten=1
-                )
+                try:
+                    models.PhysioIndexCreationLog.objects.get(
+                        created_by=physio_instance.id,
+                        for_month=datetime.now().month,
+                        for_year=datetime.now().year,
+                        for_week = datetime.now().isocalendar()[1]
+                    )
+                except:
+                    models.PhysioIndexCreationLog.objects.create(
+                        created_by=physio_instance.id
+                    )
+                    models.IndexesPhysios.objects.create(
+                        created_by=physio_instance.id, nine_ten=1
+                    )
 
+                    # For individual user
     if painlevel <= 2:
         try:
-            user_instance_pains = models.LaxoutUserPains.objects.get(
-                created_by=user_instance.id
+            laxout_user_instance = models.LaxoutUserPains.objects.get(
+                created_by=user_instance.id,
+                for_month=datetime.now().month,
+                for_year=datetime.now().year,
+                for_week = datetime.now().isocalendar()[1]
             )
-            user_instance_pains.zero_two += 1
-            user_instance_pains.save()
-            print("Saved pain 2")
+            laxout_user_instance.zero_two += 1
+            laxout_user_instance.save()
         except:
             try:
                 models.LaxoutUserPains.objects.get(
-                    created_by=user_instance.id, for_month=datetime.now().month
+                    created_by=user_instance.id,
+                    for_month=datetime.now().month,
+                    for_year=datetime.now().year,
+                    for_week = datetime.now().isocalendar()[1]
                 )
             except:
-                models.LaxoutUserPains.objects.create(
-                    created_by=user_instance.id, zero_two=1
-                )
-
+                try:
+                    models.LaxoutUserIndexCreationLog.objects.get(
+                        created_by=user_instance.id,
+                        for_month=datetime.now().month,
+                        for_year=datetime.now().year,
+                        for_week = datetime.now().isocalendar()[1]
+                    )
+                except:
+                    models.LaxoutUserIndexCreationLog.objects.create(
+                        created_by=user_instance.id
+                    )
+                    models.LaxoutUserPains.objects.create(
+                        created_by=user_instance.id, zero_two=1
+                    )
     if painlevel >= 3 and painlevel <= 5:
         try:
-            user_instance_pains = models.LaxoutUserPains.objects.get(
-                created_by=user_instance.id
+            laxout_user_instance = models.LaxoutUserPains.objects.get(
+                created_by=user_instance.id,
+                for_month=datetime.now().month,
+                for_year=datetime.now().year,
+                for_week = datetime.now().isocalendar()[1]
             )
-            user_instance_pains.theree_five += 1
-            user_instance_pains.save()
-            print("Saved pain 5")
+            laxout_user_instance.theree_five += 1
+            laxout_user_instance.save()
         except:
             try:
                 models.LaxoutUserPains.objects.get(
-                    created_by=user_instance.id, for_month=datetime.now().month
+                    created_by=user_instance.id,
+                    for_month=datetime.now().month,
+                    for_year=datetime.now().year,
+                    for_week = datetime.now().isocalendar()[1]
                 )
             except:
-                models.LaxoutUserPains.objects.create(
-                    created_by=user_instance.id, theree_five=1
-                )
-
+                try:
+                    models.LaxoutUserIndexCreationLog.objects.get(
+                        created_by=user_instance.id,
+                        for_month=datetime.now().month,
+                        for_year=datetime.now().year,
+                        for_week = datetime.now().isocalendar()[1]
+                    )
+                except:
+                    models.LaxoutUserIndexCreationLog.objects.create(
+                        created_by=user_instance.id
+                    )
+                    models.LaxoutUserPains.objects.create(
+                        created_by=user_instance.id, three_five=1
+                    )
     if painlevel >= 6 and painlevel <= 8:
+        print("got pain")
+        print(user_instance.id)
         try:
-            user_instance_pains = models.LaxoutUserPains.objects.get(
-                created_by=user_instance.id
-            )
-            user_instance_pains.six_eight += 1
-            user_instance_pains.save()
-            print("Saved pain 8")
-        except:
+            laxout_user_instance =  models.LaxoutUserPains.objects.get(
+                    created_by=user_instance.id,
+                    for_month=datetime.now().month,
+                    for_year=datetime.now().year,
+                    for_week = datetime.now().isocalendar()[1]
+                )
+            laxout_user_instance.six_eight += 1
+            laxout_user_instance.save()
+        except Exception as e:
+            print(f"Error updating LaxoutUserPains: {e}")
             try:
                 models.LaxoutUserPains.objects.get(
-                    created_by=user_instance.id, for_month=datetime.now().month
+                    created_by=user_instance.id,
+                    for_month=datetime.now().month,
+                    for_year=datetime.now().year,
+                    for_week = datetime.now().isocalendar()[1]
                 )
             except:
-                models.LaxoutUserPains.objects.create(
-                    created_by=user_instance.id, six_eight=1
-                )
+                print("Exertion2")
+                try:
+                    models.LaxoutUserIndexCreationLog.objects.get(
+                        created_by=user_instance.id,
+                        for_month=datetime.now().month,
+                        for_year=datetime.now().year,
+                        for_week = datetime.now().isocalendar()[1]
+                    )
+                except:
+                    print("Exertion3")
+                    models.LaxoutUserIndexCreationLog.objects.create(
+                        created_by=user_instance.id
+                    )
+                    models.LaxoutUserPains.objects.create(
+                        created_by=user_instance.id, six_eight=1
+                    )
     if painlevel >= 9 and painlevel <= 10:
         try:
-            user_instance_pains = models.LaxoutUserPains.objects.get(
-                created_by=user_instance.id
+            laxout_user_instance = models.LaxoutUserPains.objects.get(
+                created_by=user_instance.id,
+                for_month=datetime.now().month,
+                for_year=datetime.now().year,
+                for_week = datetime.now().isocalendar()[1]
             )
-            user_instance_pains.nine_ten += 1
-            user_instance_pains.save()
-            print("Saved pain 10")
+            laxout_user_instance.nine_ten += 1
+            laxout_user_instance.save()
         except:
             try:
                 models.LaxoutUserPains.objects.get(
-                    created_by=user_instance.id, for_month=datetime.now().month
+                    created_by=user_instance.id,
+                    for_month=datetime.now().month,
+                    for_year=datetime.now().year,
+                    for_week = datetime.now().isocalendar()[1]
                 )
             except:
-                models.LaxoutUserPains.objects.create(
-                    created_by=user_instance.id, nine_ten=1
-                )
+                try:
+                    models.LaxoutUserIndexCreationLog.objects.get(
+                        created_by=user_instance.id,
+                        for_month=datetime.now().month,
+                        for_year=datetime.now().year,
+                        for_week = datetime.now().isocalendar()[1]
+                    )
+                except:
+                    models.LaxoutUserIndexCreationLog.objects.create(
+                        created_by=user_instance.id
+                    )
+                    models.LaxoutUserPains.objects.create(
+                        created_by=user_instance.id, nine_ten=1
+                    )
 
     return Response(status=status.HTTP_200_OK)
 
@@ -450,3 +646,32 @@ def get_intruction(request):
     instruction = user_instance.instruction
     print(instruction)
     return Response({"instruction": str(instruction)})
+
+
+def weeks_since_first_login(first_login):
+    today = datetime.today().date()
+
+    if first_login > today:
+        raise ValueError("first_login kann nicht in der Zukunft liegen.")
+
+    # Berechnen Sie die Differenz zwischen heute und first_login
+    delta = today - first_login
+
+    # Berechnen Sie die Anzahl der Wochen
+    weeks = delta.days // 7
+
+    return weeks
+
+
+@api_view(["GET"])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_progress_week(request):
+    user_uid = request.headers.get("user_uid")
+    if user_uid == None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    decoded_user_uid = unquote(user_uid)
+    user_instance = models.LaxoutUser.objects.get(user_uid=decoded_user_uid)
+    week = weeks_since_first_login(user_instance.creation_date)
+    print("WEEK{}".format(week))
+    return Response({"week": week})

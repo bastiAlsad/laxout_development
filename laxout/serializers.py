@@ -9,10 +9,10 @@ class LaxoutUSerSerializer(serializers.ModelSerializer):
 
 
 class LaxoutExerciseSerializer(serializers.ModelSerializer):
-       class Meta(object):
-              model = models.Laxout_Exercise
-              fields = ["id","execution", "name", "dauer", "videoPath", "looping", "added", "instruction", "timer", "required", "imagePath", "appId"]
-              encoding = 'utf-8'
+
+    class Meta:
+        model = models.Laxout_Exercise
+        fields = '__all__'
 
 class CouponSerializer(serializers.ModelSerializer):
        class Meta(object):

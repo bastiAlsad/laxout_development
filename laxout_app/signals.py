@@ -3,7 +3,8 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
-from .models import UserProfile, Laxout_Exercise
+from .models import UserProfile, Laxout_Exercise_Model
+from . import models
 
 
 class UebungList:
@@ -2065,13 +2066,438 @@ uebungen = [
 ]
 
 
+uebungen_to_append00 = [1, 2, 3, 23, 48, 49]
+uebungen_to_append01 = [24, 25, 27, 28]
+uebungen_to_append02 = [4, 5, 19, 20, 21, 22]
+uebungen_to_append07 = [
+    1,
+    2,
+    3,
+    23,
+    48,
+    49,
+    24,
+    25,
+    27,
+    28,
+    4,
+    5,
+    19,
+    20,
+    21,
+    22,
+]
+
+# Schultern
+
+uebungen_to_append10 = [1, 29, 30, 31, 41, 43, 44, 45, 46, 47, 48, 49, 67]
+uebungen_to_append11 = [
+    26,
+    29,
+    37,
+    38,
+    39,
+    41,
+    42,
+    43,
+    64,
+    65,
+    66,
+    68,
+    69,
+    70,
+]
+uebungen_to_append12 = [6, 7, 8, 9, 32, 33, 34, 35, 36]
+uebungen_to_append17 = [
+    6,
+    7,
+    8,
+    9,
+    32,
+    33,
+    34,
+    35,
+    36,
+    26,
+    29,
+    37,
+    38,
+    39,
+    41,
+    42,
+    43,
+    64,
+    65,
+    66,
+    68,
+    69,
+    70,
+    1,
+    29,
+    30,
+    31,
+    41,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    67,
+]
+
+# mittlerer RÜcken
+uebungen_to_append20 = [14, 117, 18, 105, 106, 107, 108, 109, 110]
+uebungen_to_append21 = [38, 96, 10, 103]
+uebungen_to_append22 = [15, 16, 94, 95]
+uebungen_to_append27 = [
+    15,
+    16,
+    94,
+    95,
+    38,
+    96,
+    10,
+    103,
+    14,
+    117,
+    18,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+]
+
+# bauch
+uebungen_to_append30 = []
+uebungen_to_append31 = [
+    66,
+    97,
+    102,
+    119,
+    120,
+    121,
+    122,
+    123,
+    124,
+    125,
+    126,
+    127,
+    128,
+    141,
+]
+uebungen_to_append32 = [
+    92,
+    93,
+    94,
+    95,
+    96,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+]
+uebungen_to_append37 = [
+    92,
+    93,
+    94,
+    95,
+    96,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    66,
+    97,
+    102,
+    119,
+    120,
+    121,
+    122,
+    123,
+    124,
+    125,
+    126,
+    127,
+    128,
+    141,
+]
+
+# unterer Rücken
+uebungen_to_append40 = [
+    10,
+    11,
+    105,
+    106,
+    107,
+    108,
+    134,
+    142,
+    143,
+    144,
+    145,
+    146,
+    147,
+    158,
+    165,
+    166,
+]
+uebungen_to_append41 = [
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    124,
+    135,
+    136,
+    137,
+    138,
+    139,
+    140,
+    141,
+    158,
+    165,
+    166,
+]
+uebungen_to_append42 = [
+    12,
+    13,
+    94,
+    95,
+    112,
+    113,
+    114,
+    115,
+    117,
+    118,
+    129,
+    130,
+    131,
+    132,
+    133,
+    134,
+    148,
+    149,
+]
+uebungen_to_append47 = [
+    12,
+    13,
+    94,
+    95,
+    112,
+    113,
+    114,
+    115,
+    117,
+    118,
+    129,
+    130,
+    131,
+    132,
+    133,
+    134,
+    148,
+    149,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    124,
+    135,
+    136,
+    137,
+    138,
+    139,
+    140,
+    141,
+    158,
+    165,
+    166,
+    10,
+    11,
+    105,
+    106,
+    107,
+    108,
+    134,
+    142,
+    143,
+    144,
+    145,
+    146,
+    147,
+    158,
+    165,
+    166,
+]
+
+# Beine
+uebungen_to_append50 = [40, 67, 104, 156, 158, 161, 162, 163, 164, 165]
+uebungen_to_append51 = [
+    123,
+    139,
+    156,
+    157,
+    158,
+    159,
+    160,
+    161,
+    162,
+    163,
+    164,
+    165,
+    166,
+    167,
+    168,
+]
+uebungen_to_append52 = [148, 149, 150, 151, 152, 153, 154, 155, 166, 168]
+uebungen_to_append57 = [
+    148,
+    149,
+    150,
+    151,
+    152,
+    153,
+    154,
+    155,
+    166,
+    168,
+    123,
+    139,
+    156,
+    157,
+    158,
+    159,
+    160,
+    161,
+    162,
+    163,
+    164,
+    165,
+    166,
+    167,
+    168,
+    40,
+    67,
+    104,
+    156,
+    158,
+    161,
+    162,
+    163,
+    164,
+    165,
+]
+
+# Arme
+
+uebungen_to_append60 = [
+    60,
+    61,
+    67,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    111,
+]
+
+uebungen_to_append61 = [64, 65, 66, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77]
+uebungen_to_append62 = [
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    62,
+    63,
+    169,
+]
+uebungen_to_append67 = [
+    60,
+    61,
+    67,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    111,
+    64,
+    65,
+    66,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    62,
+    63,
+    169,
+]
+
+
 @receiver(post_save, sender=User)  # gets executed, if a new user is created
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
         if instance.is_superuser:
-            for i in uebungen:
-                 Laxout_Exercise.objects.create(
+         for i in uebungen:
+                Laxout_Exercise_Model.objects.create(
                     looping=i.looping,
                     timer=i.timer,
                     execution=i.execution,
@@ -2082,14 +2508,155 @@ def create_user_profile(sender, instance, created, **kwargs):
                     added=i.added,
                     instruction=i.instruction,
                     required=i.required,
+                    ignore = False
                 )
-            # Füge die erstellte Instanz zum ManyToMany-Feld hinzu
+        inizialize_first_second()
             
-        
-            
-
 
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.userprofile.save()
+
+
+def inizialize_first_second():
+    for i in uebungen_to_append00:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 0))
+        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.save()
+    for i in uebungen_to_append01:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 0))
+        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.save()
+    for i in uebungen_to_append02:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 0))
+        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.save()
+    for i in uebungen_to_append07:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.save()
+    for i in uebungen_to_append10:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 1))
+        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.save()
+    for i in uebungen_to_append11:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 1))
+        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.save()
+    for i in uebungen_to_append12:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 1))
+        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.save()
+    for i in uebungen_to_append17:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 1))
+        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.save()
+    for i in uebungen_to_append20:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 2))
+        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.save()
+    for i in uebungen_to_append21:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 2))
+        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.save()
+    for i in uebungen_to_append22:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 2))
+        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.save()
+    for i in uebungen_to_append27:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 2))
+        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.save()
+    for i in uebungen_to_append30:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 3))
+        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.save()
+    for i in uebungen_to_append31:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 3))
+        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.save()
+    for i in uebungen_to_append32:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 3))
+        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.save()
+    for i in uebungen_to_append37:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 3))
+        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.save()
+    for i in uebungen_to_append40:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 4))
+        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.save()
+    for i in uebungen_to_append41:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 4))
+        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.save()
+    for i in uebungen_to_append42:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 4))
+        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.save()
+    for i in uebungen_to_append47:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 4))
+        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.save()
+    for i in uebungen_to_append50:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 5))
+        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.save()
+    for i in uebungen_to_append51:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 5))
+        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.save()
+    for i in uebungen_to_append52:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 5))
+        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.save()
+    for i in uebungen_to_append57:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 5))
+        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.save()
+    for i in uebungen_to_append60:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 6))
+        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.save()
+    for i in uebungen_to_append61:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 6))
+        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.save()
+    for i in uebungen_to_append62:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 6))
+        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.save()
+    for i in uebungen_to_append67:
+        instance_exercise = models.Laxout_Exercise_Model.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 6))
+        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.save()
