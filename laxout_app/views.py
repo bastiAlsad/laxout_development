@@ -17,7 +17,7 @@ from .models import (
     Coupon,
     LaxoutUserPains,
     PhysioIndexCreationLog,
-    Laxout_Exercise_Model,
+    Uebungen_Models,
 )
 from . import models
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
@@ -29,7 +29,7 @@ from datetime import datetime
 import json
 from django.utils import timezone
 from uuid import uuid4
-
+from laxout import server_tasks
 
 class ExercisesModel:
     def __init__(
@@ -133,7 +133,7 @@ def create_exercise(request):
 
             # Add First and Second instances
             if first is not None:
-                exercise_instance.first.add(models.First.objects.create(first=first))
+                 exercise_instance.first.add(models.First.objects.create(first=first))
             if second is not None:
                 exercise_instance.second.add(
                     models.Second.objects.create(second=second)
@@ -157,6 +157,8 @@ def create_user(request):
         if form.is_valid():
             insteance = form.save(commit=False)
             insteance.created_by = request.user
+            tree = models.LaxTree.objects.create()
+            insteance.lax_tree_id = tree.id
             new_user_uid = str(uuid4())
             while LaxoutUser.objects.filter(user_uid=new_user_uid).exists():
                 new_user_uid = str(uuid4())
@@ -308,32 +310,62 @@ def edit_user(request, id=None):
 
         skipped_amount = 0
     print("LENGHT EXERCISE LIST {}".format(users_exercises_skipped))
-    laxout_user_pains_instances = LaxoutUserPains.objects.filter(created_by=id)
+    laxout_user_pains_instances = models.LaxoutUserPains.objects.filter(created_by=id)
     index_labels = []
+    month_year_instances = []
     zero_two_pain = []
     theree_five_pain = []
     six_eight_pain = []
     nine_ten_pain = []
-    print("LENGHT Pains LIST {}".format(laxout_user_pains_instances))
+
     for she in laxout_user_pains_instances:
-        index_labels.append(she.for_month)
+        append_she = True
+        for i in month_year_instances:
+            if i.for_month == she.for_month and i.for_year == she.for_year:
+                append_she = False
 
-    for he in laxout_user_pains_instances:
-        zero_two_pain.append(he.zero_two)
+        if append_she:
+            index_labels.append(she.for_month)
+            month_year_instances.append(she)
 
-    for we in laxout_user_pains_instances:
-        theree_five_pain.append(we.theree_five)
 
-    for they in laxout_user_pains_instances:
-        six_eight_pain.append(they.six_eight)
 
-    for me in laxout_user_pains_instances:
-        nine_ten_pain.append(me.nine_ten)
+    for i in month_year_instances:
+        current_pains = models.LaxoutUserPains.objects.filter(created_by = i.created_by, for_month = i.for_month, for_year = i.for_year)
+        six_eight = 0
+        zero_two = 0
+        three_five = 0
+        nine_ten = 0
+        for ii in current_pains:
+            six_eight = six_eight + ii.six_eight
+            zero_two = zero_two + ii.zero_two
+            three_five = three_five + ii.theree_five
+            nine_ten = nine_ten + ii.nine_ten
+        zero_two_pain.append(zero_two)
+        theree_five_pain.append(three_five)
+        six_eight_pain.append(six_eight)
+        nine_ten_pain.append(nine_ten)
+
+    average_pain_list_user = []
+    for i in range(len(zero_two_pain)):
+        average_pain = 0
+        average_pain += zero_two_pain[i]
+        average_pain += theree_five_pain[i]
+        average_pain += six_eight_pain[i]
+        average_pain += nine_ten_pain[i]
+        average_pain = average_pain/4
+        average_pain_list_user.append(average_pain)
+
+
+
+
 
     print(zero_two_pain)
     print(theree_five_pain)
     print(six_eight_pain)
     print(nine_ten_pain)
+
+    
 
     context = {
         "user": user,
@@ -349,6 +381,7 @@ def edit_user(request, id=None):
         "three_five_pain": json.dumps(theree_five_pain),
         "six_eight_pain": json.dumps(six_eight_pain),
         "nine_ten_pain": json.dumps(nine_ten_pain),
+        "int": user.instruction_in_int
     }
 
     return render(
@@ -361,7 +394,7 @@ def edit_user(request, id=None):
 def get_workout_list(first, second):
     to_return = []
     uebungen_to_append = []
-    exercises_to_browse = models.Laxout_Exercise_Model.objects.all()
+    exercises_to_browse = models.Uebungen_Models.objects.all()
     # Nacken
     if first == 0 and second == 0:
         for i in exercises_to_browse:
@@ -643,7 +676,7 @@ def add_exercises(request, id=None, first=0, second=0):
         new_id = request.POST.get("id")
         print(new_dauer)
         if new_dauer == "":
-            new_dauer = Laxout_Exercise_Model.objects.get(id=new_id).dauer
+            new_dauer = Uebungen_Models.objects.get(id=new_id).dauer
 
         user_instance = LaxoutUser.objects.get(id=id)
 
@@ -668,17 +701,17 @@ def add_exercises(request, id=None, first=0, second=0):
 
         exercise_to_add = Laxout_Exercise.objects.create(
             execution=new_execution,
-            name=Laxout_Exercise_Model.objects.get(id=new_id).name,
+            name=Uebungen_Models.objects.get(id=new_id).name,
             dauer=new_dauer,
-            videoPath=Laxout_Exercise_Model.objects.get(id=new_id).videoPath,
-            looping=Laxout_Exercise_Model.objects.get(id=new_id).looping,
+            videoPath=Uebungen_Models.objects.get(id=new_id).videoPath,
+            looping=Uebungen_Models.objects.get(id=new_id).looping,
             added=False,
             instruction="",
-            timer=Laxout_Exercise_Model.objects.get(id=new_id).timer,
-            required=Laxout_Exercise_Model.objects.get(id=new_id).required,
-            imagePath=Laxout_Exercise_Model.objects.get(id=new_id).imagePath,
+            timer=Uebungen_Models.objects.get(id=new_id).timer,
+            required=Uebungen_Models.objects.get(id=new_id).required,
+            imagePath=Uebungen_Models.objects.get(id=new_id).imagePath,
             appId=new_id,
-            onlineVideoPath=Laxout_Exercise_Model.objects.get(
+            onlineVideoPath=Uebungen_Models.objects.get(
                 id=new_id
             ).onlineVideoPath,
         )
@@ -864,28 +897,41 @@ def analyses(request):
 
     indexes = []
     index_labels = []
+    laxout_user_pains_instances = LaxoutUserPains.objects.filter(admin_id = request.user.id)
+    month_year_instances = []
     zero_two_pain = []
     theree_five_pain = []
     six_eight_pain = []
     nine_ten_pain = []
 
-    for she in all_instances:
-        index_labels.append(she.for_month)
+    print("LENGHT Pains LIST {}".format(len(laxout_user_pains_instances)))
 
-    for it in all_instances:
-        indexes.append(it.indexs)
+    for she in laxout_user_pains_instances:
+        append_month_year = True
+        for i in month_year_instances:
+            if i.for_month == she.for_month and i.for_year == she.for_year:
+                append_month_year = False
 
-    for he in all_instances:
-        zero_two_pain.append(he.zero_two)
+        if append_month_year:
+            month_year_instances.append(she)
+            index_labels.append(she.for_month)
 
-    for we in all_instances:
-        theree_five_pain.append(we.theree_five)
+    for i in month_year_instances:
+        current_pains = models.LaxoutUserPains.objects.filter(created_by = i.created_by, for_month = i.for_month, for_year = i.for_year)
+        six_eight = 0
+        zero_two = 0
+        three_five = 0
+        nine_ten = 0
 
-    for they in all_instances:
-        six_eight_pain.append(they.six_eight)
-
-    for me in all_instances:
-        nine_ten_pain.append(me.nine_ten)
+        for ii in current_pains:
+            six_eight = six_eight + ii.six_eight
+            zero_two = zero_two + ii.zero_two
+            three_five = three_five + ii.theree_five
+            nine_ten = nine_ten + ii.nine_ten
+        zero_two_pain.append(zero_two)
+        theree_five_pain.append(three_five)
+        six_eight_pain.append(six_eight)
+        nine_ten_pain.append(nine_ten)
 
     print("9-10{}".format(nine_ten_pain))
     print("8-6{}".format(six_eight_pain))
@@ -916,188 +962,52 @@ def post_user_instruction(request, id=None):
     user_insance.save()
     return HttpResponse("All clear")
 
+@login_required(login_url="login")
+def post_user_mail(request, id=None):
+    new_mail = request.POST.get("mail")
+    user_insance = LaxoutUser.objects.get(id=id)
+    user_insance.email_adress = new_mail
+    user_insance.save()
+    return HttpResponse("All clear")
+
+class UebungList:
+    def __init__(
+        self,
+        looping,
+        timer,
+        execution,
+        name,
+        videoPath,
+        dauer,
+        imagePath,
+        added,
+        instruction,
+        required,
+        onlineVidePath,
+    ):
+        self.looping = looping
+        self.timer = timer
+        self.execution = execution
+        self.name = name
+        self.videoPath = videoPath
+        self.dauer = dauer
+        self.imagePath = imagePath
+        self.added = added
+        self.instruction = instruction
+        self.required = required
+        self.onlineVidePath = onlineVidePath
+
 
 @login_required(login_url="login")
 def admin_power(request):
-    counter = 0
-    exercise_objects = models.Laxout_Exercise_Model.objects.all()
-    online_video_paths = [
-        "https://youtu.be/jFGkSAmt3jI",
-        "https://youtu.be/44v3LKOQkVs",
-        "https://youtu.be/VtZs7yu_dyI",
-        "https://youtu.be/gWu3B5UqHjU",
-        "https://youtu.be/x752jP5KfyU",
-        "https://youtu.be/0xQiN5FbLEY",
-        "https://youtu.be/N9lxp4sA5EM",
-        "https://youtu.be/zqBmTOsSaO8",
-        "https://youtu.be/CgCJbMCpuU4",
-        "https://youtu.be/oIpWIe1oeMU",
-        "https://youtu.be/NxWtZWNRwx0",
-        "https://youtu.be/Imm4kNNWtr8",
-        "https://youtu.be/N3jNoQSuoos",
-        "https://youtu.be/bM5QIh9G2hc",
-        "https://youtu.be/IZ0yEvc5SoU",
-        "https://youtu.be/LdaT-uqtkuA",
-        "https://youtu.be/v4GZpH6C0uI",
-        "https://youtu.be/NKQts1Ebsfw",
-        "https://youtu.be/ZVfJk2vkmJY",
-        "https://youtu.be/nVhWy_Zo44A",
-        "https://youtu.be/KfnRkpDCNeM",
-        "https://youtu.be/eBDLpqOF5Go",
-        "https://youtu.be/7mz1mrMjQrw",
-        "https://youtu.be/IhsZRVPnG_E",
-        "https://youtu.be/zWFyKhItfow",
-        "https://youtu.be/OOTxwlqru78",
-        "https://youtu.be/UncBhm17jNg",
-        "https://youtu.be/P8HFabQdJ54",
-        "https://youtu.be/_-mvpirfTMU",
-        "https://youtu.be/sEN1lli6lUo",
-        "https://youtu.be/gngSnM56xdM",
-        "https://youtu.be/YKStW6oT8bQ",
-        "https://youtu.be/cmi1bekkkuE",
-        "https://youtu.be/R0NmFKcFB1Y",
-        "https://youtu.be/5cyxyTi_gss",
-        "https://youtu.be/4uMgVmPnl9E",
-        "https://youtu.be/vAozR51VE-k",
-        "https://youtu.be/w06qcM8N_lE",
-        "https://youtu.be/ILpL1uiaLkc",
-        "https://youtu.be/cGe7uvkSAQ4",
-        "https://youtu.be/21EYxRuNwZ0",
-        "https://youtu.be/zLcK8hDzoqU",
-        "https://youtu.be/f7hleF7Eqjk",
-        "https://youtu.be/JmBxk3XZolw",
-        "https://youtu.be/dIm3wSRUx3w",
-        "https://youtu.be/9Hqb4qGZG3w",
-        "https://youtu.be/QcTXvtULl3I",
-        "https://youtu.be/VatSJUlsR7s",
-        "https://youtu.be/6ytDZ0al-yA",
-        "https://youtu.be/Zm1skfJizG4",
-        "https://youtu.be/D9YnMFANEjI",
-        "https://youtu.be/sHdsLWoDblw",
-        "https://youtu.be/VTXvLgJQvI0",
-        "https://youtu.be/FAXsQ8zay8U",
-        "https://youtu.be/2e8yCIb5PLY",
-        "https://youtu.be/V_f61S10Et4",
-        "https://youtu.be/EyS7f2zBXSA",
-        "https://youtu.be/40HuYS6Fh0U",
-        "https://youtu.be/H78nspGhd-k",
-        "https://youtu.be/bzyosU-Y55o",
-        "https://youtu.be/Nmy27Q0Kitw",
-        "https://youtu.be/Pz2PSdm7XJI",
-        "https://youtu.be/cfYr1iIllFc",
-        "https://youtu.be/MTU4B5bv0UU",
-        "https://youtu.be/eZ1Qbc1UkQk",
-        "https://youtu.be/m74EFFeDNDE",
-        "https://youtu.be/IXYwjyezEoY",
-        "https://youtu.be/F7s8RS4bJs8",
-        "https://youtu.be/q1V5v-_Fgrc",
-        "https://youtu.be/3p41QJQ0PGQ",
-        "https://youtu.be/uTh6OeySo4A",
-        "https://youtu.be/DVdEktILMf4",
-        "https://youtu.be/4tbXggIXm7M",
-        "https://youtu.be/2TAcpv-MNbY",
-        "https://youtu.be/DVruqdMzhzc",
-        "https://youtu.be/c7OFz_3dxfg",
-        "https://youtu.be/qhGDiUV_z5w",
-        "https://youtu.be/TJBmoiZJHm0",
-        "https://youtu.be/YwqVTiQQE74",
-        "https://youtu.be/acN2yuFGOKs",
-        "https://youtu.be/Gi4DyesJXR4",
-        "https://youtu.be/DjbDmPpoQL0",
-        "https://youtu.be/GEt3XifhExE",
-        "https://youtu.be/FMA2BekeJl0",
-        "https://youtu.be/eAff2QhVFDs",
-        "https://youtu.be/y79A_grklp4",
-        "https://youtu.be/2shtAOYyX_Y",
-        "https://youtu.be/mJ_raWeOUvE",
-        "https://youtu.be/5Is-XsSKPeY",
-        "https://youtu.be/gB292C-2RFM",
-        "https://youtu.be/GGMBnpa7s30",
-        "https://youtu.be/EuHs16lRh_Y",
-        "https://youtu.be/c0eLPrqEloU",
-        "https://youtu.be/54MWXbEI608",
-        "https://youtu.be/Y6xEdoEQbg4",
-        "https://youtu.be/kbN_1oDYkqA",
-        "https://youtu.be/JUK4Y4mGMLg",
-        "https://youtu.be/EIEfU7KiwIU",
-        "https://youtu.be/wdyW0yIUTzY",
-        "https://youtu.be/3hUW6XvQn4Y",
-        "https://youtu.be/EcKsFt7XfmI",
-        "https://youtu.be/YcQeV6q-PD0",
-        "https://youtu.be/27Ouh_6GGj0",
-        "https://youtu.be/CsUOtiueZtQ",
-        "https://youtu.be/Wu1OzuT5c-8",
-        "https://youtu.be/ni7Ndtnyg8s",
-        "https://youtu.be/AGBMjoUHsPQ",
-        "https://youtu.be/XS96zl2e804",
-        "https://youtu.be/4aDc9GLT1bo",
-        "https://youtu.be/RoZ_XFUCQ6A",
-        "https://youtu.be/-zwuxR5K5pA",
-        "https://youtu.be/rz9ITNqHmOY",
-        "https://youtu.be/2C4r5b3OwFc",
-        "https://youtu.be/UQx0DGGF78Y",
-        "https://youtu.be/9xNuqENu7MY",
-        "https://youtu.be/Z4DQUb6rLsQ",
-        "https://youtu.be/h2H-mFxIOd0",
-        "https://youtu.be/3FTm-Pv4M4E",
-        "https://youtu.be/SpCWj5PBYJk",
-        "https://youtu.be/jGdCFO5Z3c0",
-        "https://youtu.be/BYLJb8IXdoU",
-        "https://youtu.be/f7DbKiLrLHQ",
-        "https://youtu.be/vGZNPmdk1Ew",
-        "https://youtu.be/S7r-k1Wr2Ww",
-        "https://youtu.be/hzJvSYPNXhs",
-        "https://youtu.be/KZ2YCBsi_k0",
-        "https://youtu.be/mS2zFc6X3TE",
-        "https://youtu.be/qlp47zcmgMo",
-        "https://youtu.be/zEbejHx8UTo",
-        "https://youtu.be/jOSKrACCJlw",
-        "https://youtu.be/wiX7cNIQs_M",
-        "https://youtu.be/EbzpcQUSOtc",
-        "https://youtu.be/cwotOq8FSwU",
-        "https://youtu.be/_O0gn-U2hlk",
-        "https://youtu.be/3B2Z01vr0N8",
-        "https://youtu.be/Tt2VIMA0e6g",
-        "https://youtu.be/QB0LjdFCfHA",
-        "https://youtu.be/pEK5XSs2qsY",
-        "https://youtu.be/qmHBoTsihoM",
-        "https://youtu.be/F9iyR-G_at8",
-        "https://youtu.be/7-kXz-cVoDY",
-        "https://youtu.be/Q1jS228pF5k",
-        "https://youtu.be/_td9lk1GOUA",
-        "https://youtu.be/LI2sTBCvLz4",
-        "https://youtu.be/jm6u63O9Ne0",
-        "https://youtu.be/BR8kgXuYAPk",
-        "https://youtu.be/s86j1yJg6PA",
-        "https://youtu.be/QrvfRHwwH4Q",
-        "https://youtu.be/74859z3armM",
-        "https://youtu.be/zIkLYjww8Xo",
-        "https://youtu.be/4ILbRparn4Q",
-        "https://youtu.be/_qmRLY-DSJ4",
-        "https://youtu.be/pV3LgKXtP98",
-        "https://youtu.be/ndPX0jiL-yM",
-        "https://youtu.be/NrgkeAodF1o",
-        "https://youtu.be/oFrGun0-R_o",
-        "https://youtu.be/XRmHrfgaLkY",
-        "https://youtu.be/kn1NYZaZwo0",
-        "https://youtu.be/fKWBQrcdVkg",
-        "https://youtu.be/hTFWDHUh2Ps",
-        "https://youtu.be/UGN5LIz8C1A",
-        "https://youtu.be/MvM0dd2occU",
-        "https://youtu.be/69JU4-_mnlA",
-        "https://youtu.be/kVFdDteho7I",
-        "https://youtu.be/1MaGukXPMiY",
-        "https://youtu.be/rzGOuLXiFCk",
-        "https://youtu.be/N2zp2n7fJI4",
-        "https://youtu.be/9tgYWwhyhqI",
-        "https://youtu.be/jaheeVOXiXI",
-    ]
-    for i in online_video_paths:
-        ex_instance = models.Laxout_Exercise_Model.objects.get(id=counter + 1)
-        ex_instance.onlineVideoPath = i
-        ex_instance.save()
-        counter += 1
-
+    
+    # for i in models.LaxoutUser.objects.all():
+    #     laxout_tree = models.LaxTree.objects.create()
+    #     i.lax_tree_id = laxout_tree.id
+    #     i.save()
+    server_tasks.manage_lax_trees()
+    server_tasks.send_emails()
+    
     return HttpResponse("all clear")
 
 
@@ -1116,7 +1026,7 @@ def move_up(request, id=None):
         item_to_move_up.save()
         item_to_move_down.order = order_to_move_up
         item_to_move_down.save()
-        
+
         context = {"exercises": user.exercises.all()}
         return render(request, "laxout_app/edit_user.html", context)
     except:
@@ -1132,7 +1042,7 @@ def move_down(request, id=None):
         item_to_move_down = models.Laxout_Exercise_Order_For_User.objects.get(laxout_user_id = id, laxout_exercise_id= exercise_id)
         if item_to_move_down.order == len(models.Laxout_Exercise_Order_For_User.objects.filter(laxout_user_id = id)):
             return HttpResponse("INVALID MOVE UP: FIRST ITEM IN LIST")
-        
+
         order_to_move_down = item_to_move_down.order
         order_to_move_up = item_to_move_down.order+1
 
@@ -1143,9 +1053,25 @@ def move_down(request, id=None):
 
         item_to_move_down.order = order_to_move_up
         item_to_move_down.save()
-        
+
         context = {"exercises": user.exercises.all()}
         return render(request, "laxout_app/edit_user.html", context)
     except:
         print(Exception)
+        return HttpResponse("ERROR INTERNAL 4_0_4")
+
+
+@login_required(login_url="login")
+def set_instruction_int(request):
+    try:
+       user = models.LaxoutUser.objects.get(id = request.POST.get("id"))
+       print(user.id)
+       instruction_int = request.POST.get("int")
+       print(instruction_int)
+       user.instruction_in_int = instruction_int
+       user.save()
+       return HttpResponse("OK 2_0_0")
+    except:
+        print(Exception)
+        print("Kacke")
         return HttpResponse("ERROR INTERNAL 4_0_4")

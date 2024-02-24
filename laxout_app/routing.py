@@ -35,4 +35,8 @@ urlpatterns = [
     path("home/edit-user/<int:id>/move-down/", views.move_down, name="edit-user"),
     path("edit-user/<int:id>/move-down/", views.move_down, name="edit-user"),
     path("edit-user/<int:id>/move-up/", views.move_up, name="edit-user"),
+    path("home/edit-user/post-user-instruction-int/", views.set_instruction_int, name="edit-user"),
+    path("edit-user/post-user-instruction-int/", views.set_instruction_int, name="edit-user"),
+    path("home/edit-user/post-user-mail/<int:id>/", views.post_user_mail, name="edit-user"),
+    path("edit-user/post-user-mail/<int:id>/", views.post_user_mail, name="edit-user"),
 ]
