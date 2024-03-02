@@ -6,6 +6,20 @@
 {% block content %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
+    .row-basti-analysePage-Charts {
+            justify-content: start;
+            flex-direction: row;
+            align-items: start;
+            display: flex;
+            padding-top: 40px;
+            padding-left: 100px;
+            flex-direction: row;
+            justify-content: start;
+            align-items: start;
+            
+            height: 60vh;
+            width: 80vw;
+        }
     @media only screen and (min-width:1200px) {
         .row-calender-user {
             display: flex;
@@ -211,59 +225,68 @@
                     Heute war ein Termin
                 </button>
                 <div style="display: flex; flex-direction: column; justify-content: center;">
-                    <div style="display: flex; flex-direction: row; justify-content: space-around; align-items: center;">
+                    <div
+                        style="display: flex; flex-direction: row; justify-content: space-around; align-items: center;">
                         <div style="padding-left: 100px;">
                             <input type="text" id="instruction-input"
                                 style="border: solid 2px black; color: black; background-color: white; border-radius: 12px; height: 40px; width: 250px;"
                                 placeholder="{% if not users.instruction %}Anweisung für den Patienten{% else %}{{ users.instruction }}{% endif %}"
                                 onsubmit="postUserInstruction('{{ users.id }}')"
-                                onchange="postUserInstruction('{{ users.id }}')"
-                                value="{{ users.instruction }}">
+                                onchange="postUserInstruction('{{ users.id }}')" value="{{ users.instruction }}">
                         </div>
                         <div style="width: 35px;">
-    
+
                         </div>
-                        <button class="delete-button" onclick="postUserInstruction('{{ users.id }}')" style="align-items: center;justify-content: center;display: flex;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-square-fill" viewBox="0 0 16 16">
-                                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z"/>
-                              </svg>
+                        <button class="delete-button" onclick="postUserInstruction('{{ users.id }}')"
+                            style="align-items: center;justify-content: center;display: flex;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-check-square-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z" />
+                            </svg>
                         </button>
                     </div>
-    <div style="height: 25px;">
+                    <div style="height: 25px;">
 
-    </div>
-                    <div style="display: flex; flex-direction: row; justify-content: space-around; align-items: center;">
+                    </div>
+                    <div
+                        style="display: flex; flex-direction: row; justify-content: space-around; align-items: center;">
                         <div style="padding-left: 100px;">
                             <input type="text" id="mail-input"
                                 style="border: solid 2px black; color: black; background-color: white; border-radius: 12px; height: 40px; width: 250px;"
                                 placeholder="{% if not users.email_adress %}Email Adresse des Patienten{% else %}{{ users.email_adress }}{% endif %}"
-                                onsubmit="postUserMail('{{ users.id }}')"
-                                onchange="postUserMail('{{ users.id }}')"
+                                onsubmit="postUserMail('{{ users.id }}')" onchange="postUserMail('{{ users.id }}')"
                                 value="{{ users.email_adress }}">
                         </div>
                         <div style="width: 35px;">
-    
+
                         </div>
-                        <button class="delete-button" onclick="postUserMail('{{ users.id }}')" style="align-items: center;justify-content: center;display: flex;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-square-fill" viewBox="0 0 16 16">
-                                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z"/>
-                              </svg>
+                        <button class="delete-button" onclick="postUserMail('{{ users.id }}')"
+                            style="align-items: center;justify-content: center;display: flex;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-check-square-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z" />
+                            </svg>
                         </button>
                     </div>
                 </div>
-                
+
 
             </div>
         </div>
         <div
             style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; justify-items: center; ">
-            <button class="text-button-mr" style="font-size: normal; margin: 20px;" onclick="mrSelectedSetzen('{{users.id}}')">
+            <button class="text-button-mr" style="font-size: normal; margin: 20px;"
+                onclick="mrSelectedSetzen('{{users.id}}')">
                 1x wöchentlich
             </button>
-            <button class="text-button-bauch" style="font-size: normal; margin: 20px;" onclick="bauchSelectedSetzen('{{users.id}}')">
+            <button class="text-button-bauch" style="font-size: normal; margin: 20px;"
+                onclick="bauchSelectedSetzen('{{users.id}}')">
                 2x wöchentlich
             </button>
-            <button class="text-button-ur" style="font-size: normal; margin: 20px;" onclick="urSelectedSetzen('{{users.id}}')">
+            <button class="text-button-ur" style="font-size: normal; margin: 20px;"
+                onclick="urSelectedSetzen('{{users.id}}')">
                 3x wöchentlich
         </div>
     </div>
@@ -395,59 +418,71 @@
 
 </div>
 
-<div style="padding-top: 40px;">
-    <canvas id="myChart"></canvas>
+<div style="height: 100px;">
+
 </div>
 
+<div class="row-basti-analysePage-Charts">
+    
+
+    <canvas id="myChart"></canvas>
+
+
+
+
+
+    <canvas id="dougnutChart"></canvas>
+
+</div>
 
 
 
 <script>
 
-window.onload = function () {
-    let instructionInt = "{{int}}";
-    console.log(instructionInt);
-    if(instructionInt == 0){
-        var defaultNackenElement = document.querySelector('.text-button-mr'); // Same buttons as in add exercies. mr = element 1 from left and so on
-        
-        if (defaultNackenElement !== null) {
-            defaultNackenElement.classList.add('active');
+    window.onload = function () {
+        let instructionInt = "{{int}}";
+        console.log(instructionInt);
+        if (instructionInt == 0) {
+            var defaultNackenElement = document.querySelector('.text-button-mr'); // Same buttons as in add exercies. mr = element 1 from left and so on
+
+            if (defaultNackenElement !== null) {
+                defaultNackenElement.classList.add('active');
+            }
+
+            lastSelectedNumber = '.text-button-mr';
         }
-        
-        lastSelectedNumber = '.text-button-mr';
-    }
-    if(instructionInt == 1){
-        var defaultNackenElement = document.querySelector('.text-button-mr'); // Same buttons as in add exercies. mr = element 1 from left and so on
-        
-        if (defaultNackenElement !== null) {
-            defaultNackenElement.classList.add('active');
+        if (instructionInt == 1) {
+            var defaultNackenElement = document.querySelector('.text-button-mr'); // Same buttons as in add exercies. mr = element 1 from left and so on
+
+            if (defaultNackenElement !== null) {
+                defaultNackenElement.classList.add('active');
+            }
+
+            lastSelectedNumber = '.text-button-mr';
         }
-        
-        lastSelectedNumber = '.text-button-mr';
-    }
-    if(instructionInt == 2){
-        var defaultNackenElement = document.querySelector('.text-button-bauch');
-        
-        if (defaultNackenElement !== null) {
-            defaultNackenElement.classList.add('active');
+        if (instructionInt == 2) {
+            var defaultNackenElement = document.querySelector('.text-button-bauch');
+
+            if (defaultNackenElement !== null) {
+                defaultNackenElement.classList.add('active');
+            }
+
+            lastSelectedNumber = '.text-button-bauch';
         }
-        
-        lastSelectedNumber = '.text-button-bauch';
-    }
-    if(instructionInt == 3){
-        var defaultNackenElement = document.querySelector('.text-button-ur');
-        
-        if (defaultNackenElement !== null) {
-            defaultNackenElement.classList.add('active');
+        if (instructionInt == 3) {
+            var defaultNackenElement = document.querySelector('.text-button-ur');
+
+            if (defaultNackenElement !== null) {
+                defaultNackenElement.classList.add('active');
+            }
+
+            lastSelectedNumber = '.text-button-ur';
         }
-        
-        lastSelectedNumber = '.text-button-ur';
-    }
-        
-       
+
+
     };
 
-function setSelected(number, buttonClass) {
+    function setSelected(number, buttonClass) {
         // Überprüfe, ob das Element existiert, bevor du darauf zugreifst
         var currentSelectedElement = document.querySelector(buttonClass);
         if (currentSelectedElement !== null) {
@@ -464,7 +499,7 @@ function setSelected(number, buttonClass) {
         }
 
         lastSelectedNumber = buttonClass;
-       
+
 
     }
 
@@ -474,10 +509,10 @@ function setSelected(number, buttonClass) {
         let formedData = new FormData();
         let csrf_token = "{{csrf_token}}";
         formedData.append("csrfmiddlewaretoken", csrf_token);
-        formedData.append("id",userId);
+        formedData.append("id", userId);
         formedData.append("int", 1);
         fetch("post-user-instruction-int/", {
-            headers:{
+            headers: {
                 'X-CSRFToken': csrf_token,
             },
             method: "POST",
@@ -491,10 +526,10 @@ function setSelected(number, buttonClass) {
         let formedData = new FormData();
         let csrf_token = "{{csrf_token}}";
         formedData.append("csrfmiddlewaretoken", csrf_token);
-        formedData.append("id",userId);
+        formedData.append("id", userId);
         formedData.append("int", 2);
         fetch("post-user-instruction-int/", {
-            headers:{
+            headers: {
                 'X-CSRFToken': csrf_token,
             },
             method: "POST",
@@ -512,7 +547,7 @@ function setSelected(number, buttonClass) {
         formedData.append("int", 3);
 
         fetch("post-user-instruction-int/", {
-            headers:{
+            headers: {
                 'X-CSRFToken': csrf_token,
             },
             method: "POST",
@@ -739,6 +774,40 @@ function setSelected(number, buttonClass) {
 
 
     });
+
+    const better = "{{better}}";
+    const worse = "{{worse}}";
+    console.log("better");
+    console.log(better);
+    const donut = document.getElementById('dougnutChart');
+    new Chart(donut, {
+        type: 'doughnut',
+        data: {
+            labels: [
+                'besser',
+                'schlechter',
+            ],
+            datasets: [{
+                label: 'My First Dataset',
+                data: [better, worse],
+                backgroundColor: [
+                    'rgb(98, 138, 160)',
+                    'rgb(44, 67, 81)',
+                ],
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            layout: {
+                padding: {
+                    left: 50,
+                    top: 50,
+                    right: 50,
+                    bottom: 50
+                }
+            }
+        }
+    })
 
     function getMonthName(monthIndex) {
         const monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];

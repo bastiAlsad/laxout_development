@@ -29,7 +29,8 @@ from datetime import datetime
 import json
 from django.utils import timezone
 from uuid import uuid4
-from laxout import server_tasks
+from laxout import lax_ai
+
 
 class ExercisesModel:
     def __init__(
@@ -133,7 +134,7 @@ def create_exercise(request):
 
             # Add First and Second instances
             if first is not None:
-                 exercise_instance.first.add(models.First.objects.create(first=first))
+                exercise_instance.first.add(models.First.objects.create(first=first))
             if second is not None:
                 exercise_instance.second.add(
                     models.Second.objects.create(second=second)
@@ -146,6 +147,16 @@ def create_exercise(request):
         form = ExerciseForm()
 
     return render(request, "laxout_app/create_exercise.html", {"form": form})
+
+
+
+def set_exercises_user(user_id, predicted_exercises):
+    user = models.LaxoutUser.objects.get(id=user_id)
+    for i in predicted_exercises:
+        user.exercises.add(i)
+    user.save()
+    print("Hich")
+    print(user.exercises.all())
 
 
 @login_required(login_url="login")
@@ -164,8 +175,46 @@ def create_user(request):
                 new_user_uid = str(uuid4())
             insteance.user_uid = new_user_uid
             print("User Uid:{}".format(insteance.user_uid))
+            note = form.cleaned_data.get("note")
+            predicted_exercises_ids = lax_ai.predict_exercise(note)
+            exercises = []
+            print(predicted_exercises_ids)
 
             insteance.save()
+
+            for i in predicted_exercises_ids:
+                user_instance = insteance
+
+                # es wird geschaut, ob es schon eine Reihenfolge gibt
+
+                if i != 0 and i < len(models.Uebungen_Models.objects.all()):
+                    print("AI predicted exercise")
+                    exercise_to_add = Laxout_Exercise.objects.create(
+                        execution=Uebungen_Models.objects.get(id=i).execution,
+                        name=Uebungen_Models.objects.get(id=i).name,
+                        dauer=Uebungen_Models.objects.get(id=i).dauer,
+                        videoPath=Uebungen_Models.objects.get(id=i).videoPath,
+                        looping=Uebungen_Models.objects.get(id=i).looping,
+                        added=False,
+                        instruction="",
+                        timer=Uebungen_Models.objects.get(id=i).timer,
+                        required=Uebungen_Models.objects.get(id=i).required,
+                        imagePath=Uebungen_Models.objects.get(id=i).imagePath,
+                        appId=Uebungen_Models.objects.get(id=i).id,
+                        onlineVideoPath=Uebungen_Models.objects.get(
+                            id=i
+                        ).onlineVideoPath,
+                    )
+                    exercises.append(exercise_to_add)
+
+                
+
+            set_exercises_user(insteance.id, exercises)
+            print("ZZZ")
+            print(exercises)
+            print(insteance.id)
+            print(lax_ai.predict_exercise(note))
+
             return redirect("/home")
 
     else:
@@ -204,7 +253,7 @@ def delete_user(request, id=None):
                 order.delete()
             for pain in models.LaxoutUserPains.objects.filter(created_by=id).all():
                 pain.delete()
-
+            models.SuccessControll.objects.filter(created_by=id).delete()
             object_to_delte.delete()
         return redirect("/home")
     return redirect("/home")
@@ -213,6 +262,7 @@ def delete_user(request, id=None):
 @login_required(login_url="login")
 def edit_user(request, id=None):
     user = LaxoutUser.objects.get(id=id)
+
     if request.method == "POST":
         user.last_meet = timezone.datetime.today()
         user.save()
@@ -255,12 +305,27 @@ def edit_user(request, id=None):
         users_indexes.append(to_put)
 
     ###skip logik###
+    
+    current_exercises = user.exercises.all()
 
-    users_exercises = user.exercises.all()
+    current_order_objects = models.Laxout_Exercise_Order_For_User.objects.filter(
+            laxout_user_id=id
+        )  # es wird geschaut, ob es schon eine Reihenfolge gibt
+    if len(current_order_objects) == 0 and len(current_exercises) != 0:
+            print("There was a diffenrence")
+            order = 1
+            for i in current_exercises:
+                models.Laxout_Exercise_Order_For_User.objects.create(
+                    laxout_user_id=id, laxout_exercise_id=i.id, order=order
+                )
+                order += 1
+            print("length")
+            print(len(models.Laxout_Exercise_Order_For_User.objects.all()))
 
-    skipped_exercises_instances = SkippedExercises.objects.all()
+    lenght_order_objects_list = len(current_order_objects)
 
-    users_exercises_wrong_order = []
+    print("LENGTH ORDER OBJECTS{}".format(len(current_order_objects)))
+
     users_exercises_skipped = []
 
     skipped_exercises = models.SkippedExercises.objects.filter(laxout_user_id=id)
@@ -268,11 +333,11 @@ def edit_user(request, id=None):
     list_order_objects = models.Laxout_Exercise_Order_For_User.objects.filter(
         laxout_user_id=id
     )
-    print("LIST Skipped LENGTH {}".format(skipped_exercises))
+    # print("LIST Skipped LENGTH {}".format(skipped_exercises))
     sorted_list = sorted(
         list_order_objects, key=lambda x: x.order
     )  # Werden der größe nach Sotiert
-    print("Sorted List {}".format(sorted_list))
+    # print("Sorted List {}".format(sorted_list))
     exercise_ids = []
 
     for i in sorted_list:
@@ -280,16 +345,17 @@ def edit_user(request, id=None):
     skipped_amount = 0
 
     for order in sorted_list:
-        exercise = models.Laxout_Exercise.objects.get(id=order.laxout_exercise_id)
-        for skipped_exercis in skipped_exercises:
-            print("skipped_amount:", skipped_amount)
-            print("skipped_exercise_id:", skipped_exercis.skipped_exercise_id)
-            print("exercise_id:", exercise.id)
-            if exercise.id == skipped_exercis.skipped_exercise_id:
+        print("RELEVANT ERROR ID")
+        print(order.laxout_exercise_id)
+        try:
+            exercise = models.Laxout_Exercise.objects.get(id=order.laxout_exercise_id)
+            for skipped_exercis in skipped_exercises:
+
+             if exercise.id == skipped_exercis.skipped_exercise_id:
                 skipped_amount += 1
                 print(skipped_amount)
 
-        users_exercises_skipped.append(
+            users_exercises_skipped.append(
             ExercisesModel(
                 new_added=exercise.added,
                 new_appId=exercise.appId,
@@ -306,10 +372,19 @@ def edit_user(request, id=None):
                 new_id=exercise.id,
             )
         )
-        skipped_amount = 0
+            skipped_amount = 0
 
-        skipped_amount = 0
-    print("LENGHT EXERCISE LIST {}".format(users_exercises_skipped))
+            skipped_amount = 0
+        except:
+            print("EXEPTION THROUGH DELETE AFTER AI GENERATION OF EXERCISES")
+    
+    
+    print(
+        "LENGHT EXERCISE LIST {}".format(users_exercises_skipped)
+    )  # sie heißen nur skipped weil die skipped logik drinnen steckt, sind aber die ganz normalen Übungen
+    print("Exercise ids from user with note:{}".format(user.note))
+    for i in users_exercises_skipped:
+        print(i.appId)
     laxout_user_pains_instances = models.LaxoutUserPains.objects.filter(created_by=id)
     index_labels = []
     month_year_instances = []
@@ -328,10 +403,10 @@ def edit_user(request, id=None):
             index_labels.append(she.for_month)
             month_year_instances.append(she)
 
-
-
     for i in month_year_instances:
-        current_pains = models.LaxoutUserPains.objects.filter(created_by = i.created_by, for_month = i.for_month, for_year = i.for_year)
+        current_pains = models.LaxoutUserPains.objects.filter(
+            created_by=i.created_by, for_month=i.for_month, for_year=i.for_year
+        )
         six_eight = 0
         zero_two = 0
         three_five = 0
@@ -353,19 +428,15 @@ def edit_user(request, id=None):
         average_pain += theree_five_pain[i]
         average_pain += six_eight_pain[i]
         average_pain += nine_ten_pain[i]
-        average_pain = average_pain/4
+        average_pain = average_pain / 4
         average_pain_list_user.append(average_pain)
 
-
-
-
-
-    print(zero_two_pain)
-    print(theree_five_pain)
-    print(six_eight_pain)
-    print(nine_ten_pain)
-
-    
+    better_success_controll_count = len(
+        models.SuccessControll.objects.filter(created_by=user.id, better=True)
+    )
+    worse_success_controll_count = len(
+        models.SuccessControll.objects.filter(created_by=user.id, better=False)
+    )
 
     context = {
         "user": user,
@@ -381,7 +452,9 @@ def edit_user(request, id=None):
         "three_five_pain": json.dumps(theree_five_pain),
         "six_eight_pain": json.dumps(six_eight_pain),
         "nine_ten_pain": json.dumps(nine_ten_pain),
-        "int": user.instruction_in_int
+        "int": user.instruction_in_int,
+        "better": better_success_controll_count,
+        "worse": worse_success_controll_count,
     }
 
     return render(
@@ -681,6 +754,8 @@ def add_exercises(request, id=None, first=0, second=0):
         user_instance = LaxoutUser.objects.get(id=id)
 
         current_exercises = user_instance.exercises.all()
+        if len(current_exercises) != 0:
+            models.SuccessControll.objects.filter(created_by=user_instance.id).delete()
         current_order_objects = models.Laxout_Exercise_Order_For_User.objects.filter(
             laxout_user_id=id
         )  # es wird geschaut, ob es schon eine Reihenfolge gibt
@@ -711,9 +786,7 @@ def add_exercises(request, id=None, first=0, second=0):
             required=Uebungen_Models.objects.get(id=new_id).required,
             imagePath=Uebungen_Models.objects.get(id=new_id).imagePath,
             appId=new_id,
-            onlineVideoPath=Uebungen_Models.objects.get(
-                id=new_id
-            ).onlineVideoPath,
+            onlineVideoPath=Uebungen_Models.objects.get(id=new_id).onlineVideoPath,
         )
         order_new_exercise = len(current_order_objects) + 1
 
@@ -758,6 +831,7 @@ def edit_user_workout(
             exercise_to_edit.dauer = new_dauer
         exercise_to_edit.save()
         user_instance.save()
+        models.SuccessControll.objects.filter(created_by=user_instance.id).delete()
     return render(
         request,
         "laxout_app/edit_user.html",
@@ -805,6 +879,7 @@ def delete_user_workout(
                     ).order = order
                     instance.save()
                     order += 1
+            models.SuccessControll.objects.filter(created_by=user_instance.id).delete()
     return render(
         request,
         "laxout_app/edit_user.html",
@@ -897,7 +972,9 @@ def analyses(request):
 
     indexes = []
     index_labels = []
-    laxout_user_pains_instances = LaxoutUserPains.objects.filter(admin_id = request.user.id)
+    laxout_user_pains_instances = LaxoutUserPains.objects.filter(
+        admin_id=request.user.id
+    )
     month_year_instances = []
     zero_two_pain = []
     theree_five_pain = []
@@ -917,7 +994,9 @@ def analyses(request):
             index_labels.append(she.for_month)
 
     for i in month_year_instances:
-        current_pains = models.LaxoutUserPains.objects.filter(created_by = i.created_by, for_month = i.for_month, for_year = i.for_year)
+        current_pains = models.LaxoutUserPains.objects.filter(
+            created_by=i.created_by, for_month=i.for_month, for_year=i.for_year
+        )
         six_eight = 0
         zero_two = 0
         three_five = 0
@@ -962,6 +1041,7 @@ def post_user_instruction(request, id=None):
     user_insance.save()
     return HttpResponse("All clear")
 
+
 @login_required(login_url="login")
 def post_user_mail(request, id=None):
     new_mail = request.POST.get("mail")
@@ -969,6 +1049,7 @@ def post_user_mail(request, id=None):
     user_insance.email_adress = new_mail
     user_insance.save()
     return HttpResponse("All clear")
+
 
 class UebungList:
     def __init__(
@@ -1000,14 +1081,14 @@ class UebungList:
 
 @login_required(login_url="login")
 def admin_power(request):
-    
+
     # for i in models.LaxoutUser.objects.all():
     #     laxout_tree = models.LaxTree.objects.create()
     #     i.lax_tree_id = laxout_tree.id
     #     i.save()
     server_tasks.manage_lax_trees()
     server_tasks.send_emails()
-    
+
     return HttpResponse("all clear")
 
 
@@ -1016,12 +1097,16 @@ def move_up(request, id=None):
     try:
         exercise_id = request.POST.get("exercise_id")
         user = models.LaxoutUser.objects.get(id=id)
-        item_to_move_up = models.Laxout_Exercise_Order_For_User.objects.get(laxout_user_id = id, laxout_exercise_id= exercise_id)
+        item_to_move_up = models.Laxout_Exercise_Order_For_User.objects.get(
+            laxout_user_id=id, laxout_exercise_id=exercise_id
+        )
         if item_to_move_up.order == 1:
             return HttpResponse("INVALID MOVE UP: FIRST ITEM IN LIST")
         order_to_move_up = item_to_move_up.order
-        order_to_move_down = item_to_move_up.order-1
-        item_to_move_down =  models.Laxout_Exercise_Order_For_User.objects.get(laxout_user_id = id, order = order_to_move_down)
+        order_to_move_down = item_to_move_up.order - 1
+        item_to_move_down = models.Laxout_Exercise_Order_For_User.objects.get(
+            laxout_user_id=id, order=order_to_move_down
+        )
         item_to_move_up.order = order_to_move_down
         item_to_move_up.save()
         item_to_move_down.order = order_to_move_up
@@ -1039,14 +1124,20 @@ def move_down(request, id=None):
     try:
         exercise_id = request.POST.get("exercise_id")
         user = models.LaxoutUser.objects.get(id=id)
-        item_to_move_down = models.Laxout_Exercise_Order_For_User.objects.get(laxout_user_id = id, laxout_exercise_id= exercise_id)
-        if item_to_move_down.order == len(models.Laxout_Exercise_Order_For_User.objects.filter(laxout_user_id = id)):
+        item_to_move_down = models.Laxout_Exercise_Order_For_User.objects.get(
+            laxout_user_id=id, laxout_exercise_id=exercise_id
+        )
+        if item_to_move_down.order == len(
+            models.Laxout_Exercise_Order_For_User.objects.filter(laxout_user_id=id)
+        ):
             return HttpResponse("INVALID MOVE UP: FIRST ITEM IN LIST")
 
         order_to_move_down = item_to_move_down.order
-        order_to_move_up = item_to_move_down.order+1
+        order_to_move_up = item_to_move_down.order + 1
 
-        item_to_move_up =  models.Laxout_Exercise_Order_For_User.objects.get(laxout_user_id = id, order = order_to_move_up)
+        item_to_move_up = models.Laxout_Exercise_Order_For_User.objects.get(
+            laxout_user_id=id, order=order_to_move_up
+        )
 
         item_to_move_up.order = order_to_move_down
         item_to_move_up.save()
@@ -1064,13 +1155,13 @@ def move_down(request, id=None):
 @login_required(login_url="login")
 def set_instruction_int(request):
     try:
-       user = models.LaxoutUser.objects.get(id = request.POST.get("id"))
-       print(user.id)
-       instruction_int = request.POST.get("int")
-       print(instruction_int)
-       user.instruction_in_int = instruction_int
-       user.save()
-       return HttpResponse("OK 2_0_0")
+        user = models.LaxoutUser.objects.get(id=request.POST.get("id"))
+        print(user.id)
+        instruction_int = request.POST.get("int")
+        print(instruction_int)
+        user.instruction_in_int = instruction_int
+        user.save()
+        return HttpResponse("OK 2_0_0")
     except:
         print(Exception)
         print("Kacke")

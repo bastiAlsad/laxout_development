@@ -157,6 +157,10 @@ class Uebungen_Models(models.Model):
 class LaxTree(models.Model):
     condition = models.IntegerField(default = 0)
 
+class SuccessControll(models.Model):
+    better = models.BooleanField(default = False)
+    created_by = models.IntegerField(default = 0)
+
 
 
 

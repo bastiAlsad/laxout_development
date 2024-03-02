@@ -43,4 +43,6 @@ urlpatterns = [
     re_path("pourlaxtree", api_views.pour_lax_tree),
     re_path("getwaterdrops", api_views.get_water_drops),
     re_path("getcondition", api_views.get_condition),
+    re_path("postsuccesscontroll", api_views.post_success_controll),
+    re_path("getsuccessdata", api_views.get_success_data),
 ]

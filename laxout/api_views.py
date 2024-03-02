@@ -17,6 +17,7 @@ from django.utils import timezone
 from datetime import date, datetime, timedelta
 import math
 
+
 @api_view(["POST"])
 def autorise_laxout_user(request):
     user_uid = request.data["user_uid"]
@@ -204,17 +205,25 @@ def post_pain_level(request):
     painlevel = pain_level
 
     if painlevel <= 2:
-       models.LaxoutUserPains.objects.create(created_by = user_instance.id, zero_two = 1, admin_id = physio_instance.id)
-       print("created 2")
+        models.LaxoutUserPains.objects.create(
+            created_by=user_instance.id, zero_two=1, admin_id=physio_instance.id
+        )
+        print("created 2")
     if painlevel >= 3 and painlevel <= 5:
-       models.LaxoutUserPains.objects.create(created_by = user_instance.id, theree_five = 1, admin_id = physio_instance.id)
-       print("created 5")
+        models.LaxoutUserPains.objects.create(
+            created_by=user_instance.id, theree_five=1, admin_id=physio_instance.id
+        )
+        print("created 5")
     if painlevel >= 6 and painlevel <= 8:
-       models.LaxoutUserPains.objects.create(created_by = user_instance.id, six_eight = 1, admin_id = physio_instance.id)
-       print("created 6")
+        models.LaxoutUserPains.objects.create(
+            created_by=user_instance.id, six_eight=1, admin_id=physio_instance.id
+        )
+        print("created 6")
     if painlevel >= 9 and painlevel <= 10:
-       models.LaxoutUserPains.objects.create(created_by = user_instance.id, nine_ten = 1, admin_id = physio_instance.id)
-       print("created 9")
+        models.LaxoutUserPains.objects.create(
+            created_by=user_instance.id, nine_ten=1, admin_id=physio_instance.id
+        )
+        print("created 9")
     return Response(status=status.HTTP_200_OK)
 
 
@@ -367,7 +376,9 @@ def finish_workout(request):
         user_instance_coins += 100
         user_instance.laxout_credits = user_instance_coins
         user_instance.last_login_2 = datetime.now()
-        user_instance.water_drops_count += math.ceil(100/user_instance.instruction_in_int)
+        user_instance.water_drops_count += math.ceil(
+            100 / user_instance.instruction_in_int
+        )
         user_instance.save()
     return Response(status=status.HTTP_201_CREATED)
 
@@ -417,6 +428,7 @@ def get_progress_week(request):
     print("WEEK{}".format(week))
     return Response({"week": week})
 
+
 @api_view(["GET"])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -427,7 +439,9 @@ def get_individual_indexes(request):
     decoded_user_uid = unquote(user_uid)
     user_instance = models.LaxoutUser.objects.get(user_uid=decoded_user_uid)
 
-    laxout_user_pains_instances = models.LaxoutUserPains.objects.filter(created_by=user_instance.id)
+    laxout_user_pains_instances = models.LaxoutUserPains.objects.filter(
+        created_by=user_instance.id
+    )
     print(len(laxout_user_pains_instances))
     index_labels = []
     month_year_instances = []
@@ -445,11 +459,11 @@ def get_individual_indexes(request):
         if append_she:
             index_labels.append(she.for_month)
             month_year_instances.append(she)
-        
-        
 
     for i in month_year_instances:
-        current_pains = models.LaxoutUserPains.objects.filter(created_by = i.created_by, for_month = i.for_month, for_year = i.for_year)
+        current_pains = models.LaxoutUserPains.objects.filter(
+            created_by=i.created_by, for_month=i.for_month, for_year=i.for_year
+        )
         six_eight = 0
         zero_two = 0
         three_five = 0
@@ -463,7 +477,7 @@ def get_individual_indexes(request):
         theree_five_pain.append(three_five)
         six_eight_pain.append(six_eight)
         nine_ten_pain.append(nine_ten)
-    
+
     average_pain_list_user = []
     print(zero_two_pain)
     print(theree_five_pain)
@@ -472,29 +486,30 @@ def get_individual_indexes(request):
     for i in range(len(zero_two_pain)):
         average_pain = 0
         to_devide = 0
-        average_pain += zero_two_pain[i]*2
+        average_pain += zero_two_pain[i] * 2
         if zero_two_pain[i] != 0:
-            to_devide+=zero_two_pain[i]
-        average_pain += theree_five_pain[i]*4
+            to_devide += zero_two_pain[i]
+        average_pain += theree_five_pain[i] * 4
         if theree_five_pain[i] != 0:
             to_devide += theree_five_pain[i]
-        average_pain += six_eight_pain[i]*7
+        average_pain += six_eight_pain[i] * 7
         if six_eight_pain[i] != 0:
             to_devide += six_eight_pain[i]
-        average_pain += nine_ten_pain[i]*9.5
+        average_pain += nine_ten_pain[i] * 9.5
         if nine_ten_pain[i] != 0:
             to_devide += nine_ten_pain[i]
         if to_devide == 0:
             to_devide = 1
         print(f"averagepain{average_pain}")
         print(f"tp devide{to_devide}")
-        average_pain = average_pain/to_devide
+        average_pain = average_pain / to_devide
         average_pain_list_user.append(average_pain)
 
     return Response({"user_pains": average_pain_list_user})
 
-#tree logik
-@api_view(['POST'])
+
+# tree logik
+@api_view(["POST"])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def pour_lax_tree(request):
@@ -502,18 +517,18 @@ def pour_lax_tree(request):
     if decoded_user_uid == None:
         return Response(status=status.HTTP_403_FORBIDDEN)
     try:
-        user = models.LaxoutUser.objects.get(user_uid = decoded_user_uid)
-    except: 
+        user = models.LaxoutUser.objects.get(user_uid=decoded_user_uid)
+    except:
         return Response(status=status.HTTP_403_FORBIDDEN)
     try:
-        tree = models.LaxTree.objects.get(id = user.lax_tree_id)
+        tree = models.LaxTree.objects.get(id=user.lax_tree_id)
     except:
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    if user.water_drops_count>= 10:
+    if user.water_drops_count >= 10:
         user.water_drops_count -= 10
         user.save()
-        if tree.condition<=90:
-            tree.condition+= 10
+        if tree.condition <= 90:
+            tree.condition += 10
             tree.save()
         else:
             tree.condition = 100
@@ -530,7 +545,7 @@ def pour_lax_tree(request):
 #         return Response(status=status.HTTP_403_FORBIDDEN)
 #     try:
 #         user = models.LaxoutUser.objects.get(user_uid = decoded_user_uid)
-#     except: 
+#     except:
 #         return Response(status=status.HTTP_403_FORBIDDEN)
 #     if user.laxout_credits>= 200:
 #         user.laxout_credits -= 200
@@ -538,7 +553,8 @@ def pour_lax_tree(request):
 #         user.save()
 #     return Response(status=status.HTTP_200_OK)
 
-@api_view(['GET'])
+
+@api_view(["GET"])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def get_condition(request):
@@ -546,17 +562,17 @@ def get_condition(request):
     if decoded_user_uid == None:
         return Response(status=status.HTTP_403_FORBIDDEN)
     try:
-        user = models.LaxoutUser.objects.get(user_uid = decoded_user_uid)
-    except: 
+        user = models.LaxoutUser.objects.get(user_uid=decoded_user_uid)
+    except:
         return Response(status=status.HTTP_403_FORBIDDEN)
     try:
-        tree = models.LaxTree.objects.get(id = user.lax_tree_id)
+        tree = models.LaxTree.objects.get(id=user.lax_tree_id)
     except:
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    return Response({"condition": tree.condition},status=status.HTTP_200_OK)
-        
+    return Response({"condition": tree.condition}, status=status.HTTP_200_OK)
 
-@api_view(['GET'])
+
+@api_view(["GET"])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def get_water_drops(request):
@@ -564,9 +580,69 @@ def get_water_drops(request):
     if decoded_user_uid == None:
         return Response(status=status.HTTP_403_FORBIDDEN)
     try:
-        user = models.LaxoutUser.objects.get(user_uid = decoded_user_uid)
-    except: 
+        user = models.LaxoutUser.objects.get(user_uid=decoded_user_uid)
+    except:
         return Response(status=status.HTTP_403_FORBIDDEN)
-    
-    return Response({'waterdrops':user.water_drops_count}, status=status.HTTP_200_OK)
 
+    return Response({"waterdrops": user.water_drops_count}, status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def post_success_controll(request):
+    decoded_user_uid = unquote(request.headers.get("user_uid"))
+    if decoded_user_uid == None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    try:
+        user = models.LaxoutUser.objects.get(user_uid=decoded_user_uid)
+    except:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    better = request.data["better"]
+    if better == True:
+        print("better")
+        models.SuccessControll.objects.create(created_by=user.id, better=True)
+    if better == False:
+        print("worse")
+        models.SuccessControll.objects.create(created_by=user.id, better=False)
+    return Response(status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_success_data(request):
+    decoded_user_uid = unquote(request.headers.get("user_uid"))
+    if decoded_user_uid == None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    try:
+        user = models.LaxoutUser.objects.get(user_uid=decoded_user_uid)
+    except:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+
+    better_success_controll_count = len(
+        models.SuccessControll.objects.filter(created_by=user.id, better=True)
+    )
+    worse_success_controll_count = len(
+        models.SuccessControll.objects.filter(created_by=user.id, better=False)
+    )
+    all = models.SuccessControll.objects.filter(created_by=user.id)
+    better_return = 50
+    worse_return = 50
+
+    if better_success_controll_count != 0:
+        better_return = (better_success_controll_count / all * 100)
+    
+    if worse_success_controll_count != 0:
+       worse_return = (worse_success_controll_count / all * 100),
+
+    print(better_return)
+    print(worse_return)
+
+    return Response(
+        {
+            "better": better_return,
+            "worse": worse_return,
+        },
+        status=status.HTTP_200_OK,
+    )
