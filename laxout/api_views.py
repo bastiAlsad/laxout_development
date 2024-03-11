@@ -627,22 +627,22 @@ def get_success_data(request):
         models.SuccessControll.objects.filter(created_by=user.id, better=False)
     )
     all = models.SuccessControll.objects.filter(created_by=user.id)
-    better_return = 50
-    worse_return = 50
+    better_return = 0
+    worse_return = 0
 
     if better_success_controll_count != 0:
-        better_return = (better_success_controll_count / all * 100)
+        better_return = better_success_controll_count / len(all) * 100
     
     if worse_success_controll_count != 0:
-       worse_return = (worse_success_controll_count / all * 100),
+       worse_return = worse_success_controll_count / len(all) * 100
 
-    print(better_return)
-    print(worse_return)
+    print("Better return {}".format(better_return))
+    print("Worse return {}".format(worse_return))
 
     return Response(
         {
-            "better": better_return,
-            "worse": worse_return,
+            "better": int(better_return),
+            "worse": int(worse_return),
         },
         status=status.HTTP_200_OK,
     )

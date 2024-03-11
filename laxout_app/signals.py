@@ -40,7 +40,7 @@ uebungen = [
     UebungList(
         looping=True,
         timer=True,
-        execution="Stehe Hüftbreit und gehe leicht in die Knie. Die Arme hängen dabei nach unten, während deine Schultern eine Kreisbewegung machen. Wichtig ist das die Schultern erst so weit wie möglich nach oben gehen und dann langsam abgesenkt werden.",
+        execution="Sitzen Sie aufrecht auf einem Stuhl und nehmen Sie den linken Fuß wie gezeigt auf den rechten Oberschenkel. Versuchen Sie Ihr linkes Knie soweit wie möglich nach unten zu drücken.",
         name="Schulterblattkreisen",
         videoPath="assets/videos/schuterblattkreisen.mp4",
         dauer=30,

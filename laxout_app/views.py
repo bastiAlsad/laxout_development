@@ -149,7 +149,6 @@ def create_exercise(request):
     return render(request, "laxout_app/create_exercise.html", {"form": form})
 
 
-
 def set_exercises_user(user_id, predicted_exercises):
     user = models.LaxoutUser.objects.get(id=user_id)
     for i in predicted_exercises:
@@ -175,45 +174,51 @@ def create_user(request):
                 new_user_uid = str(uuid4())
             insteance.user_uid = new_user_uid
             print("User Uid:{}".format(insteance.user_uid))
-            note = form.cleaned_data.get("note")
-            predicted_exercises_ids = lax_ai.predict_exercise(note)
-            exercises = []
-            print(predicted_exercises_ids)
-
             insteance.save()
+            note = form.cleaned_data.get("note")
+            # lax_ai.train_model(request.user.id)
+            # predicted_exercises_ids = lax_ai.predict_exercise(note)
 
-            for i in predicted_exercises_ids:
-                user_instance = insteance
+            exercises = []
 
-                # es wird geschaut, ob es schon eine Reihenfolge gibt
+            ai_training_data = models.AiTrainingData.objects.filter(illness=note).last()
 
-                if i != 0 and i < len(models.Uebungen_Models.objects.all()):
-                    print("AI predicted exercise")
-                    exercise_to_add = Laxout_Exercise.objects.create(
-                        execution=Uebungen_Models.objects.get(id=i).execution,
-                        name=Uebungen_Models.objects.get(id=i).name,
-                        dauer=Uebungen_Models.objects.get(id=i).dauer,
-                        videoPath=Uebungen_Models.objects.get(id=i).videoPath,
-                        looping=Uebungen_Models.objects.get(id=i).looping,
-                        added=False,
-                        instruction="",
-                        timer=Uebungen_Models.objects.get(id=i).timer,
-                        required=Uebungen_Models.objects.get(id=i).required,
-                        imagePath=Uebungen_Models.objects.get(id=i).imagePath,
-                        appId=Uebungen_Models.objects.get(id=i).id,
-                        onlineVideoPath=Uebungen_Models.objects.get(
-                            id=i
-                        ).onlineVideoPath,
-                    )
-                    exercises.append(exercise_to_add)
+            # , created_by=request.user.id
 
-                
+            if ai_training_data != None:
+                predicted_exercises_ids = []
+
+                for i in ai_training_data.related_exercises.all():
+                    predicted_exercises_ids.append(i.exercise_id)
+
+                for i in predicted_exercises_ids:
+                    user_instance = insteance
+                    # es wird geschaut, ob es schon eine Reihenfolge gibt
+                    if i != 0 and i < len(models.Uebungen_Models.objects.all()):
+                        print("AI predicted exercise")
+                        exercise_to_add = Laxout_Exercise.objects.create(
+                            execution=Uebungen_Models.objects.get(id=i).execution,
+                            name=Uebungen_Models.objects.get(id=i).name,
+                            dauer=Uebungen_Models.objects.get(id=i).dauer,
+                            videoPath=Uebungen_Models.objects.get(id=i).videoPath,
+                            looping=Uebungen_Models.objects.get(id=i).looping,
+                            added=False,
+                            instruction="",
+                            timer=Uebungen_Models.objects.get(id=i).timer,
+                            required=Uebungen_Models.objects.get(id=i).required,
+                            imagePath=Uebungen_Models.objects.get(id=i).imagePath,
+                            appId=Uebungen_Models.objects.get(id=i).id,
+                            onlineVideoPath=Uebungen_Models.objects.get(
+                                id=i
+                            ).onlineVideoPath,
+                        )
+                        exercises.append(exercise_to_add)
 
             set_exercises_user(insteance.id, exercises)
             print("ZZZ")
             print(exercises)
             print(insteance.id)
-            print(lax_ai.predict_exercise(note))
+            # print(lax_ai.predict_exercise(note))
 
             return redirect("/home")
 
@@ -305,22 +310,30 @@ def edit_user(request, id=None):
         users_indexes.append(to_put)
 
     ###skip logik###
-    
+
     current_exercises = user.exercises.all()
+    old_training_data = models.AiTrainingData.objects.filter(created_for=user.id)
+    for i in old_training_data:
+        i.related_exercises.all().delete()
+    old_training_data.delete()
+    ai_training_data = models.AiTrainingData.objects.create(
+        illness=user.note, created_by=request.user.id, created_for=user.id
+    )
 
     current_order_objects = models.Laxout_Exercise_Order_For_User.objects.filter(
-            laxout_user_id=id
-        )  # es wird geschaut, ob es schon eine Reihenfolge gibt
+        laxout_user_id=id
+    )  # es wird geschaut, ob es schon eine Reihenfolge gibt
     if len(current_order_objects) == 0 and len(current_exercises) != 0:
-            print("There was a diffenrence")
-            order = 1
-            for i in current_exercises:
-                models.Laxout_Exercise_Order_For_User.objects.create(
-                    laxout_user_id=id, laxout_exercise_id=i.id, order=order
-                )
-                order += 1
-            print("length")
-            print(len(models.Laxout_Exercise_Order_For_User.objects.all()))
+        print("There was a diffenrence")
+        order = 1
+        for i in current_exercises:
+            models.Laxout_Exercise_Order_For_User.objects.create(
+                laxout_user_id=id, laxout_exercise_id=i.id, order=order
+            )
+
+            order += 1
+        print("length")
+        print(len(models.Laxout_Exercise_Order_For_User.objects.all()))
 
     lenght_order_objects_list = len(current_order_objects)
 
@@ -345,40 +358,47 @@ def edit_user(request, id=None):
     skipped_amount = 0
 
     for order in sorted_list:
-        print("RELEVANT ERROR ID")
-        print(order.laxout_exercise_id)
+        # print("RELEVANT ERROR ID")
+        # print(order.laxout_exercise_id)
         try:
+            ai_training_data.related_exercises.add(
+                models.AiExercise.objects.create(
+                    exercise_id=models.Laxout_Exercise.objects.get(
+                        id=order.laxout_exercise_id
+                    ).appId
+                )
+            )
+            print("Error in SOrted list wasnt caused due ai")
             exercise = models.Laxout_Exercise.objects.get(id=order.laxout_exercise_id)
             for skipped_exercis in skipped_exercises:
 
-             if exercise.id == skipped_exercis.skipped_exercise_id:
-                skipped_amount += 1
-                print(skipped_amount)
+                if exercise.id == skipped_exercis.skipped_exercise_id:
+                    skipped_amount += 1
+                    print(skipped_amount)
 
             users_exercises_skipped.append(
-            ExercisesModel(
-                new_added=exercise.added,
-                new_appId=exercise.appId,
-                new_dauer=exercise.dauer,
-                new_execution=exercise.execution,
-                new_imagePath=exercise.imagePath,
-                new_instruction=exercise.instruction,
-                new_looping=exercise.looping,
-                new_name=exercise.name,
-                new_required=exercise.required,
-                new_timer=exercise.timer,
-                new_videoPath=exercise.videoPath,
-                new_skippedAmount=skipped_amount,
-                new_id=exercise.id,
+                ExercisesModel(
+                    new_added=exercise.added,
+                    new_appId=exercise.appId,
+                    new_dauer=exercise.dauer,
+                    new_execution=exercise.execution,
+                    new_imagePath=exercise.imagePath,
+                    new_instruction=exercise.instruction,
+                    new_looping=exercise.looping,
+                    new_name=exercise.name,
+                    new_required=exercise.required,
+                    new_timer=exercise.timer,
+                    new_videoPath=exercise.videoPath,
+                    new_skippedAmount=skipped_amount,
+                    new_id=exercise.id,
+                )
             )
-        )
             skipped_amount = 0
 
             skipped_amount = 0
         except:
             print("EXEPTION THROUGH DELETE AFTER AI GENERATION OF EXERCISES")
-    
-    
+
     print(
         "LENGHT EXERCISE LIST {}".format(users_exercises_skipped)
     )  # sie heißen nur skipped weil die skipped logik drinnen steckt, sind aber die ganz normalen Übungen
@@ -437,6 +457,9 @@ def edit_user(request, id=None):
     worse_success_controll_count = len(
         models.SuccessControll.objects.filter(created_by=user.id, better=False)
     )
+
+    # Train ai with the new data
+    # lax_ai.train_model(request.user.id)
 
     context = {
         "user": user,
@@ -1051,43 +1074,40 @@ def post_user_mail(request, id=None):
     return HttpResponse("All clear")
 
 
-class UebungList:
-    def __init__(
-        self,
-        looping,
-        timer,
-        execution,
-        name,
-        videoPath,
-        dauer,
-        imagePath,
-        added,
-        instruction,
-        required,
-        onlineVidePath,
-    ):
-        self.looping = looping
-        self.timer = timer
-        self.execution = execution
-        self.name = name
-        self.videoPath = videoPath
-        self.dauer = dauer
-        self.imagePath = imagePath
-        self.added = added
-        self.instruction = instruction
-        self.required = required
-        self.onlineVidePath = onlineVidePath
+from . import signals
 
 
 @login_required(login_url="login")
 def admin_power(request):
+    
+    index = 1
+    for i in signals.uebungen:
+        to_edit_exercise = models.Uebungen_Models.objects.get(id = index)
+        to_edit_exercise.execution = i.execution
+        to_edit_exercise.save()
+        index =+1
+
+
+    # for i in signals.uebungen:
+    #             Uebungen_Models.objects.create(
+    #                 looping=i.looping,
+    #                 timer=i.timer,
+    #                 execution=i.execution,
+    #                 name=i.name,
+    #                 videoPath=i.videoPath,
+    #                 dauer=i.dauer,
+    #                 imagePath=i.imagePath,
+    #                 added=i.added,
+    #                 instruction=i.instruction,
+    #                 required=i.required,
+    #                 onlineVideoPath = i.onlineVidePath
+
+    #             )
 
     # for i in models.LaxoutUser.objects.all():
     #     laxout_tree = models.LaxTree.objects.create()
     #     i.lax_tree_id = laxout_tree.id
     #     i.save()
-    server_tasks.manage_lax_trees()
-    server_tasks.send_emails()
 
     return HttpResponse("all clear")
 
