@@ -1076,16 +1076,530 @@ def post_user_mail(request, id=None):
 
 from . import signals
 
+class UebungList:
+    def __init__(
+        self,
+        looping,
+        timer,
+        execution,
+        name,
+        videoPath,
+        dauer,
+        imagePath,
+        added,
+        instruction,
+        required,
+        onlineVidePath,
+    ):
+        self.looping = looping
+        self.timer = timer
+        self.execution = execution
+        self.name = name
+        self.videoPath = videoPath
+        self.dauer = dauer
+        self.imagePath = imagePath
+        self.added = added
+        self.instruction = instruction
+        self.required = required
+        self.onlineVidePath = onlineVidePath
+
+
+
+additionalUebungList2 = [  # Übnungen Papi
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Führen Sie die Bewegung aus dem Becken heraus aus. Achten Sie dabei auf einen Hüftbreiten Stand und gehen sie leicht in die Knie. Die Hände schlenkern nach vorne",
+        name="Rotation Links und Rechts",
+        videoPath="assets/videos/RotationLinksRechts.mp4",
+        dauer=30,
+        imagePath="assets/images/RotationLinksRechts.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/fsY4x8Hc8Eo",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Bitte positionieren Sie Ihre Hände auf Bauchhöhe, wobei Ihre Arme leicht gebeugt sind. Führen Sie die Bewegung dabei aus dem Becken heraus.",
+        name="Rotation unten",
+        videoPath="assets/videos/RotationUnten.mp4",
+        dauer=30,
+        imagePath="assets/images/RotationUnten.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/z4IpH1yQcAA",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Bitte positionieren Sie Ihre Hände auf Brustbeinhöhe, wobei Ihre Arme leicht gebeugt sind. Führen Sie die Bewegung dabei aus dem Becken heraus.",
+        name="Rotation Mitte",
+        videoPath="assets/videos/RotationMitte.mp4",
+        dauer=30,
+        imagePath="assets/images/RotationMitte.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/HjG3_AO5Rcc",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Bitte positionieren Sie Ihre Hände auf Kinnhöhe, wobei Ihre Arme leicht gebeugt sind. Führen Sie die Bewegung dabei aus dem Becken heraus.",
+        name="Rotation Oben",
+        videoPath="assets/videos/RotationOben.mp4",
+        dauer=30,
+        imagePath="assets/images/RotationOben.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/YjaeN0okaQw",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Führen Sie die dynamische Bewegung aus dem Becken heraus durch, indem Sie abwechselnd die Arme vor und zurück bewegen. Stellen Sie sicher, dass Sie einen hüftbreiten Stand einnehmen und leicht in die Knie gehen.",
+        name="Armpendeln",
+        videoPath="assets/videos/Armpendeln.mp4",
+        dauer=30,
+        imagePath="assets/images/Armpendeln.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/5x_m7IQmsQg",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Nehmen Sie einen knietiefen Stand ein, der hüftbreit ist. Führen Sie die Bewegung aus dem Becken heraus durch, indem Sie Arme und Kopf mitschwingen lassen.",
+        name="Golfschwung",
+        videoPath="assets/videos/Golfschwung.mp4",
+        dauer=30,
+        imagePath="assets/images/Golfschwung.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/H2BSm-wyOQw",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Führen Sie die Bewegung ohne Kraft aus und halten Sie dabei Ihren Nacken locker.",
+        name="Dehnung der Rückenfaszien",
+        videoPath="assets/videos/DehungRueckenfastzien.mp4",
+        dauer=30,
+        imagePath="assets/images/DehnungUFaszien.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/MhbS5T2R5Mg",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Schwingen Sie Ihre Arme gerade und entgegengesetzt zu den Beinen mit. Lassen Sie Ihre Arme dabei locker und führen Sie die Bewegung aus dem Becken heraus durch.",
+        name="Beinpendeln links",
+        videoPath="assets/videos/BeinpendelnL.mp4",
+        dauer=30,
+        imagePath="assets/images/BeinpendelL.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/Fj7pJd6_Tp0",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Schwingen Sie Ihre Arme gerade und entgegengesetzt zu den Beinen mit. Lassen Sie Ihre Arme dabei locker und führen Sie die Bewegung aus dem Becken heraus durch.",
+        name="Beinpendeln rechts",
+        videoPath="assets/videos/BeinpendelnR.mp4",
+        dauer=30,
+        imagePath="assets/images/BeinpendelR.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/knRfu2g_l5M",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Stellen Sie sich in den Einbeinstand, während Ihr Bein diagonal nach vorne geht. Ihre Arme sollten entgegengesetzt und ebenfalls diagonal bewegt werden.",
+        name="Torisionsbewegung rechts",
+        videoPath="assets/videos/TorisionsbewegungR.mp4",
+        dauer=30,
+        imagePath="assets/images/TorisionsbewegungR.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/4EEyTube8hk",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Stellen Sie sich in den Einbeinstand, während Ihr Bein diagonal nach vorne geht. Ihre Arme sollten entgegengesetzt und ebenfalls diagonal bewegt werden.",
+        name="Torisionsbewegung links",
+        videoPath="assets/videos/TorisionsbewegungL.mp4",
+        dauer=30,
+        imagePath="assets/images/TorisionsbewegungL.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/S9Jdugd4z8M",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Führen Sie die Übung aus, indem Sie Ihren Kopf leicht überstrecken und die Bewegung ähnlich einem Holzhacker ausführen. Achten Sie darauf, dass Sie den Armen hinterherschauen und die auf- und ab-Bewegung mit Schwung ausführen.",
+        name="Holzhacker",
+        videoPath="assets/videos/Holzhacker.mp4",
+        dauer=30,
+        imagePath="assets/images/Holzhacker.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/UCiiL9u83CQ",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Führen Sie die Übung aus, indem Sie Ihren Kopf leicht überstrecken und die Bewegung ähnlich einem Holzhacker ausführen. Achten Sie darauf, dass Sie den Armen hinterherschauen und die auf- und ab-Bewegung mit Schwung ausführen.",
+        name="Holzhacker (diagonal)",
+        videoPath="assets/videos/HolzhackerDiago.mp4",
+        dauer=30,
+        imagePath="assets/images/Holzhackerdiago.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/VEos6EHyZ9A",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Nehmen Sie einen hüftbreiten und knietiefen Stand ein. Führen Sie die Bewegung durch, indem Sie Ihren Kopf jeweils bis zur Ferse drehen, während Ihre Arme locker von links nach rechts pendeln.",
+        name="Schultergürtel lockern",
+        videoPath="assets/videos/SchulterguertelLockern.mp4",
+        dauer=30,
+        imagePath="assets/images/SchulterguertelLockern.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/_pvFyvxbYm4",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Beginnen Sie, indem Sie Ihre Handflächen am Oberschenkel positionieren. Führen Sie dann die Arme seitlich über den Kopf nach oben. Atmen Sie während dieser Aufwärtsbewegung ein und während der Abwärtsbewegung aus.",
+        name="Atemübung",
+        videoPath="assets/videos/Atemuebung.mp4",
+        dauer=30,
+        imagePath="assets/images/Atemuebung.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/s7FscrpHqZM",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Nehmen Sie eine Schrittstellung ein und bewegen Sie Ihre Füße nacheinander nach vorne. Schauen Sie Ihrer Hand bei der Übung hinterher.",
+        name="Mobilisation BWS/LWS links",
+        videoPath="assets/videos/MobilisationBurstLWSL.mp4",
+        dauer=30,
+        imagePath="assets/images/MobilisationBWSLWSL.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/v0wmjnWR7Js",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Nehmen Sie eine Schrittstellung ein und bewegen Sie Ihre Füße nacheinander nach vorne. Schauen Sie Ihrer Hand bei der Übung hinterher.",
+        name="Mobilisation BWS/LWS rechts",
+        videoPath="assets/videos/MobilisationBurstLWSR.mp4",
+        dauer=30,
+        imagePath="assets/images/MobilisationBWSLWSR.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/biiXZCYpZNI",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Halten Sie Ihre Arme auf gleicher Höhe und nehmen Sie eine Schrittstellung ein. Führen Sie die Bewegung aus der Hüfte heraus durch und achten Sie darauf, dass ein rechter Winkel im Ellenbogen erhalten bleibt.",
+        name="Ganzkörperkräftigung rechts",
+        videoPath="assets/videos/RumpfkraeftigungR.mp4",
+        dauer=30,
+        imagePath="assets/images/RumpfkraeftigungR.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/jjMiI7J5v0c",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Halten Sie Ihre Arme auf gleicher Höhe und nehmen Sie eine Schrittstellung ein. Führen Sie die Bewegung aus der Hüfte heraus durch und achten Sie darauf, dass ein rechter Winkel im Ellenbogen erhalten bleibt.",
+        name="Ganzkörperkräftigung links",
+        videoPath="assets/videos/RumpfkraeftigungL.mp4",
+        dauer=30,
+        imagePath="assets/images/RumpfkraeftigungL.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/zmOnCBSKBWc",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Halten Sie Ihren Rücken gerade und führen Sie die Bewegung aus dem Becken heraus durch. Bringen Sie dabei die Schulterblätter zusammen nach hinten. Sollten Sie Unwohlsein in der Lendenwirbelsäule verspüren, überspringen Sie bitte diese Übung.",
+        name="Rückenstrecker",
+        videoPath="assets/videos/Rueckenstrecker.mp4",
+        dauer=30,
+        imagePath="assets/images/Rueckenstrecker.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/PerP-mYHVH8",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Stellen Sie sicher, dass Ihre Schulterblätter bei der Bewegung nach hinten zusammengeführt werden und spannen Sie dabei Ihren Bauch an. Die Daumen sollten auf Augenhöhe bleiben , während ein rechter Winkel zwischen Ober- und Unterarm besteht.",
+        name="Butterfly",
+        videoPath="assets/videos/Butterfly.mp4",
+        dauer=30,
+        imagePath="assets/images/Butterfly.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/mwuGTCcd0ss",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Halten Sie Ihren Rücken gerade und richten Sie Ihren Blick zum Boden. Ihre Arme sollten immer leicht gebeugt sein, und Ihre Schulterblätter sich annähern. Die Daumen zeigen dabei zur Brust.",
+        name="Kräftigung BWS",
+        videoPath="assets/videos/BWSKraeftigung.mp4",
+        dauer=30,
+        imagePath="assets/images/BWSKraeftigung.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/7k4chSjI2jk",
+    ),
+    UebungList(
+        looping=False,
+        timer=True,
+        execution="Führen Sie die Bewegung aus, indem Sie Ihre Schulter zum Knie bringen. Positionieren Sie Ihre Hände am Oberschenkel und nehmen Sie einen schulterbreiten, knietiefen Stand ein.",
+        name="Schultern lockern",
+        videoPath="assets/videos/Schulterlockerung.mp4",
+        dauer=30,
+        imagePath="assets/images/Schulterguertellockerung.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="https://youtu.be/-TfWd6SkuPo",
+    ),
+]
+
+
+
+uebungen_to_append00 = [] # Nacken
+uebungen_to_append01 = []
+uebungen_to_append02 = []
+uebungen_to_append07 = []
+uebungen_to_append10 = [182, 183, 190, 191, 192, 199, 201]#Schultern
+uebungen_to_append11 = [199]
+uebungen_to_append12 = []
+uebungen_to_append17 = []
+uebungen_to_append20 = [179, 180, 181, 182, 183, 184, 186, 187, 188, 189, 190, 191, 194, 195 ]#Mittlerer Rücken
+uebungen_to_append21 = [196, 197, 198, 199, 200]
+uebungen_to_append22 = []
+uebungen_to_append27 = []
+uebungen_to_append30 = [179, 184, 190, 191, 193]#Bauch Rumpf
+uebungen_to_append31 = [196, 197, 199]
+uebungen_to_append32 = []
+uebungen_to_append37 = []
+uebungen_to_append40 = [179, 183, 184, 186, 187, 188, 189, 190, 191, 194, 195]#Unterer Rücken
+uebungen_to_append41 = [198]
+uebungen_to_append42 = [185]
+uebungen_to_append47 = []
+uebungen_to_append50 = []#Beine Füße
+uebungen_to_append51 = []
+uebungen_to_append52 = []
+uebungen_to_append57 = []
+uebungen_to_append60 = [183, 184]# Arme Hände
+uebungen_to_append61 = []
+uebungen_to_append62 = []
+uebungen_to_append67 = []
+
+def inizialize_first_second():
+    for i in uebungen_to_append00:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 0))
+        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.save()
+    for i in uebungen_to_append01:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 0))
+        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.save()
+    for i in uebungen_to_append02:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 0))
+        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.save()
+    for i in uebungen_to_append07:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.save()
+    for i in uebungen_to_append10:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 1))
+        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.save()
+    for i in uebungen_to_append11:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 1))
+        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.save()
+    for i in uebungen_to_append12:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 1))
+        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.save()
+    for i in uebungen_to_append17:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 1))
+        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.save()
+    for i in uebungen_to_append20:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 2))
+        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.save()
+    for i in uebungen_to_append21:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 2))
+        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.save()
+    for i in uebungen_to_append22:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 2))
+        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.save()
+    for i in uebungen_to_append27:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 2))
+        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.save()
+    for i in uebungen_to_append30:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 3))
+        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.save()
+    for i in uebungen_to_append31:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 3))
+        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.save()
+    for i in uebungen_to_append32:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 3))
+        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.save()
+    for i in uebungen_to_append37:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 3))
+        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.save()
+    for i in uebungen_to_append40:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 4))
+        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.save()
+    for i in uebungen_to_append41:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 4))
+        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.save()
+    for i in uebungen_to_append42:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 4))
+        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.save()
+    for i in uebungen_to_append47:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 4))
+        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.save()
+    for i in uebungen_to_append50:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 5))
+        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.save()
+    for i in uebungen_to_append51:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 5))
+        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.save()
+    for i in uebungen_to_append52:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 5))
+        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.save()
+    for i in uebungen_to_append57:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 5))
+        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.save()
+    for i in uebungen_to_append60:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 6))
+        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.save()
+    for i in uebungen_to_append61:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 6))
+        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.save()
+    for i in uebungen_to_append62:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 6))
+        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.save()
+    for i in uebungen_to_append67:
+        instance_exercise = models.Uebungen_Models.objects.get(id=i)
+        instance_exercise.first.add(models.First.objects.create(first = 6))
+        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.save()
+
 
 @login_required(login_url="login")
 def admin_power(request):
-    
-    index = 1
-    for i in signals.uebungen:
-        to_edit_exercise = models.Uebungen_Models.objects.get(id = index)
-        to_edit_exercise.execution = i.execution
-        to_edit_exercise.save()
-        index =+1
+    for i in additionalUebungList2:
+                Uebungen_Models.objects.create(
+                    looping=i.looping,
+                    timer=i.timer,
+                    execution=i.execution,
+                    name=i.name,
+                    videoPath=i.videoPath,
+                    dauer=i.dauer,
+                    imagePath=i.imagePath,
+                    added=i.added,
+                    instruction=i.instruction,
+                    required=i.required,
+                    onlineVideoPath = i.onlineVidePath
+
+                )
+    inizialize_first_second()
+
 
 
     # for i in signals.uebungen:
