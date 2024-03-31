@@ -1,5 +1,9 @@
 from django.shortcuts import render
 
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
 # Create your views here.
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
@@ -158,6 +162,24 @@ def set_exercises_user(user_id, predicted_exercises):
     print(user.exercises.all())
 
 
+def send_user_welcome_email(email, user_uid):
+    sender = "laxoutapp@gmail.com"
+    password = "aliy rfnz mtmx xwif"
+    subject = "Herzlich Willkommen bei Laxout"
+    link = f"https://dashboardlaxout.eu.pythonanywhere.com/laxout/show-login-code/{user_uid}"
+    body = f"Hallo, \nschön dass sie sich für Laxout entschieden haben ! \nSie erhalten Ihr individuelles Workout, indem Sie die App über folgenden Link herunterladen:\n{link} \nAußerdem benötigt Laxout während des Anmeldeprozesses außerdem Zugriff auf Ihre Zwischenablage des Smartphones.\n \nViel Erfolg wünscht Ihnen Ihr Laxout-Team "
+    reciever = email
+    message = MIMEMultipart()
+    message["From"] = sender
+    message["Subject"] = subject
+    message.attach(MIMEText(body, "plain"))
+    server = smtplib.SMTP("smtp.gmail.com", 587)
+    server.starttls()
+    server.login(sender, password)
+    text = message.as_string()
+    server.sendmail(sender, reciever, text)
+    server.quit()
+
 @login_required(login_url="login")
 def create_user(request):
     active_admin = models.UserProfile.objects.get(user=request.user)
@@ -175,11 +197,18 @@ def create_user(request):
             insteance.user_uid = new_user_uid
             print("User Uid:{}".format(insteance.user_uid))
             insteance.save()
-            note = form.cleaned_data.get("note")
+            email = form.cleaned_data.get("email_adress")
+            print("Sfjashfkashfkjashfkjs")
+            note = request.POST.get("selected_illness")
+            if form.cleaned_data.get("note") is "":
+                print("Note was None")
+                insteance.note = note
+            insteance.save()
             # lax_ai.train_model(request.user.id)
             # predicted_exercises_ids = lax_ai.predict_exercise(note)
 
             exercises = []
+            print(f"note{note}")
 
             ai_training_data = models.AiTrainingData.objects.filter(illness=note).last()
 
@@ -219,16 +248,32 @@ def create_user(request):
             print(exercises)
             print(insteance.id)
             # print(lax_ai.predict_exercise(note))
-
+            send_user_welcome_email(email, insteance.user_uid)
             return redirect("/home")
 
     else:
+        ilness_list_obj = models.AiTrainingData.objects.all()
+        ilness_list = []
+        for i in ilness_list_obj:
+            if i.illness not in ilness_list:
+                filterd_objects = ilness_list_obj.filter(illness=i.illness)
+                item = filterd_objects.last()
+                print(item.illness)
+                ilness_list.append(item.illness)
+
+        # for i in ilness_list_obj:
+        #     ilness_list.append(i.illness)
         form = UserForm()
         return render(
             request,
             "laxout_app/create_user.html",
-            {"form": form, "is_superuser": active_admin_user.is_superuser},
+            {
+                "form": form,
+                "is_superuser": active_admin_user.is_superuser,
+                "illness_list": ilness_list,
+            },
         )
+
 
 
 @login_required(login_url="login")
@@ -312,13 +357,14 @@ def edit_user(request, id=None):
     ###skip logik###
 
     current_exercises = user.exercises.all()
-    old_training_data = models.AiTrainingData.objects.filter(created_for=user.id)
-    for i in old_training_data:
-        i.related_exercises.all().delete()
-    old_training_data.delete()
-    ai_training_data = models.AiTrainingData.objects.create(
-        illness=user.note, created_by=request.user.id, created_for=user.id
-    )
+    if user.note != "":
+        old_training_data = models.AiTrainingData.objects.filter(created_for=user.id)
+        for i in old_training_data:
+            i.related_exercises.all().delete()
+        old_training_data.delete()
+        ai_training_data = models.AiTrainingData.objects.create(
+            illness=user.note, created_by=request.user.id, created_for=user.id
+        )
 
     current_order_objects = models.Laxout_Exercise_Order_For_User.objects.filter(
         laxout_user_id=id
@@ -1076,6 +1122,7 @@ def post_user_mail(request, id=None):
 
 from . import signals
 
+
 class UebungList:
     def __init__(
         self,
@@ -1102,7 +1149,6 @@ class UebungList:
         self.instruction = instruction
         self.required = required
         self.onlineVidePath = onlineVidePath
-
 
 
 additionalUebungList2 = [  # Übnungen Papi
@@ -1408,199 +1454,224 @@ additionalUebungList2 = [  # Übnungen Papi
 ]
 
 
-
-uebungen_to_append00 = [] # Nacken
+uebungen_to_append00 = []  # Nacken
 uebungen_to_append01 = []
 uebungen_to_append02 = []
 uebungen_to_append07 = []
-uebungen_to_append10 = [182, 183, 190, 191, 192, 199, 201]#Schultern
+uebungen_to_append10 = [182, 183, 190, 191, 192, 199, 201]  # Schultern
 uebungen_to_append11 = [199]
 uebungen_to_append12 = []
 uebungen_to_append17 = []
-uebungen_to_append20 = [179, 180, 181, 182, 183, 184, 186, 187, 188, 189, 190, 191, 194, 195 ]#Mittlerer Rücken
+uebungen_to_append20 = [
+    179,
+    180,
+    181,
+    182,
+    183,
+    184,
+    186,
+    187,
+    188,
+    189,
+    190,
+    191,
+    194,
+    195,
+]  # Mittlerer Rücken
 uebungen_to_append21 = [196, 197, 198, 199, 200]
 uebungen_to_append22 = []
 uebungen_to_append27 = []
-uebungen_to_append30 = [179, 184, 190, 191, 193]#Bauch Rumpf
+uebungen_to_append30 = [179, 184, 190, 191, 193]  # Bauch Rumpf
 uebungen_to_append31 = [196, 197, 199]
 uebungen_to_append32 = []
 uebungen_to_append37 = []
-uebungen_to_append40 = [179, 183, 184, 186, 187, 188, 189, 190, 191, 194, 195]#Unterer Rücken
+uebungen_to_append40 = [
+    179,
+    183,
+    184,
+    186,
+    187,
+    188,
+    189,
+    190,
+    191,
+    194,
+    195,
+]  # Unterer Rücken
 uebungen_to_append41 = [198]
 uebungen_to_append42 = [185]
 uebungen_to_append47 = []
-uebungen_to_append50 = []#Beine Füße
+uebungen_to_append50 = []  # Beine Füße
 uebungen_to_append51 = []
 uebungen_to_append52 = []
 uebungen_to_append57 = []
-uebungen_to_append60 = [183, 184]# Arme Hände
+uebungen_to_append60 = [183, 184]  # Arme Hände
 uebungen_to_append61 = []
 uebungen_to_append62 = []
 uebungen_to_append67 = []
 
+
 def inizialize_first_second():
     for i in uebungen_to_append00:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 0))
-        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.first.add(models.First.objects.create(first=0))
+        instance_exercise.second.add(models.Second.objects.create(second=0))
         instance_exercise.save()
     for i in uebungen_to_append01:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 0))
-        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.first.add(models.First.objects.create(first=0))
+        instance_exercise.second.add(models.Second.objects.create(second=1))
         instance_exercise.save()
     for i in uebungen_to_append02:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 0))
-        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.first.add(models.First.objects.create(first=0))
+        instance_exercise.second.add(models.Second.objects.create(second=2))
         instance_exercise.save()
     for i in uebungen_to_append07:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.second.add(models.Second.objects.create(second = 7))
-        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.second.add(models.Second.objects.create(second=7))
+        instance_exercise.second.add(models.Second.objects.create(second=7))
         instance_exercise.save()
     for i in uebungen_to_append10:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 1))
-        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.first.add(models.First.objects.create(first=1))
+        instance_exercise.second.add(models.Second.objects.create(second=0))
         instance_exercise.save()
     for i in uebungen_to_append11:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 1))
-        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.first.add(models.First.objects.create(first=1))
+        instance_exercise.second.add(models.Second.objects.create(second=1))
         instance_exercise.save()
     for i in uebungen_to_append12:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 1))
-        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.first.add(models.First.objects.create(first=1))
+        instance_exercise.second.add(models.Second.objects.create(second=2))
         instance_exercise.save()
     for i in uebungen_to_append17:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 1))
-        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.first.add(models.First.objects.create(first=1))
+        instance_exercise.second.add(models.Second.objects.create(second=7))
         instance_exercise.save()
     for i in uebungen_to_append20:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 2))
-        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.first.add(models.First.objects.create(first=2))
+        instance_exercise.second.add(models.Second.objects.create(second=0))
         instance_exercise.save()
     for i in uebungen_to_append21:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 2))
-        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.first.add(models.First.objects.create(first=2))
+        instance_exercise.second.add(models.Second.objects.create(second=1))
         instance_exercise.save()
     for i in uebungen_to_append22:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 2))
-        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.first.add(models.First.objects.create(first=2))
+        instance_exercise.second.add(models.Second.objects.create(second=2))
         instance_exercise.save()
     for i in uebungen_to_append27:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 2))
-        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.first.add(models.First.objects.create(first=2))
+        instance_exercise.second.add(models.Second.objects.create(second=7))
         instance_exercise.save()
     for i in uebungen_to_append30:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 3))
-        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.first.add(models.First.objects.create(first=3))
+        instance_exercise.second.add(models.Second.objects.create(second=0))
         instance_exercise.save()
     for i in uebungen_to_append31:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 3))
-        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.first.add(models.First.objects.create(first=3))
+        instance_exercise.second.add(models.Second.objects.create(second=1))
         instance_exercise.save()
     for i in uebungen_to_append32:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 3))
-        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.first.add(models.First.objects.create(first=3))
+        instance_exercise.second.add(models.Second.objects.create(second=2))
         instance_exercise.save()
     for i in uebungen_to_append37:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 3))
-        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.first.add(models.First.objects.create(first=3))
+        instance_exercise.second.add(models.Second.objects.create(second=7))
         instance_exercise.save()
     for i in uebungen_to_append40:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 4))
-        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.first.add(models.First.objects.create(first=4))
+        instance_exercise.second.add(models.Second.objects.create(second=0))
         instance_exercise.save()
     for i in uebungen_to_append41:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 4))
-        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.first.add(models.First.objects.create(first=4))
+        instance_exercise.second.add(models.Second.objects.create(second=1))
         instance_exercise.save()
     for i in uebungen_to_append42:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 4))
-        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.first.add(models.First.objects.create(first=4))
+        instance_exercise.second.add(models.Second.objects.create(second=2))
         instance_exercise.save()
     for i in uebungen_to_append47:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 4))
-        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.first.add(models.First.objects.create(first=4))
+        instance_exercise.second.add(models.Second.objects.create(second=7))
         instance_exercise.save()
     for i in uebungen_to_append50:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 5))
-        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.first.add(models.First.objects.create(first=5))
+        instance_exercise.second.add(models.Second.objects.create(second=0))
         instance_exercise.save()
     for i in uebungen_to_append51:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 5))
-        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.first.add(models.First.objects.create(first=5))
+        instance_exercise.second.add(models.Second.objects.create(second=1))
         instance_exercise.save()
     for i in uebungen_to_append52:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 5))
-        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.first.add(models.First.objects.create(first=5))
+        instance_exercise.second.add(models.Second.objects.create(second=2))
         instance_exercise.save()
     for i in uebungen_to_append57:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 5))
-        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.first.add(models.First.objects.create(first=5))
+        instance_exercise.second.add(models.Second.objects.create(second=7))
         instance_exercise.save()
     for i in uebungen_to_append60:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 6))
-        instance_exercise.second.add(models.Second.objects.create(second = 0))
+        instance_exercise.first.add(models.First.objects.create(first=6))
+        instance_exercise.second.add(models.Second.objects.create(second=0))
         instance_exercise.save()
     for i in uebungen_to_append61:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 6))
-        instance_exercise.second.add(models.Second.objects.create(second = 1))
+        instance_exercise.first.add(models.First.objects.create(first=6))
+        instance_exercise.second.add(models.Second.objects.create(second=1))
         instance_exercise.save()
     for i in uebungen_to_append62:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 6))
-        instance_exercise.second.add(models.Second.objects.create(second = 2))
+        instance_exercise.first.add(models.First.objects.create(first=6))
+        instance_exercise.second.add(models.Second.objects.create(second=2))
         instance_exercise.save()
     for i in uebungen_to_append67:
         instance_exercise = models.Uebungen_Models.objects.get(id=i)
-        instance_exercise.first.add(models.First.objects.create(first = 6))
-        instance_exercise.second.add(models.Second.objects.create(second = 7))
+        instance_exercise.first.add(models.First.objects.create(first=6))
+        instance_exercise.second.add(models.Second.objects.create(second=7))
         instance_exercise.save()
 
 
 @login_required(login_url="login")
 def admin_power(request):
-    for i in additionalUebungList2:
-                Uebungen_Models.objects.create(
-                    looping=i.looping,
-                    timer=i.timer,
-                    execution=i.execution,
-                    name=i.name,
-                    videoPath=i.videoPath,
-                    dauer=i.dauer,
-                    imagePath=i.imagePath,
-                    added=i.added,
-                    instruction=i.instruction,
-                    required=i.required,
-                    onlineVideoPath = i.onlineVidePath
+    # for i in additionalUebungList2:
+    #             Uebungen_Models.objects.create(
+    #                 looping=i.looping,
+    #                 timer=i.timer,
+    #                 execution=i.execution,
+    #                 name=i.name,
+    #                 videoPath=i.videoPath,
+    #                 dauer=i.dauer,
+    #                 imagePath=i.imagePath,
+    #                 added=i.added,
+    #                 instruction=i.instruction,
+    #                 required=i.required,
+    #                 onlineVideoPath = i.onlineVidePath
 
-                )
-    inizialize_first_second()
-
-
+    #             )
+    # inizialize_first_second()
 
     # for i in signals.uebungen:
     #             Uebungen_Models.objects.create(
@@ -1700,3 +1771,43 @@ def set_instruction_int(request):
         print(Exception)
         print("Kacke")
         return HttpResponse("ERROR INTERNAL 4_0_4")
+
+
+@login_required(login_url="login")
+def chats(request):
+    users = models.LaxoutUser.objects.filter(created_by=request.user.id)
+
+    return render(request, "laxout_app/chats.html", {"users": users})
+
+
+@login_required(login_url="login")
+def personal_chat(request, id=None):
+    user = models.LaxoutUser.objects.get(id=id)
+    personal_chat = models.ChatDataModel.objects.filter(created_by=id)
+    print(f"Länge des Chats{len(personal_chat)}")
+    return render(
+        request,
+        "laxout_app/personal-chat.html",
+        {"user": user, "personal_chat": personal_chat},
+    )
+
+
+@login_required(login_url="login")
+def post_message(request, id=None):
+    user = models.LaxoutUser.objects.get(id=id)
+    message = request.POST.get("message")
+    is_sender = request.POST.get("is_sender")
+    user.user_has_seen_chat = False
+    user.save()
+    models.ChatDataModel.objects.create(
+        message=message, is_sender=False, created_by=id, admin_id=request.user.id
+    )
+    return HttpResponse("OK")
+
+
+@login_required(login_url="login")
+def admin_has_seen(request, id=None):
+    user = models.LaxoutUser.objects.get(id=id)
+    user.admin_has_seen_chat = True
+    user.save()
+    return HttpResponse("OK")

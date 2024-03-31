@@ -51,6 +51,8 @@ class IndexesPhysios(models.Model):
     nine_ten = models.IntegerField(default= 0)
 
 class LaxoutUserPains(models.Model):
+    def __str__(self):
+        return f"{self.created_by}'s Pains"
     for_month = models.IntegerField(default=datetime.now().month)
     created_by = models.IntegerField(default=None, blank=True)
     for_year = models.IntegerField(default=datetime.now().year)
@@ -116,6 +118,8 @@ class LaxoutUser(models.Model):
     water_drops_count = models.IntegerField(default = 0)
     instruction_in_int = models.IntegerField(default = 0)
     email_adress = models.CharField(default = "", max_length =40)
+    admin_has_seen_chat = models.BooleanField(default = True)
+    user_has_seen_chat = models.BooleanField(default = True)
     
 
 class UserProfile(models.Model):
@@ -169,3 +173,9 @@ class AiTrainingData(models.Model):
     related_exercises = models.ManyToManyField(AiExercise)
     created_by = models.IntegerField(default = 0) # Physio Id
     created_for = models.IntegerField(default =0) # LaxoutUserId 
+
+class ChatDataModel(models.Model):
+    is_sender = models.BooleanField(default = False)
+    message = models.CharField(max_length = 2003000000, default = "")
+    created_by = models.IntegerField(default = 0)
+    admin_id = models.IntegerField(default = 0)

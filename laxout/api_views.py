@@ -442,6 +442,7 @@ def get_individual_indexes(request):
     laxout_user_pains_instances = models.LaxoutUserPains.objects.filter(
         created_by=user_instance.id
     )
+    print("sfjhkasjfhasf")
     print(len(laxout_user_pains_instances))
     index_labels = []
     month_year_instances = []
@@ -452,58 +453,94 @@ def get_individual_indexes(request):
 
     for she in laxout_user_pains_instances:
         append_she = True
+        print(she.for_week)
+        print(f"month_year_instances{month_year_instances}")
         for i in month_year_instances:
-            if i.for_month == she.for_month and i.for_year == she.for_year:
+            if (
+                i.for_month == she.for_month
+                and i.for_year == she.for_year
+                and i.for_week == she.for_week
+            ):
                 append_she = False
 
         if append_she:
             index_labels.append(she.for_month)
             month_year_instances.append(she)
 
+    average_pain_list_user = []
+
     for i in month_year_instances:
         current_pains = models.LaxoutUserPains.objects.filter(
-            created_by=i.created_by, for_month=i.for_month, for_year=i.for_year
+            created_by=i.created_by,
+            for_month=i.for_month,
+            for_year=i.for_year,
+            for_week=i.for_week,
         )
-        six_eight = 0
-        zero_two = 0
-        three_five = 0
-        nine_ten = 0
-        for ii in current_pains:
-            six_eight = six_eight + ii.six_eight
-            zero_two = zero_two + ii.zero_two
-            three_five = three_five + ii.theree_five
-            nine_ten = nine_ten + ii.nine_ten
-        zero_two_pain.append(zero_two)
-        theree_five_pain.append(three_five)
-        six_eight_pain.append(six_eight)
-        nine_ten_pain.append(nine_ten)
+        print(f"length current pains: {len(current_pains)}")
 
-    average_pain_list_user = []
-    print(zero_two_pain)
-    print(theree_five_pain)
-    print(six_eight_pain)
-    print(nine_ten_pain)
-    for i in range(len(zero_two_pain)):
-        average_pain = 0
-        to_devide = 0
-        average_pain += zero_two_pain[i] * 2
-        if zero_two_pain[i] != 0:
-            to_devide += zero_two_pain[i]
-        average_pain += theree_five_pain[i] * 4
-        if theree_five_pain[i] != 0:
-            to_devide += theree_five_pain[i]
-        average_pain += six_eight_pain[i] * 7
-        if six_eight_pain[i] != 0:
-            to_devide += six_eight_pain[i]
-        average_pain += nine_ten_pain[i] * 9.5
-        if nine_ten_pain[i] != 0:
-            to_devide += nine_ten_pain[i]
-        if to_devide == 0:
-            to_devide = 1
-        print(f"averagepain{average_pain}")
-        print(f"tp devide{to_devide}")
-        average_pain = average_pain / to_devide
+        zero_two = 0.0
+        theree_five = 0.0
+        six_eight = 0.0
+        nine_ten = 0.0
+
+        zero_two_count = 0.0
+        theree_five_count = 0.0
+        six_eight_count = 0.0
+        nine_ten_count = 0.0
+
+        for ii in current_pains:
+            print(ii.six_eight)
+            print(ii.zero_two)
+            print(ii.theree_five)
+            print(ii.nine_ten)
+            if ii.zero_two != 0:
+                zero_two += 1
+                zero_two_count += 1
+            if ii.theree_five != 0:
+                theree_five += 4
+                theree_five_count += 1
+            if ii.six_eight != 0:
+                six_eight += 7
+                six_eight_count += 1
+            if ii.nine_ten != 0:
+                nine_ten += 9.5
+                nine_ten_count += 1
+
+        if zero_two_count == 0:
+            zero_two_count = 1
+        if theree_five_count == 0:
+            theree_five_count = 1
+        if six_eight_count == 0:
+            six_eight_count = 1
+        if nine_ten_count == 0:
+            nine_ten_count = 1
+
+        print("SJfhaskjhfjkasfkjasf")
+        zero_two = zero_two / zero_two_count
+        theree_five = theree_five / theree_five_count
+        six_eight = six_eight / six_eight_count
+        nine_ten = nine_ten / nine_ten_count
+
+        devide = 0
+
+        if zero_two != 0:
+            devide += 1
+        if theree_five != 0:
+            devide += 1
+        if six_eight != 0:
+            devide += 1
+        if nine_ten != 0:
+            devide += 1
+        average_pain = (zero_two + theree_five + six_eight + nine_ten) / devide
         average_pain_list_user.append(average_pain)
+
+        print(six_eight)
+        print(zero_two)
+        print(theree_five)
+        print(nine_ten)
+        print(average_pain)
+
+    print(f"average_pain_list{average_pain_list_user}")
 
     return Response({"user_pains": average_pain_list_user})
 
@@ -632,9 +669,9 @@ def get_success_data(request):
 
     if better_success_controll_count != 0:
         better_return = better_success_controll_count / len(all) * 100
-    
+
     if worse_success_controll_count != 0:
-       worse_return = worse_success_controll_count / len(all) * 100
+        worse_return = worse_success_controll_count / len(all) * 100
 
     print("Better return {}".format(better_return))
     print("Worse return {}".format(worse_return))
@@ -646,3 +683,63 @@ def get_success_data(request):
         },
         status=status.HTTP_200_OK,
     )
+
+
+@api_view(["POST"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def post_message_chat(request):
+    decoded_user_uid = unquote(request.headers.get("user_uid"))
+    if decoded_user_uid == None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    try:
+        user = models.LaxoutUser.objects.get(user_uid=decoded_user_uid)
+    except:
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    user.admin_has_seen_chat = False
+    user.save()
+    message = request.data["message"]
+    print("message")
+    print(message)
+    is_sender = request.data["is_sender"]
+
+    models.ChatDataModel.objects.create(
+        message=message,
+        is_sender=is_sender,
+        created_by=user.id,
+        admin_id=user.created_by.id,
+    )
+    return Response(status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_messages(request):
+    decoded_user_uid = unquote(request.headers.get("user_uid"))
+    if decoded_user_uid == None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    try:
+        user = models.LaxoutUser.objects.get(user_uid=decoded_user_uid)
+    except:
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    user.user_has_seen_chat = True
+    user.save()
+    messages = models.ChatDataModel.objects.filter(created_by=user.id)
+    serializer = serializers.LaxoutChatSerializer(messages, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def check_if_user_has_new_messages(request):
+    decoded_user_uid = unquote(request.headers.get("user_uid"))
+    if decoded_user_uid == None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    try:
+        user = models.LaxoutUser.objects.get(user_uid=decoded_user_uid)
+    except:
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    new_message = user.user_has_seen_chat
+    return Response({"new_message": new_message}, status=status.HTTP_200_OK)

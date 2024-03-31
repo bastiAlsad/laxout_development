@@ -147,7 +147,7 @@ function showConfirmationModal() {
     modalContent.style.textAlign = "center";
     
     var message = document.createElement("p");
-    message.textContent = "Wenn Sie auf Ok drücken, bekommen Sie den Zugangscode für die App in die Zwischenablage kopiert.";
+    message.textContent = "Laxout benötigt Zugriff auf Ihre Zwischenablage.";
     message.style.fontSize = "30px";
     modalContent.appendChild(message);
     
@@ -190,6 +190,3 @@ function copyToClipboard(value) {
     });
 </script>
 
-
-cd
-mysqldump -u dashboardlaxout -h dashboardlaxout.mysql.pythonanywhere-services.com --set-gtid-purged=OFF --no-tablespaces 'dashboardlaxout$database2'  > db-backup.sql

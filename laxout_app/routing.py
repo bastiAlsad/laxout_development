@@ -39,4 +39,12 @@ urlpatterns = [
     path("edit-user/post-user-instruction-int/", views.set_instruction_int, name="edit-user"),
     path("home/edit-user/post-user-mail/<int:id>/", views.post_user_mail, name="edit-user"),
     path("edit-user/post-user-mail/<int:id>/", views.post_user_mail, name="edit-user"),
+    path("chats/", views.chats, name="chats"),
+    path("home/chats", views.chats, name="chats"),
+    path("home/chats/<int:id>/", views.personal_chat, name="personal-chat"),
+    path("chats/<int:id>/", views.personal_chat, name="personal-chat"), 
+    path("home/chats/<int:id>/sendmessage/", views.post_message, name="personal-chat"),
+    path("chats/<int:id>/sendmessage/", views.post_message, name="personal-chat"),
+    path("home/chats/<int:id>/set-admin-has-seen/", views.admin_has_seen, name="personal-chat"),
+    path("chats/<int:id>/set-admin-has-seen/", views.admin_has_seen, name="personal-chat"),    
 ]

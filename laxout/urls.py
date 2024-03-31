@@ -45,4 +45,7 @@ urlpatterns = [
     re_path("getcondition", api_views.get_condition),
     re_path("postsuccesscontroll", api_views.post_success_controll),
     re_path("getsuccessdata", api_views.get_success_data),
+    re_path("postmessage", api_views.post_message_chat),
+    re_path("getmessages", api_views.get_messages),
+    re_path("checkmessageuser", api_views.check_if_user_has_new_messages),
 ]

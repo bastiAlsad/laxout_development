@@ -112,6 +112,23 @@
             border-radius: 30px;
         }
 
+        .row-basti-chats {
+            justify-content: start;
+            flex-direction: row;
+            align-items: center;
+            display: flex;
+        }
+
+        .row-basti-chats.active {
+            justify-content: start;
+            flex-direction: row;
+            align-items: center;
+            display: flex;
+            background-color: rgba(230, 242, 255, 0.245);
+            height: 40px;
+            border-radius: 30px;
+        }
+
         .row-basti-analyse {
             justify-content: start;
             flex-direction: row;
@@ -501,7 +518,7 @@
             Dashboard
         </h4>
 
-        <div style="margin-right: 0px;">
+        <div style="margin-right: 0px; margin-top: 20px;">
 
             <div class="row-basti-home" style="padding-left: 10px; margin-bottom: 25px;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house"
@@ -542,6 +559,13 @@
                 </svg>
                 <div style="padding-left: 20px;">Einstellungen</div>
             </div>
+            <div class="row-basti-chats" style="padding-left: 10px; margin-bottom: 25px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left" viewBox="0 0 16 16">
+                    <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                  </svg>
+                
+                  <a href="/chats/" style="padding-left: 20px; color: white; text-decoration: none;">Chat</a>
+            </div>
             {%block additionalNavItem%}
             {%endblock additionalNavItem%}
             <div class="row-basti"
@@ -555,6 +579,7 @@
                 </svg>
                 <div style="padding-left: 20px; color: rgb(44, 67, 81);">Einstellungend</div>
             </div>
+            
 
            
 
@@ -615,6 +640,9 @@
     }
     if (currentPath === '/settings/' || currentPath === '/home/settings') {
         document.querySelector('.row-basti-settings').classList.add('active');
+    }
+    if (currentPath.startsWith('/chats/')) {
+        document.querySelector('.row-basti-chats').classList.add('active');
     }
     if (currentPath === '/new-exercise/' || currentPath === '/home/new-exercise') {
         document.querySelector('.row-basti-addexercise').classList.add('active');
