@@ -2387,7 +2387,7 @@ uebungen_to_append07 = [
 
 # Schultern
 
-uebungen_to_append10 = [1, 29, 30, 31, 41, 43, 44, 45, 46, 47, 48, 49, 67]
+uebungen_to_append10 = [1, 29, 30, 31, 41, 43, 44, 45, 46, 47, 48, 49, 67, 182, 183, 190, 191, 192, 199, 201]
 uebungen_to_append11 = [
     26,
     29,
@@ -2403,7 +2403,7 @@ uebungen_to_append11 = [
     68,
     69,
     70,
-    170
+    170,199
 ]
 uebungen_to_append12 = [6, 7, 8, 9, 32, 33, 34, 35, 36, 171,]
 uebungen_to_append17 = [
@@ -2448,8 +2448,21 @@ uebungen_to_append17 = [
 ]
 
 # mittlerer RÜcken
-uebungen_to_append20 = [14, 117, 18, 105, 106, 107, 108, 109, 110]
-uebungen_to_append21 = [38, 96, 10, 103]
+uebungen_to_append20 = [14, 117, 18, 105, 106, 107, 108, 109, 110, 179,
+    180,
+    181,
+    182,
+    183,
+    184,
+    186,
+    187,
+    188,
+    189,
+    190,
+    191,
+    194,
+    195,]
+uebungen_to_append21 = [38, 96, 10, 103, 196, 197, 198, 199, 200]
 uebungen_to_append22 = [15, 16, 94, 95]
 uebungen_to_append27 = [
     15,
@@ -2472,7 +2485,7 @@ uebungen_to_append27 = [
 ]
 
 # bauch
-uebungen_to_append30 = []
+uebungen_to_append30 = [179, 184, 190, 191, 193]
 uebungen_to_append31 = [
     66,
     97,
@@ -2488,6 +2501,7 @@ uebungen_to_append31 = [
     127,
     128,
     141,
+    196, 197, 199
 ]
 uebungen_to_append32 = [
     92,
@@ -2550,6 +2564,17 @@ uebungen_to_append40 = [
     158,
     165,
     166,
+    179,
+    183,
+    184,
+    186,
+    187,
+    188,
+    189,
+    190,
+    191,
+    194,
+    195,
 ]
 uebungen_to_append41 = [
     97,
@@ -2569,7 +2594,7 @@ uebungen_to_append41 = [
     141,
     158,
     165,
-    166,
+    166,198
 ]
 uebungen_to_append42 = [
     12,
@@ -2589,7 +2614,7 @@ uebungen_to_append42 = [
     133,
     134,
     148,
-    149,
+    149,185
 ]
 uebungen_to_append47 = [
     12,
@@ -2728,6 +2753,7 @@ uebungen_to_append60 = [
     90,
     91,
     111,
+    183, 184
 ]
 
 uebungen_to_append61 = [64, 65, 66, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77,175]

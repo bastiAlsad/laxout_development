@@ -162,6 +162,7 @@ def set_exercises_user(user_id, predicted_exercises):
     print(user.exercises.all())
 
 
+
 def send_user_welcome_email(email, user_uid):
     sender = "laxoutapp@gmail.com"
     password = "aliy rfnz mtmx xwif"
@@ -1152,304 +1153,122 @@ class UebungList:
 
 
 additionalUebungList2 = [  # Übnungen Papi
-    UebungList(
+    UebungList(# 202
         looping=False,
         timer=True,
-        execution="Führen Sie die Bewegung aus dem Becken heraus aus. Achten Sie dabei auf einen Hüftbreiten Stand und gehen sie leicht in die Knie. Die Hände schlenkern nach vorne",
-        name="Rotation Links und Rechts",
-        videoPath="assets/videos/RotationLinksRechts.mp4",
+        execution="Gehen Sie in den Vierfüßlerstand. Positionieren Sie Ihre Hände auf Höhe der Schultern und Ihre Knie hüftbreit auseinander. Achten Sie darauf, den Bauch während der gesamten Übung anzuspannen.",
+        name="Versteckter Liegestütz vorwärts",
+        videoPath="assets/videos/verLiegestuetzVorwaerts.mp4",
         dauer=30,
-        imagePath="assets/images/RotationLinksRechts.png",
+        imagePath="assets/images/verLiegestuetzVorwaerts.png",
         added=False,
         instruction="",
-        required="",
-        onlineVidePath="https://youtu.be/fsY4x8Hc8Eo",
+        required="Matte",
+        onlineVidePath="",
     ),
-    UebungList(
+    UebungList(# 203
         looping=False,
         timer=True,
-        execution="Bitte positionieren Sie Ihre Hände auf Bauchhöhe, wobei Ihre Arme leicht gebeugt sind. Führen Sie die Bewegung dabei aus dem Becken heraus.",
-        name="Rotation unten",
-        videoPath="assets/videos/RotationUnten.mp4",
+        execution="Gehen Sie in den Vierfüßlerstand. Positionieren Sie Ihre Hände auf Höhe der Schultern und Ihre Knie hüftbreit auseinander. Achten Sie darauf, den Bauch während der gesamten Übung anzuspannen.",
+        name="Versteckter Liegestütz rückwärts",
+        videoPath="assets/videos/verLiegestuetzRueckwaerts.mp4",
         dauer=30,
-        imagePath="assets/images/RotationUnten.png",
+        imagePath="assets/images/verLiegestuetzRueckwaerts.png",
         added=False,
         instruction="",
-        required="",
-        onlineVidePath="https://youtu.be/z4IpH1yQcAA",
+        required="Matte",
+        onlineVidePath="",
     ),
-    UebungList(
+    UebungList(# 204
         looping=False,
         timer=True,
-        execution="Bitte positionieren Sie Ihre Hände auf Brustbeinhöhe, wobei Ihre Arme leicht gebeugt sind. Führen Sie die Bewegung dabei aus dem Becken heraus.",
-        name="Rotation Mitte",
-        videoPath="assets/videos/RotationMitte.mp4",
+        execution="Positionieren Sie Ihren rechten Fuß fest am Boden und fixieren Sie Ihn während der Übung dort. Halten Sie Ihr Knie auf Höhe des Sprunggelenks, um eine optimale Ausrichtung zu erreichen. Achten Sie darauf, Ihren Bauch während der gesamten Übung anzuspannen.",
+        name="Rückenstrecker im Einbeinstand rechts",
+        videoPath="assets/videos/rueckenstreckerEinbeinR.mp4",
         dauer=30,
-        imagePath="assets/images/RotationMitte.png",
+        imagePath="assets/images/rueckenstreckerEinbeinR.png",
         added=False,
         instruction="",
         required="",
-        onlineVidePath="https://youtu.be/HjG3_AO5Rcc",
+        onlineVidePath="",
     ),
-    UebungList(
+    UebungList(# 205
         looping=False,
         timer=True,
-        execution="Bitte positionieren Sie Ihre Hände auf Kinnhöhe, wobei Ihre Arme leicht gebeugt sind. Führen Sie die Bewegung dabei aus dem Becken heraus.",
-        name="Rotation Oben",
-        videoPath="assets/videos/RotationOben.mp4",
+        execution="Positionieren Sie Ihren linken Fuß fest am Boden und fixieren Sie Ihn während der Übung dort. Halten Sie Ihr Knie auf Höhe des Sprunggelenks, um eine optimale Ausrichtung zu erreichen. Achten Sie darauf, Ihren Bauch während der gesamten Übung anzuspannen.",
+        name="Rückenstrecker im Einbeinstand links",
+        videoPath="assets/videos/rueckenstreckerEinbeinL.mp4",
         dauer=30,
-        imagePath="assets/images/RotationOben.png",
+        imagePath="assets/images/rueckenstreckerEinbeinL.png",
         added=False,
         instruction="",
         required="",
-        onlineVidePath="https://youtu.be/YjaeN0okaQw",
+        onlineVidePath="",
     ),
-    UebungList(
+    UebungList(# 206
         looping=False,
         timer=True,
-        execution="Führen Sie die dynamische Bewegung aus dem Becken heraus durch, indem Sie abwechselnd die Arme vor und zurück bewegen. Stellen Sie sicher, dass Sie einen hüftbreiten Stand einnehmen und leicht in die Knie gehen.",
-        name="Armpendeln",
-        videoPath="assets/videos/Armpendeln.mp4",
+        execution="Positionieren Sie Ihren rechten Fuß fest am Boden und fixieren Sie Ihn während der Übung dort. Halten Sie Ihr Knie auf Höhe des Sprunggelenks, um eine optimale Ausrichtung zu erreichen. Achten Sie darauf, Ihren Bauch während der gesamten Übung anzuspannen.",
+        name="Brustwirbelsäule im Einbeistand rechts",
+        videoPath="assets/videos/bwsEinbeinR.mp4",
         dauer=30,
-        imagePath="assets/images/Armpendeln.png",
+        imagePath="assets/images/bwsEinbeinR.png",
         added=False,
         instruction="",
         required="",
-        onlineVidePath="https://youtu.be/5x_m7IQmsQg",
+        onlineVidePath="",
     ),
-    UebungList(
+    UebungList(# 207
         looping=False,
         timer=True,
-        execution="Nehmen Sie einen knietiefen Stand ein, der hüftbreit ist. Führen Sie die Bewegung aus dem Becken heraus durch, indem Sie Arme und Kopf mitschwingen lassen.",
-        name="Golfschwung",
-        videoPath="assets/videos/Golfschwung.mp4",
+        execution="Positionieren Sie Ihren linken Fuß fest am Boden und fixieren Sie Ihn während der Übung dort. Halten Sie Ihr Knie auf Höhe des Sprunggelenks, um eine optimale Ausrichtung zu erreichen. Achten Sie darauf, Ihren Bauch während der gesamten Übung anzuspannen.",
+        name="Brustwirbelsäule im Einbeistand links",
+        videoPath="assets/videos/bwsEinbeinL.mp4",
         dauer=30,
-        imagePath="assets/images/Golfschwung.png",
+        imagePath="assets/images/bwsEinbeinL.png",
         added=False,
         instruction="",
         required="",
-        onlineVidePath="https://youtu.be/H2BSm-wyOQw",
+        onlineVidePath="",
     ),
-    UebungList(
+    UebungList(# 208
         looping=False,
         timer=True,
-        execution="Führen Sie die Bewegung ohne Kraft aus und halten Sie dabei Ihren Nacken locker.",
-        name="Dehnung der Rückenfaszien",
-        videoPath="assets/videos/DehungRueckenfastzien.mp4",
+        execution="Stehen Sie aufrecht und Drehen Sie die Daumen nach außen. Bringen Sie außerdem Ihre Schulterblätter zusammen und versuchen Sie während der Übung die Balance zu halten.",
+        name="Kräftigung Hüfte im Einbeistand rechts",
+        videoPath="assets/videos/kraeftigungHuefteEinbeinR.mp4",
         dauer=30,
-        imagePath="assets/images/DehnungUFaszien.png",
+        imagePath="assets/images/kraeftigungHuefteEinbeinR.png",
         added=False,
         instruction="",
         required="",
-        onlineVidePath="https://youtu.be/MhbS5T2R5Mg",
+        onlineVidePath="",
     ),
-    UebungList(
+    UebungList(# 209
         looping=False,
         timer=True,
-        execution="Schwingen Sie Ihre Arme gerade und entgegengesetzt zu den Beinen mit. Lassen Sie Ihre Arme dabei locker und führen Sie die Bewegung aus dem Becken heraus durch.",
-        name="Beinpendeln links",
-        videoPath="assets/videos/BeinpendelnL.mp4",
+        execution="Stehen Sie aufrecht und Drehen Sie die Daumen nach außen. Bringen Sie außerdem Ihre Schulterblätter zusammen und versuchen Sie während der Übung die Balance zu halten.",
+        name="Kräftigung Hüfte im Einbeistand links",
+        videoPath="assets/videos/kraeftigungHuefteEinbeinL.mp4",
         dauer=30,
-        imagePath="assets/images/BeinpendelL.png",
+        imagePath="assets/images/kraeftigungHuefteEinbeinL.png",
         added=False,
         instruction="",
         required="",
-        onlineVidePath="https://youtu.be/Fj7pJd6_Tp0",
+        onlineVidePath="",
     ),
-    UebungList(
+    UebungList(# 210
         looping=False,
         timer=True,
-        execution="Schwingen Sie Ihre Arme gerade und entgegengesetzt zu den Beinen mit. Lassen Sie Ihre Arme dabei locker und führen Sie die Bewegung aus dem Becken heraus durch.",
-        name="Beinpendeln rechts",
-        videoPath="assets/videos/BeinpendelnR.mp4",
+        execution="Gehen Sie in den Vierfüßler Stand auf einer Matte. Ihr Rücken muss gerade sein. Strecken Sie nun abwechselnd das rechte Bein und den linken Arm und das linke Bein und den rechten Arm aus. Strecken Sie so weit, dass sich eine Waagerechte zwischen Rücken, Arm und Bein bildet.",
+        name="Kräftigung im Viefüßlerstand (schwer)",
+        videoPath="assets/videos/kraeftigungVierfueßlerstandS.mp4",
         dauer=30,
-        imagePath="assets/images/BeinpendelR.png",
+        imagePath="assets/images/kraeftigungVierfueßlerstandS.png",
         added=False,
         instruction="",
         required="",
-        onlineVidePath="https://youtu.be/knRfu2g_l5M",
-    ),
-    UebungList(
-        looping=False,
-        timer=True,
-        execution="Stellen Sie sich in den Einbeinstand, während Ihr Bein diagonal nach vorne geht. Ihre Arme sollten entgegengesetzt und ebenfalls diagonal bewegt werden.",
-        name="Torisionsbewegung rechts",
-        videoPath="assets/videos/TorisionsbewegungR.mp4",
-        dauer=30,
-        imagePath="assets/images/TorisionsbewegungR.png",
-        added=False,
-        instruction="",
-        required="",
-        onlineVidePath="https://youtu.be/4EEyTube8hk",
-    ),
-    UebungList(
-        looping=False,
-        timer=True,
-        execution="Stellen Sie sich in den Einbeinstand, während Ihr Bein diagonal nach vorne geht. Ihre Arme sollten entgegengesetzt und ebenfalls diagonal bewegt werden.",
-        name="Torisionsbewegung links",
-        videoPath="assets/videos/TorisionsbewegungL.mp4",
-        dauer=30,
-        imagePath="assets/images/TorisionsbewegungL.png",
-        added=False,
-        instruction="",
-        required="",
-        onlineVidePath="https://youtu.be/S9Jdugd4z8M",
-    ),
-    UebungList(
-        looping=False,
-        timer=True,
-        execution="Führen Sie die Übung aus, indem Sie Ihren Kopf leicht überstrecken und die Bewegung ähnlich einem Holzhacker ausführen. Achten Sie darauf, dass Sie den Armen hinterherschauen und die auf- und ab-Bewegung mit Schwung ausführen.",
-        name="Holzhacker",
-        videoPath="assets/videos/Holzhacker.mp4",
-        dauer=30,
-        imagePath="assets/images/Holzhacker.png",
-        added=False,
-        instruction="",
-        required="",
-        onlineVidePath="https://youtu.be/UCiiL9u83CQ",
-    ),
-    UebungList(
-        looping=False,
-        timer=True,
-        execution="Führen Sie die Übung aus, indem Sie Ihren Kopf leicht überstrecken und die Bewegung ähnlich einem Holzhacker ausführen. Achten Sie darauf, dass Sie den Armen hinterherschauen und die auf- und ab-Bewegung mit Schwung ausführen.",
-        name="Holzhacker (diagonal)",
-        videoPath="assets/videos/HolzhackerDiago.mp4",
-        dauer=30,
-        imagePath="assets/images/Holzhackerdiago.png",
-        added=False,
-        instruction="",
-        required="",
-        onlineVidePath="https://youtu.be/VEos6EHyZ9A",
-    ),
-    UebungList(
-        looping=False,
-        timer=True,
-        execution="Nehmen Sie einen hüftbreiten und knietiefen Stand ein. Führen Sie die Bewegung durch, indem Sie Ihren Kopf jeweils bis zur Ferse drehen, während Ihre Arme locker von links nach rechts pendeln.",
-        name="Schultergürtel lockern",
-        videoPath="assets/videos/SchulterguertelLockern.mp4",
-        dauer=30,
-        imagePath="assets/images/SchulterguertelLockern.png",
-        added=False,
-        instruction="",
-        required="",
-        onlineVidePath="https://youtu.be/_pvFyvxbYm4",
-    ),
-    UebungList(
-        looping=False,
-        timer=True,
-        execution="Beginnen Sie, indem Sie Ihre Handflächen am Oberschenkel positionieren. Führen Sie dann die Arme seitlich über den Kopf nach oben. Atmen Sie während dieser Aufwärtsbewegung ein und während der Abwärtsbewegung aus.",
-        name="Atemübung",
-        videoPath="assets/videos/Atemuebung.mp4",
-        dauer=30,
-        imagePath="assets/images/Atemuebung.png",
-        added=False,
-        instruction="",
-        required="",
-        onlineVidePath="https://youtu.be/s7FscrpHqZM",
-    ),
-    UebungList(
-        looping=False,
-        timer=True,
-        execution="Nehmen Sie eine Schrittstellung ein und bewegen Sie Ihre Füße nacheinander nach vorne. Schauen Sie Ihrer Hand bei der Übung hinterher.",
-        name="Mobilisation BWS/LWS links",
-        videoPath="assets/videos/MobilisationBurstLWSL.mp4",
-        dauer=30,
-        imagePath="assets/images/MobilisationBWSLWSL.png",
-        added=False,
-        instruction="",
-        required="",
-        onlineVidePath="https://youtu.be/v0wmjnWR7Js",
-    ),
-    UebungList(
-        looping=False,
-        timer=True,
-        execution="Nehmen Sie eine Schrittstellung ein und bewegen Sie Ihre Füße nacheinander nach vorne. Schauen Sie Ihrer Hand bei der Übung hinterher.",
-        name="Mobilisation BWS/LWS rechts",
-        videoPath="assets/videos/MobilisationBurstLWSR.mp4",
-        dauer=30,
-        imagePath="assets/images/MobilisationBWSLWSR.png",
-        added=False,
-        instruction="",
-        required="",
-        onlineVidePath="https://youtu.be/biiXZCYpZNI",
-    ),
-    UebungList(
-        looping=False,
-        timer=True,
-        execution="Halten Sie Ihre Arme auf gleicher Höhe und nehmen Sie eine Schrittstellung ein. Führen Sie die Bewegung aus der Hüfte heraus durch und achten Sie darauf, dass ein rechter Winkel im Ellenbogen erhalten bleibt.",
-        name="Ganzkörperkräftigung rechts",
-        videoPath="assets/videos/RumpfkraeftigungR.mp4",
-        dauer=30,
-        imagePath="assets/images/RumpfkraeftigungR.png",
-        added=False,
-        instruction="",
-        required="",
-        onlineVidePath="https://youtu.be/jjMiI7J5v0c",
-    ),
-    UebungList(
-        looping=False,
-        timer=True,
-        execution="Halten Sie Ihre Arme auf gleicher Höhe und nehmen Sie eine Schrittstellung ein. Führen Sie die Bewegung aus der Hüfte heraus durch und achten Sie darauf, dass ein rechter Winkel im Ellenbogen erhalten bleibt.",
-        name="Ganzkörperkräftigung links",
-        videoPath="assets/videos/RumpfkraeftigungL.mp4",
-        dauer=30,
-        imagePath="assets/images/RumpfkraeftigungL.png",
-        added=False,
-        instruction="",
-        required="",
-        onlineVidePath="https://youtu.be/zmOnCBSKBWc",
-    ),
-    UebungList(
-        looping=False,
-        timer=True,
-        execution="Halten Sie Ihren Rücken gerade und führen Sie die Bewegung aus dem Becken heraus durch. Bringen Sie dabei die Schulterblätter zusammen nach hinten. Sollten Sie Unwohlsein in der Lendenwirbelsäule verspüren, überspringen Sie bitte diese Übung.",
-        name="Rückenstrecker",
-        videoPath="assets/videos/Rueckenstrecker.mp4",
-        dauer=30,
-        imagePath="assets/images/Rueckenstrecker.png",
-        added=False,
-        instruction="",
-        required="",
-        onlineVidePath="https://youtu.be/PerP-mYHVH8",
-    ),
-    UebungList(
-        looping=False,
-        timer=True,
-        execution="Stellen Sie sicher, dass Ihre Schulterblätter bei der Bewegung nach hinten zusammengeführt werden und spannen Sie dabei Ihren Bauch an. Die Daumen sollten auf Augenhöhe bleiben , während ein rechter Winkel zwischen Ober- und Unterarm besteht.",
-        name="Butterfly",
-        videoPath="assets/videos/Butterfly.mp4",
-        dauer=30,
-        imagePath="assets/images/Butterfly.png",
-        added=False,
-        instruction="",
-        required="",
-        onlineVidePath="https://youtu.be/mwuGTCcd0ss",
-    ),
-    UebungList(
-        looping=False,
-        timer=True,
-        execution="Halten Sie Ihren Rücken gerade und richten Sie Ihren Blick zum Boden. Ihre Arme sollten immer leicht gebeugt sein, und Ihre Schulterblätter sich annähern. Die Daumen zeigen dabei zur Brust.",
-        name="Kräftigung BWS",
-        videoPath="assets/videos/BWSKraeftigung.mp4",
-        dauer=30,
-        imagePath="assets/images/BWSKraeftigung.png",
-        added=False,
-        instruction="",
-        required="",
-        onlineVidePath="https://youtu.be/7k4chSjI2jk",
-    ),
-    UebungList(
-        looping=False,
-        timer=True,
-        execution="Führen Sie die Bewegung aus, indem Sie Ihre Schulter zum Knie bringen. Positionieren Sie Ihre Hände am Oberschenkel und nehmen Sie einen schulterbreiten, knietiefen Stand ein.",
-        name="Schultern lockern",
-        videoPath="assets/videos/Schulterlockerung.mp4",
-        dauer=30,
-        imagePath="assets/images/Schulterguertellockerung.png",
-        added=False,
-        instruction="",
-        required="",
-        onlineVidePath="https://youtu.be/-TfWd6SkuPo",
+        onlineVidePath="",
     ),
 ]
 
@@ -1458,54 +1277,27 @@ uebungen_to_append00 = []  # Nacken
 uebungen_to_append01 = []
 uebungen_to_append02 = []
 uebungen_to_append07 = []
-uebungen_to_append10 = [182, 183, 190, 191, 192, 199, 201]  # Schultern
-uebungen_to_append11 = [199]
+uebungen_to_append10 = [206,207,210]  # Schultern
+uebungen_to_append11 = []
 uebungen_to_append12 = []
-uebungen_to_append17 = []
-uebungen_to_append20 = [
-    179,
-    180,
-    181,
-    182,
-    183,
-    184,
-    186,
-    187,
-    188,
-    189,
-    190,
-    191,
-    194,
-    195,
-]  # Mittlerer Rücken
-uebungen_to_append21 = [196, 197, 198, 199, 200]
+uebungen_to_append17 = [206,207,210]
+uebungen_to_append20 = [202,203,204,205,206,207,210]  # Mittlerer Rücken
+uebungen_to_append21 = [202, 203,204,205,206,207,210]
 uebungen_to_append22 = []
-uebungen_to_append27 = []
-uebungen_to_append30 = [179, 184, 190, 191, 193]  # Bauch Rumpf
-uebungen_to_append31 = [196, 197, 199]
+uebungen_to_append27 = [202, 203,204,205,206,207,210]
+uebungen_to_append30 = []  # Bauch Rumpf
+uebungen_to_append31 = []
 uebungen_to_append32 = []
 uebungen_to_append37 = []
-uebungen_to_append40 = [
-    179,
-    183,
-    184,
-    186,
-    187,
-    188,
-    189,
-    190,
-    191,
-    194,
-    195,
-]  # Unterer Rücken
-uebungen_to_append41 = [198]
-uebungen_to_append42 = [185]
-uebungen_to_append47 = []
+uebungen_to_append40 = [202,203,204,205,206,207,208,209,210]  # Unterer Rücken
+uebungen_to_append41 = [202,203,204,205,206,207,208,209,210]
+uebungen_to_append42 = []
+uebungen_to_append47 = [202,203,204,205,206,207,208,209,210]
 uebungen_to_append50 = []  # Beine Füße
 uebungen_to_append51 = []
 uebungen_to_append52 = []
 uebungen_to_append57 = []
-uebungen_to_append60 = [183, 184]  # Arme Hände
+uebungen_to_append60 = []  # Arme Hände
 uebungen_to_append61 = []
 uebungen_to_append62 = []
 uebungen_to_append67 = []
@@ -1656,43 +1448,43 @@ def inizialize_first_second():
 
 @login_required(login_url="login")
 def admin_power(request):
-    # for i in additionalUebungList2:
-    #             Uebungen_Models.objects.create(
-    #                 looping=i.looping,
-    #                 timer=i.timer,
-    #                 execution=i.execution,
-    #                 name=i.name,
-    #                 videoPath=i.videoPath,
-    #                 dauer=i.dauer,
-    #                 imagePath=i.imagePath,
-    #                 added=i.added,
-    #                 instruction=i.instruction,
-    #                 required=i.required,
-    #                 onlineVideoPath = i.onlineVidePath
+    for i in additionalUebungList2:
+                Uebungen_Models.objects.create(
+                    looping=i.looping,
+                    timer=i.timer,
+                    execution=i.execution,
+                    name=i.name,
+                    videoPath=i.videoPath,
+                    dauer=i.dauer,
+                    imagePath=i.imagePath,
+                    added=i.added,
+                    instruction=i.instruction,
+                    required=i.required,
+                    onlineVideoPath = i.onlineVidePath
 
-    #             )
-    # inizialize_first_second()
+                )
+    inizialize_first_second()
 
-    # for i in signals.uebungen:
-    #             Uebungen_Models.objects.create(
-    #                 looping=i.looping,
-    #                 timer=i.timer,
-    #                 execution=i.execution,
-    #                 name=i.name,
-    #                 videoPath=i.videoPath,
-    #                 dauer=i.dauer,
-    #                 imagePath=i.imagePath,
-    #                 added=i.added,
-    #                 instruction=i.instruction,
-    #                 required=i.required,
-    #                 onlineVideoPath = i.onlineVidePath
+    for i in signals.uebungen:
+                Uebungen_Models.objects.create(
+                    looping=i.looping,
+                    timer=i.timer,
+                    execution=i.execution,
+                    name=i.name,
+                    videoPath=i.videoPath,
+                    dauer=i.dauer,
+                    imagePath=i.imagePath,
+                    added=i.added,
+                    instruction=i.instruction,
+                    required=i.required,
+                    onlineVideoPath = i.onlineVidePath
 
-    #             )
+                )
 
-    # for i in models.LaxoutUser.objects.all():
-    #     laxout_tree = models.LaxTree.objects.create()
-    #     i.lax_tree_id = laxout_tree.id
-    #     i.save()
+    for i in models.LaxoutUser.objects.all():
+        laxout_tree = models.LaxTree.objects.create()
+        i.lax_tree_id = laxout_tree.id
+        i.save()
 
     return HttpResponse("all clear")
 
