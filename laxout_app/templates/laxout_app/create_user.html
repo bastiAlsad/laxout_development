@@ -33,7 +33,7 @@
     <form method="post">
         {% csrf_token %}
         {{ form|crispy }}
-    
+
         <!-- Dropdown-Menü -->
         <div style="display: flex; flex-direction: column;">
             <label for="illness">Wählen Sie eine Krankheit:</label>
@@ -44,32 +44,47 @@
             </select>
             <!-- Verstecktes Eingabefeld für das ausgewählte Attribut "illness" -->
             <input type="hidden" name="selected_illness" id="selected_illness">
-            
+            <div style="display: flex; align-items: center; margin-top: 25px;">
+                <input type="checkbox" style="height: 20px; width: 20px; border-radius: 20px;" id="checkbox_payment">
+                <div style="justify-content: center; margin-left: 25px;">
+                    Der Patient zahlt 39€
+                </div>
+            </div>
+
             <div style="height: 30px;"></div>
             <button type="button" class="submit_button" onclick="submitForm()">Nutzer Erstellen</button>
         </div>
     </form>
-    
 </div>
+
 <script>
     window.onload = function () {
         var illnessDropdown = document.getElementById("illness");
         var selectedIllnessInput = document.getElementById("selected_illness");
 
-        illnessDropdown.addEventListener("change", function() {
+        illnessDropdown.addEventListener("change", function () {
             selectedIllnessInput.value = this.value;
         });
     };
     function submitForm() {
-        var illnessDropdown = document.getElementById("illness");
-        var selectedIllnessInput = document.getElementById("selected_illness");
-        
-        // Aktualisiere das versteckte Eingabefeld mit dem Wert des Dropdown-Menüs
-        selectedIllnessInput.value = illnessDropdown.value;
-        
-        // Sende das Formular ab
-        document.getElementsByTagName("form")[0].submit();
+        var checkbox = document.getElementById("checkbox_payment");
+
+        // Überprüfe, ob die Checkbox aktiviert ist
+        if (checkbox.checked) {
+            var illnessDropdown = document.getElementById("illness");
+            var selectedIllnessInput = document.getElementById("selected_illness");
+
+            // Aktualisiere das versteckte Eingabefeld mit dem Wert des Dropdown-Menüs
+            selectedIllnessInput.value = illnessDropdown.value;
+
+            // Sende das Formular ab
+            document.getElementsByTagName("form")[0].submit();
+        } else {
+            // Wenn die Checkbox nicht aktiviert ist, gib eine Warnung aus oder ergreife andere Maßnahmen
+            alert("Bitte bestätigen Sie die Zahlung!");
+        }
     }
+
 </script>
 
 {% endblock content %}

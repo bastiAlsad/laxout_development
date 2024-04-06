@@ -179,3 +179,6 @@ class ChatDataModel(models.Model):
     message = models.CharField(max_length = 2003000000, default = "")
     created_by = models.IntegerField(default = 0)
     admin_id = models.IntegerField(default = 0)
+
+class BillingCount(models.Model):
+    billing_count = models.IntegerField(default=1)
