@@ -16,6 +16,7 @@ from . import serializers
 from django.utils import timezone
 from datetime import date, datetime, timedelta
 import math
+from uuid import uuid4
 
 
 @api_view(["POST"])
@@ -464,10 +465,11 @@ def get_individual_indexes(request):
                 append_she = False
 
         if append_she:
-            index_labels.append(she.for_month)
+            index_labels.append(she.for_week)
             month_year_instances.append(she)
 
     average_pain_list_user = []
+  
 
     for i in month_year_instances:
         current_pains = models.LaxoutUserPains.objects.filter(
@@ -489,10 +491,10 @@ def get_individual_indexes(request):
         nine_ten_count = 0.0
 
         for ii in current_pains:
-            print(ii.six_eight)
-            print(ii.zero_two)
-            print(ii.theree_five)
-            print(ii.nine_ten)
+            # print(ii.six_eight)
+            # print(ii.zero_two)
+            # print(ii.theree_five)
+            # print(ii.nine_ten)
             if ii.zero_two != 0:
                 zero_two += 1
                 zero_two_count += 1
@@ -515,23 +517,23 @@ def get_individual_indexes(request):
         if nine_ten_count == 0:
             nine_ten_count = 1
 
-        print("SJfhaskjhfjkasfkjasf")
-        zero_two = zero_two / zero_two_count
-        theree_five = theree_five / theree_five_count
-        six_eight = six_eight / six_eight_count
-        nine_ten = nine_ten / nine_ten_count
+        
+        # zero_two = zero_two / zero_two_count
+        # theree_five = theree_five / theree_five_count
+        # six_eight = six_eight / six_eight_count
+        # nine_ten = nine_ten / nine_ten_count
 
-        devide = 0
+        
 
-        if zero_two != 0:
-            devide += 1
-        if theree_five != 0:
-            devide += 1
-        if six_eight != 0:
-            devide += 1
-        if nine_ten != 0:
-            devide += 1
-        average_pain = (zero_two + theree_five + six_eight + nine_ten) / devide
+        # if zero_two != 0:
+        #     devide += 1
+        # if theree_five != 0:
+        #     devide += 1
+        # if six_eight != 0:
+        #     devide += 1
+        # if nine_ten != 0:
+        #     devide += 1
+        average_pain = (zero_two + theree_five + six_eight + nine_ten) / len(current_pains)
         average_pain_list_user.append(average_pain)
 
         print(six_eight)
@@ -743,3 +745,64 @@ def check_if_user_has_new_messages(request):
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     new_message = user.user_has_seen_chat
     return Response({"new_message": new_message}, status=status.HTTP_200_OK)
+
+
+def inizialize_exercises_for_app_user(user):
+    illness = user.note
+    exercise_data = models.AiTrainingData.objects.filter(illness=illness).last()
+    related_exercises = exercise_data.related_exercises.all()
+    current_exercises = []
+    for i in related_exercises:
+        exercise = models.Laxout_Exercise.objects.create(
+            execution=models.Uebungen_Models.objects.get(id=i.exercise_id).execution,
+            name=models.Uebungen_Models.objects.get(id=i.exercise_id).name,
+            dauer=models.Uebungen_Models.objects.get(id=i.exercise_id).dauer,
+            videoPath=models.Uebungen_Models.objects.get(id=i.exercise_id).videoPath,
+            looping=models.Uebungen_Models.objects.get(id=i.exercise_id).looping,
+            added=False,
+            instruction="",
+            timer=models.Uebungen_Models.objects.get(id=i.exercise_id).timer,
+            required=models.Uebungen_Models.objects.get(id=i.exercise_id).required,
+            imagePath=models.Uebungen_Models.objects.get(id=i.exercise_id).imagePath,
+            appId=models.Uebungen_Models.objects.get(id=i.exercise_id).id,
+            onlineVideoPath=models.Uebungen_Models.objects.get(
+                id=i.exercise_id
+            ).onlineVideoPath,
+        )
+        user.exercises.add(exercise)
+        current_exercises.append(exercise)
+    user.save()
+    order = 1
+    for i in current_exercises:
+        models.Laxout_Exercise_Order_For_User.objects.create(
+            laxout_user_id=user.id, laxout_exercise_id=i.id, order=order
+        )
+
+        order += 1
+    print("User exercises")
+    print(user.exercises.all())
+
+
+@api_view(["POST"])
+def create_user_through_app(request):
+    tree = models.LaxTree.objects.create()
+    user_count = len(models.LaxoutUser.objects.all())
+    admin_in_charge = models.User.objects.get(username="Testzugang")  # muss existieren
+    new_user_uid = str(uuid4())
+    while models.LaxoutUser.objects.filter(user_uid=new_user_uid).exists():
+        new_user_uid = str(uuid4())
+    user = models.LaxoutUser.objects.create(
+        user_uid=new_user_uid,
+        laxout_user_name=f"user{user_count}",
+        created_by=admin_in_charge,
+        lax_tree_id=tree.id,
+        instruction="3x wöchentlich",
+        note="Kursprogramm 1",
+        was_created_through_app=True,
+    )
+    inizialize_exercises_for_app_user(user=user)
+    models.ChatDataModel.objects.create(message = "Willkommen bei der Laxout Chat-Funktion. Sollten Sie Fragen zur App oder zu Übungen haben, können Sie diese hier stellen. Viel Spaß beim benutzen der App!", created_by = user.id, admin_id = admin_in_charge.id, is_sender = False)
+    note = "Kursprogramm 1"
+    print(f"note{note}")
+    token, created = Token.objects.get_or_create(user=admin_in_charge)
+    return Response({"token": token.key, "user_uid": new_user_uid})

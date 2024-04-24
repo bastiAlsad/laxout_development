@@ -220,7 +220,7 @@ def send_user_welcome_email(email, user_uid):
                 </p>
                 <p>Für die Nutzung der App bitten wir Sie, den im Leistungsnachweis (befindet sich im Anhang) genannten
                     Betrag an unser Firmenkonto zu überweisen.</p>
-                <p>Dannach können Sie auch schon auf den Loslegen Button drücken und mit Ihrem Training beginnen!</p>
+                <p>Dannach können Sie auch schon auf den <a href="${link}" style=" color: blue;">Loslegen</a> Button drücken und mit Ihrem Training beginnen!</p>
                 <div style="text-align: center; margin: 50px;">
                     <button
                         style="height: 50px; width: 140px; border-radius: 10px; background-color: rgb(176, 224, 230); color: black; cursor: pointer; border: none;">
@@ -284,14 +284,17 @@ def send_user_welcome_email(email, user_uid):
     for i in range(how_many_zeros):
         current_billing_id+= "0"
     current_billing_id+= billing_count
-    
+    #Produktion
+    #/home/dashboardlaxout/backup_laxout/laxout_app/leistungsnachweise/ 
+    #Dev
+    #D:/DEV/laxout_backend_development/laxout/laxout_app/leistungsnachweise/
     print(f"Current billing Id {current_billing_id}")
-    input_pdf_path = "D:/DEV/laxout_backend_development/laxout/laxout_app/leistungsnachweise/leistungsnachweis_vorlage.pdf"  # Passe den Pfad zur vorhandenen PDF-Datei an
-    output_pdf_path = f"D:/DEV/laxout_backend_development/laxout/laxout_app/leistungsnachweise/leistungsnachweis_{current_billing_id}.pdf"  # Passe den Pfad für die neu erstellte PDF-Datei an
+    input_pdf_path = "/home/dashboardlaxout/backup_laxout/laxout_app/leistungsnachweise/leistungsnachweis_vorlage.pdf"  # Passe den Pfad zur vorhandenen PDF-Datei an D:/DEV/laxout_backend_development/laxout/laxout_app/leistungsnachweise/leistungsnachweis
+    output_pdf_path = f"/home/dashboardlaxout/backup_laxout/laxout_app/leistungsnachweise/leistungsnachweis_{current_billing_id}.pdf"  # Passe den Pfad für die neu erstellte PDF-Datei an
     pdf.modifyPdf(input_pdf_path,output_pdf_path,current_billing_id)
 
     # Pfad zur PDF-Datei
-    pdf_attachment_path = f"D:/DEV/laxout_backend_development/laxout/laxout_app/leistungsnachweise/leistungsnachweis_{current_billing_id}.pdf"
+    pdf_attachment_path = f"/home/dashboardlaxout/backup_laxout/laxout_app/leistungsnachweise/leistungsnachweis_{current_billing_id}.pdf"
 
     # Hinzufügen der PDF-Datei als Anhang
     with open(pdf_attachment_path, 'rb') as pdf_attachment:
@@ -395,6 +398,7 @@ def create_user(request):
             print(insteance.id)
             # print(lax_ai.predict_exercise(note))
             send_user_welcome_email(email, insteance.user_uid)
+            models.ChatDataModel.objects.create(message = "Willkommen bei der Laxout Chat funktion. Sollten Sie Fragen zur App oder zu Übungen haben, können Sie diese hier stellen. Viel Spaß beim benutzen der App!", created_by = insteance.id, admin_id = request.user.id)
             return redirect("/home")
 
     else:

@@ -6,20 +6,55 @@
 {% block content %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
+    #video-container {
+        position: absolute;
+        top: 60%;
+        border-radius: 10px;
+        left: 60%;
+        transform: translate(-60%, -60%);
+        overflow: hidden;
+    }
+
+    #video {
+        border-radius: 10px;
+        width: 90%;
+        height: 90%;
+        object-fit: contain;
+        transform-origin: center;
+        transition: transform 0.2s ease-out;
+    }
+
+    #close-button {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        background-color: rgb(44, 67, 81);
+        border: none;
+        border-radius: 50%;
+        color: white;
+        width: 40px;
+        height: 40px;
+    }
+
+    .delete-button.zoomed {
+        transform: scale(1.1);
+    }
+
     .row-basti-analysePage-Charts {
-            justify-content: start;
-            flex-direction: row;
-            align-items: start;
-            display: flex;
-            padding-top: 40px;
-            padding-left: 100px;
-            flex-direction: row;
-            justify-content: start;
-            align-items: start;
-            
-            height: 60vh;
-            width: 80vw;
-        }
+        justify-content: start;
+        flex-direction: row;
+        align-items: start;
+        display: flex;
+        padding-top: 40px;
+        padding-left: 100px;
+        flex-direction: row;
+        justify-content: start;
+        align-items: start;
+
+        height: 60vh;
+        width: 80vw;
+    }
+
     @media only screen and (min-width:1200px) {
         .row-calender-user {
             display: flex;
@@ -294,12 +329,19 @@
 
 </div>
 
-<div style="padding-left: 30px; padding-top: 50px;">
+<div style="padding-left: 30px; padding-top: 50px; padding-right: 30px;">
     <div
-        style="display: flex; flex-direction: row; justify-content: space-between; justify-items: center; align-items: center;padding-right: 30px;">
-        <h3 style="color: rgb(44, 67, 81);">
+        style="display: flex; flex-direction: row; justify-content: space-between; justify-items: center; align-items: center;padding-left: 0px;">
+        <h3 style="color: rgb(44, 67, 81); margin-left: 150px;">
             Eingestellte Übungen:
         </h3>
+
+        <div style="flex-direction: row; display: flex;">
+            
+        <h3 id="how-much-time">
+            <!-- Hier kann der Text eingefügt werden -->
+        </h3>
+        </div>
         <button class="action-button" onclick="addExercises('{{users.id}}')">
             Hinzufügen
         </button>
@@ -361,6 +403,7 @@
 
 
 
+
                 </div>
             </div>
             <div
@@ -375,16 +418,34 @@
                 {% endif %}
             </div>
 
-            <div style="flex-direction: column; justify-content: center; align-items: center;  display: flex; ">
-                <div style="flex-direction: row; display: flex;">
-                    <button class="delete-button" style="width: 70; font-size: 16px;"
-                        onclick="deleteWorkout('{{exercises.id}}', '{{users.id}}')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                            class="bi bi-trash3" viewBox="0 0 16 16">
-                            <path fill="rgb(255, 255, 255)"
-                                d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
-                        </svg>
-                    </button>
+            <div style="display: flex; flex-direction: row;">
+                <div style="flex-direction: column; justify-content: center; align-items: center;  display: flex; ">
+                    <div style="flex-direction: row; display: flex;">
+                        <button class="delete-button" style="width: 70; font-size: 16px;"
+                            onclick="deleteWorkout('{{exercises.id}}', '{{users.id}}')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                class="bi bi-trash3" viewBox="0 0 16 16">
+                                <path fill="rgb(255, 255, 255)"
+                                    d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div style="height: 30px;">
+
+                    </div>
+                    <div style="flex-direction: row;">
+                        <button class="delete-button"
+                            style="display: flex; justify-items: center; justify-content: center; align-items: center; width: 70; font-size: 16px;"
+                            onclick="viewVideo('{%static exercises.videoPath %}')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
+                                class="bi bi-eye" viewBox="0 0 16 16">
+                                <path
+                                    d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                                <path
+                                    d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
                 <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-around;">
@@ -423,7 +484,7 @@
 </div>
 
 <div class="row-basti-analysePage-Charts">
-    
+
 
     <canvas id="myChart"></canvas>
 
@@ -436,8 +497,103 @@
 </div>
 
 
+<div id="video-container" style="visibility: hidden;">
+    <button id="close-button" onclick="hideVideo()">X</button>
+    <video id="video" muted>
+        <source src="{% static 'assets/videos/NackenSeitlicheNeigungen.mp4' %}" type="video/mp4">
+        Dein Browser unterstützt das Video-Tag nicht.
+    </video>
+</div>
+
+
 
 <script>
+
+    const videoContainer = document.getElementById('video-container');
+    const video = document.getElementById('video');
+    const videoSource = document.getElementById('video-source');
+    const playButton = document.getElementById('play-button');
+    const time = document.getElementById('how-much-time');
+    // Extrahiere alle Elemente mit der Klasse "user-item"
+    const userItems = document.querySelectorAll('.user-item');
+
+    // Initialisiere eine leere Liste für die Workouts
+    const workoutsList = [];
+    let completeTime = 0;
+
+    // Iteriere über alle gefundenen Elemente
+    userItems.forEach(userItem => {
+        // Extrahiere die Informationen aus jedem Element und füge sie zur Workouts-Liste hinzu
+        const name = userItem.querySelector('h5').textContent.trim();
+        const execution = userItem.querySelector('textarea').textContent.trim();
+        const id = userItem.querySelector('textarea').id.replace('name', '');
+        // Extrahiere die Dauer aus dem entsprechenden Input-Element
+        const duration = parseInt(userItem.querySelector('.user-item input[type="number"]').getAttribute('placeholder').trim());
+
+
+
+        workoutsList.push({
+            duration: duration,
+
+            // Füge hier weitere Eigenschaften hinzu, die du extrahieren möchtest
+        });
+    });
+
+    // Nun hast du eine Liste von JavaScript-Objekten, die die Informationen aus den "user-item"-Elementen enthalten
+    workoutsList.forEach(workoutItem => {
+        completeTime += workoutItem.duration;
+    })
+    console.log(workoutsList);
+    console.log(completeTime);
+    time.textContent = completeTime/60+"min";
+
+
+
+    let isZoomed = false;
+
+    videoContainer.addEventListener('click', () => {
+        togglePlay();
+    });
+
+    function togglePlay() {
+        if (video.paused) {
+            video.play();
+            playButton.style.display = 'none';
+        } else {
+            video.pause();
+            playButton.style.display = 'block';
+        }
+    }
+
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+
+
+
+    function viewVideo(videoPath) {
+        scrollToTop();
+        // Neue Videoquelle hinzufügen
+        var source = document.createElement('source');
+        source.src = videoPath;
+        source.type = 'video/mp4';
+
+        // Alte Quelle entfernen und neue hinzufügen
+        video.innerHTML = ''; // leert den Video-Container
+        video.appendChild(source);
+
+        videoContainer.style.visibility = 'visible';
+        video.load();
+        togglePlay();
+    }
+
+
+    function hideVideo() {
+        videoContainer.style.visibility = 'hidden';
+    }
 
     window.onload = function () {
         let instructionInt = "{{int}}";

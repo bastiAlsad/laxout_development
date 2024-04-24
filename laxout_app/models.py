@@ -119,7 +119,8 @@ class LaxoutUser(models.Model):
     instruction_in_int = models.IntegerField(default = 0)
     email_adress = models.CharField(default = "", max_length =40)
     admin_has_seen_chat = models.BooleanField(default = True)
-    user_has_seen_chat = models.BooleanField(default = True)
+    user_has_seen_chat = models.BooleanField(default = False)
+    was_created_through_app = models.BooleanField(default=False)
     
 
 class UserProfile(models.Model):
@@ -169,6 +170,8 @@ class AiExercise(models.Model):
     exercise_id = models.IntegerField(default = 0)
 
 class AiTrainingData(models.Model):
+    def __str__(self):
+        return f"{self.illness}"
     illness = models.CharField(default = "", max_length = 200)
     related_exercises = models.ManyToManyField(AiExercise)
     created_by = models.IntegerField(default = 0) # Physio Id
