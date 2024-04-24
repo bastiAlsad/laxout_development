@@ -202,7 +202,8 @@
         scrollToTop();
         // Neue Videoquelle hinzufügen
         var source = document.createElement('source');
-        source.src = videoPath;
+        source.src = "https://bastialsad.github.io/laxout_development/"+videoPath;
+        console.log(videoPath);
         source.type = 'video/mp4';
 
         // Alte Quelle entfernen und neue hinzufügen
