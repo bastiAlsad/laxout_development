@@ -185,3 +185,6 @@ class ChatDataModel(models.Model):
 
 class BillingCount(models.Model):
     billing_count = models.IntegerField(default=1)
+
+class SovendusCustomerUid(models.Model):
+    uid = models.CharField(default="", max_length=200)

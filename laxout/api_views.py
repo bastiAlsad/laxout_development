@@ -313,6 +313,39 @@ def delete_coupon_user(request):
     user_instance.save()
     return Response(status=status.HTTP_200_OK)
 
+@api_view(["GET"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_unique_customer_uid(requsest):
+    customer_uid = str(uuid4())
+    while models.SovendusCustomerUid.objects.filter(uid=customer_uid).exists():
+        customer_uid = str(uuid4())
+    return Response({"customer_uid": customer_uid})
+
+
+@api_view(["POST"])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def buy_sovendus_coupon(request):
+    user_uid = unquote(request.headers.get("user_uid"))
+    if user_uid == None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    coupon_id = request.data["coupon_id"]
+    coupon_instance = models.Coupon.objects.get(id=coupon_id)
+    if coupon_instance == None:
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    user_instance = models.LaxoutUser.objects.get(user_uid=user_uid)
+    old_coins_amount = user_instance.laxout_credits
+    if old_coins_amount > coupon_instance.coupon_price:
+        old_coins_amount -= coupon_instance.coupon_price
+        user_instance.laxout_credits = old_coins_amount
+        user_instance.save()
+        return Response(
+             status=status.HTTP_200_OK
+        )
+    return Response(
+        {"details": "not enough coins"}, status=status.HTTP_406_NOT_ACCEPTABLE
+    )
 
 #################################Coupon Logic######################################
 
@@ -750,6 +783,7 @@ def check_if_user_has_new_messages(request):
 def inizialize_exercises_for_app_user(user):
     illness = user.note
     exercise_data = models.AiTrainingData.objects.filter(illness=illness).last()
+    print(f"Exercise Data {exercise_data}")
     related_exercises = exercise_data.related_exercises.all()
     current_exercises = []
     for i in related_exercises:
@@ -806,3 +840,5 @@ def create_user_through_app(request):
     print(f"note{note}")
     token, created = Token.objects.get_or_create(user=admin_in_charge)
     return Response({"token": token.key, "user_uid": new_user_uid})
+
+

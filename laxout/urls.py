@@ -48,4 +48,8 @@ urlpatterns = [
     re_path("postmessage", api_views.post_message_chat),
     re_path("getmessages", api_views.get_messages),
     re_path("checkmessageuser", api_views.check_if_user_has_new_messages),
+    re_path("createuserapp", api_views.create_user_through_app),
+    re_path("couponbuysovendus", api_views.buy_sovendus_coupon),
+    re_path("uniqueuidsovendus", api_views.get_unique_customer_uid),
 ]
+#Test
