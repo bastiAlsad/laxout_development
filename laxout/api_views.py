@@ -336,7 +336,7 @@ def buy_sovendus_coupon(request):
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     user_instance = models.LaxoutUser.objects.get(user_uid=user_uid)
     old_coins_amount = user_instance.laxout_credits
-    if old_coins_amount > coupon_instance.coupon_price:
+    if old_coins_amount >= coupon_instance.coupon_price:
         old_coins_amount -= coupon_instance.coupon_price
         user_instance.laxout_credits = old_coins_amount
         user_instance.save()
