@@ -507,14 +507,14 @@ def edit_user(request, id=None):
     ###skip logik###
 
     current_exercises = user.exercises.all()
-    if user.note != "":
-        old_training_data = models.AiTrainingData.objects.filter(created_for=user.id)
-        for i in old_training_data:
-            i.related_exercises.all().delete()
-        old_training_data.delete()
-        ai_training_data = models.AiTrainingData.objects.create(
-            illness=user.note, created_by=request.user.id, created_for=user.id
-        )
+    # if user.note != "":
+    #     old_training_data = models.AiTrainingData.objects.filter(created_for=user.id)
+    #     for i in old_training_data:
+    #         i.related_exercises.all().delete()
+    #     old_training_data.delete()
+    #     ai_training_data = models.AiTrainingData.objects.create(
+    #         illness=user.note, created_by=request.user.id, created_for=user.id
+    #     )
 
     current_order_objects = models.Laxout_Exercise_Order_For_User.objects.filter(
         laxout_user_id=id
@@ -557,13 +557,13 @@ def edit_user(request, id=None):
         # print("RELEVANT ERROR ID")
         # print(order.laxout_exercise_id)
         try:
-            ai_training_data.related_exercises.add(
-                models.AiExercise.objects.create(
-                    exercise_id=models.Laxout_Exercise.objects.get(
-                        id=order.laxout_exercise_id
-                    ).appId
-                )
-            )
+            # ai_training_data.related_exercises.add(
+            #     models.AiExercise.objects.create(
+            #         exercise_id=models.Laxout_Exercise.objects.get(
+            #             id=order.laxout_exercise_id
+            #         ).appId
+            #     )
+            # )
             print("Error in SOrted list wasnt caused due ai")
             exercise = models.Laxout_Exercise.objects.get(id=order.laxout_exercise_id)
             for skipped_exercis in skipped_exercises:

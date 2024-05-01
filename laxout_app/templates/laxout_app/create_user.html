@@ -29,14 +29,14 @@
         border: none;
     }
 </style>
-<div style="padding-left: 15px; width: 300px;">
+<div style="padding-left: 15px; width: 400px;">
     <form method="post">
         {% csrf_token %}
         {{ form|crispy }}
 
         <!-- Dropdown-Menü -->
         <div style="display: flex; flex-direction: column;">
-            <label for="illness">Wählen Sie eine Krankheit:</label>
+            <label for="illness">Wählen Sie einen vorgefertigten Trainingsplan:</label>
             <select id="illness" name="illness">
                 {% for illness in illness_list %}
                 <option value="{{ illness }}">{{ illness }}</option>
@@ -58,6 +58,16 @@
 </div>
 
 <script>
+    
+function validateForm(){
+    var requirdedFields = document.querySelectorAll('[required]');
+    for(var i = 0; i<requirdedFields.length; i++){
+        if(requirdedFields[i].value.trim() === ""){
+            alert("Bitte Füllen Sie die Felder 'Email adress' und'Laxout user name' aus.")
+        }
+    }
+}
+
     window.onload = function () {
         var illnessDropdown = document.getElementById("illness");
         var selectedIllnessInput = document.getElementById("selected_illness");
@@ -78,7 +88,10 @@
             selectedIllnessInput.value = illnessDropdown.value;
 
             // Sende das Formular ab
-            document.getElementsByTagName("form")[0].submit();
+            if (validateForm()) {
+                // Sende das Formular ab
+                document.getElementsByTagName("form")[0].submit();
+            }
         } else {
             // Wenn die Checkbox nicht aktiviert ist, gib eine Warnung aus oder ergreife andere Maßnahmen
             alert("Bitte bestätigen Sie die Zahlung!");
