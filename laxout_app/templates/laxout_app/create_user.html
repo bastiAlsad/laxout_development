@@ -50,6 +50,12 @@
                     Der Patient zahlt 39€
                 </div>
             </div>
+            <div style="display: flex; align-items: center; margin-top: 25px;">
+                <input type="checkbox" style="height: 20px; width: 20px; border-radius: 20px;" id="checkbox_datasafety">
+                <div style="justify-content: center; margin-left: 25px;">
+                    Der Patient akzeptiert die Datenschutzbestimmungen und die AGBs
+                </div>
+            </div>
 
             <div style="height: 30px;"></div>
             <button type="button" class="submit_button" onclick="submitForm()">Nutzer Erstellen</button>
@@ -58,15 +64,27 @@
 </div>
 
 <script>
-    
-function validateForm(){
-    var requirdedFields = document.querySelectorAll('[required]');
-    for(var i = 0; i<requirdedFields.length; i++){
-        if(requirdedFields[i].value.trim() === ""){
-            alert("Bitte Füllen Sie die Felder 'Email adress' und'Laxout user name' aus.")
+
+function validateForm() {
+        // Hole alle Pflichtfelder
+        var requiredFields = document.querySelectorAll('[required]');
+        var alertshown = false;
+
+        // Überprüfe jedes Pflichtfeld
+        for (var i = 0; i < requiredFields.length; i++) {
+            // Wenn ein Pflichtfeld leer ist, gib eine Warnung aus und verhindere das Absenden
+            if (requiredFields[i].value.trim() === '') {
+                if(alertshown === false){
+                    alert('Bitte füllen Sie alle Pflichtfelder aus.');
+                }
+                alertshown = true;
+                return false; // Verhindere das Absenden des Formulars
+            }
         }
+
+        // Wenn alle Pflichtfelder ausgefüllt sind, lasse das Formular absenden
+        return true;
     }
-}
 
     window.onload = function () {
         var illnessDropdown = document.getElementById("illness");
@@ -76,21 +94,28 @@ function validateForm(){
             selectedIllnessInput.value = this.value;
         });
     };
+
     function submitForm() {
+        console.log(validateForm());
         var checkbox = document.getElementById("checkbox_payment");
+        var checkbox2 = document.getElementById("checkbox_datasafety");
 
         // Überprüfe, ob die Checkbox aktiviert ist
         if (checkbox.checked) {
-            var illnessDropdown = document.getElementById("illness");
-            var selectedIllnessInput = document.getElementById("selected_illness");
+            if (checkbox2.checked) {
+                var illnessDropdown = document.getElementById("illness");
+                var selectedIllnessInput = document.getElementById("selected_illness");
 
-            // Aktualisiere das versteckte Eingabefeld mit dem Wert des Dropdown-Menüs
-            selectedIllnessInput.value = illnessDropdown.value;
+                // Aktualisiere das versteckte Eingabefeld mit dem Wert des Dropdown-Menüs
+                selectedIllnessInput.value = illnessDropdown.value;
 
-            // Sende das Formular ab
-            if (validateForm()) {
                 // Sende das Formular ab
-                document.getElementsByTagName("form")[0].submit();
+                if (validateForm()) {
+                    // Sende das Formular ab
+                    document.getElementsByTagName("form")[0].submit();
+                }
+            } else {
+                alert("Der Patient muss die Datenschutzbestimmungen und die AGBs akzeptieren!");
             }
         } else {
             // Wenn die Checkbox nicht aktiviert ist, gib eine Warnung aus oder ergreife andere Maßnahmen

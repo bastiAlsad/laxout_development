@@ -40,7 +40,7 @@ uebungen = [
     UebungList(
         looping=True,
         timer=True,
-        execution="Sitzen Sie aufrecht auf einem Stuhl und nehmen Sie den linken Fuß wie gezeigt auf den rechten Oberschenkel. Versuchen Sie Ihr linkes Knie soweit wie möglich nach unten zu drücken.",
+        execution="Führen Sie die Übung im aufrechten Stand durch und achten Sie auf eine gerade Wirbelsäule. Die Blikrichtung ist nach vorne.",
         name="Schulterblattkreisen",
         videoPath="assets/videos/schuterblattkreisen.mp4",
         dauer=30,
@@ -53,7 +53,7 @@ uebungen = [
     UebungList(
         looping=True,
         timer=True,
-        execution="Wichtig ist dass du aufrecht an der Stuhlkante sitzt und deine Schultern hängen lässt. Führe die Übung bitte langsam aus.",
+        execution="Wichtig ist, dass Sie aufrecht an der Stuhlkante sitzten und Ihre Schultern hängen lassen. Führen Sie die Übung bitte langsam aus.",
         name="Halbkreise Links",
         videoPath="assets/videos/Halbkreisnackenlinks.mp4",
         dauer=30,
@@ -67,7 +67,7 @@ uebungen = [
     UebungList(
         looping=True,
         timer=True,
-        execution="Wichtig ist dass du aufrecht an der Stuhlkante sitzt und deine Schultern hängen lässt. Führe die Übung bitte langsam aus.",
+        execution="Wichtig ist, dass Sie aufrecht an der Stuhlkante sitzten und Ihre Schultern hängen lassen. Führen Sie die Übung bitte langsam aus.",
         name="Halbkreise Rechts",
         videoPath="assets/videos/HalbkreisNackenrechts.mp4",
         dauer=30,
@@ -80,7 +80,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Gehe langsam in die Dehnung, halte sie und bewege deine Schultern nicht. Außerdem ist es gut, wenn du aufrecht sitzt. Bist du fertig mit der Übung, verlasse die Dehnung nicht zu schnell.",
+        execution="Gehen Sie langsam in die Dehnung, halten Sie sie und bewegen Sie Ihre Schultern nicht. Außerdem ist es gut, wenn Sie aufrecht sitzten und Sie den freien Arm in Richtung Boden bewegen. Sind Sie fertig mit der Übung, verlassen Sie die Dehnung bitte nicht zu schnell.",
         name="Dehnung Links Hinten",
         videoPath="assets/videos/nackenLinksHinten.mp4",
         dauer=30,
@@ -93,7 +93,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Gehe langsam in die Dehnung, halte sie und bewege deine Schultern nicht. Außerdem ist es gut, wenn du aufrecht sitzt. Bist du fertig mit der Übung, verlasse die Dehnung nicht zu schnell.",
+        execution="Gehen Sie langsam in die Dehnung, halten Sie sie und bewegen Sie Ihre Schultern nicht. Außerdem ist es gut, wenn Sie aufrecht sitzten und Sie den freien Arm in Richtung Boden bewegen. Sind Sie fertig mit der Übung, verlassen Sie die Dehnung bitte nicht zu schnell.",
         name="Dehnung Rechts Hinten",
         videoPath="assets/videos/nackenRechtsHinten.mp4",
         dauer=30,
@@ -106,7 +106,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Lege deine Hände im geschätzen 45 Grad Winkel wie gezeigt an die Wand. Dannach machst du einen Ausfallschritt und verlagerst dein Gewicht langsam nach vorne.",
+        execution="Legen Sie Ihre Hände im geschätzen 45 Grad Winkel wie gezeigt an die Wand. Dannach machen Sie bitte einen Ausfallschritt nach vorne, woraufhin Sie Ihr Gewicht langsam nach vorne verlagern.",
         name="Schulterdehnung 45 Grad",
         videoPath="assets/videos/schulterdehnung.mp4",
         dauer=30,
@@ -119,7 +119,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Lege deine Hände so hoch wie möglich an die Wand, wie als ob dich jemand nach oben zieht. Dannach machst du einen Ausfallschritt und verlagerst dein Gewicht langsam nach vorne.",
+        execution="Legen Sie Ihre Hände so hoch wie möglich an die Wand, wie als ob Sie jemand nach oben zieht. Dannach machen Sie bitte einen Ausfallschritt nach vorne, woraufhin Sie Ihr Gewicht langsam nach vorne verlagern.",
         name="Schulterdehnung 90 Grad",
         videoPath="assets/videos/schulterdehnungGerade.mp4",
         dauer=30,
@@ -132,7 +132,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Lasse deinen Nacken locker, wärend deine Hände sich auf Arschhöhre verschränken. Deine Schultern gehen nun hinten zusammen, während die Hände nach unten gezogen werden.",
+        execution="Lassen Sie Ihren Nacken locker, wärend sich die Hände auf Gesäßhöhre verschränken. Die Schultern gehen nun hinten zusammen, während die Hände nach unten gezogen werden. Bitte gehen Sie langsam in diese Dehnung.",
         name="Aufrichten",
         videoPath="assets/videos/aufrichtenoberkoerper.mp4",
         dauer=30,
@@ -145,7 +145,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Deine Hände sind auf Brusthöhe, während du dich nach vorne neigst, als ob jemand an deinen Unterarmen zieht. Stell dir vor du willst etwas vor dir umarmen.",
+        execution="Ihre Hände sind auf Brusthöhe, während Sie sich langsam nach vorne neigen, als ob jemand an deinen Unterarmen zieht. Stellen Sie sich vor, Sie wollten etwas vor Ihnen umarmen.",
         name="Bagger",
         videoPath="assets/videos/bagger.mp4",
         dauer=30,
@@ -172,8 +172,8 @@ uebungen = [
     UebungList(
         looping=True,
         timer=True,
-        execution="Du schaust gerade nach oben zur Decke. Lege deine Beine langsam und abwechselnd links und rechts zur Seite ab. Dabei bewegt sich dein Oberkörper nicht.",
-        name="Plumpsen",
+        execution="Sie schauen gerade nach oben zur Decke. Legen Sie Ihre Beine langsam und abwechselnd links und rechts zur Seite ab. Achten Sie hierbei darauf, dass sich Ihr Oberkörper nicht bewegt.",
+        name="Hüftrollen",
         videoPath="assets/videos/Plumpsenrechtslinks.mp4",
         dauer=30,
         imagePath="assets/images/plumpsen.png",
@@ -212,7 +212,7 @@ uebungen = [
     UebungList(
         looping=True,
         timer=True,
-        execution="Setze dich so an die Stuhlkante, dass deine Knie auseinander sind und du aufrecht sitzt. Bei der Drehnung darf sich dein Becken und dein Kopf nicht bewegen. Tipp nehme hierfür deine Hände, wie gezeigt vor die Brust.",
+        execution="Setzen Sie sich so an die Stuhlkante, dass die Knie auseinander sind und Sie aufrecht sitzen. Bei der Drehnung darf sich das Becken nicht bewegen. Tipp nehmen Sie hierfür dine Hände, wie gezeigt vor die Brust.",
         name="Rotation Oberkörper",
         videoPath="assets/videos/rotationMittlererR.mp4",
         dauer=30,
@@ -221,11 +221,11 @@ uebungen = [
         instruction="",
         required="Stuhl",
         onlineVidePath="https://youtu.be/bM5QIh9G2hc"
-    ),
+    ),                                                                                                                                                                                                              
     UebungList(
         looping=False,
         timer=True,
-        execution="Setze dich so an die Stuhlkante, dass deine Knie auseinander sind und du aufrecht sitzt. Neige dich nun mit ausgestrecktem Arm zur Seite und versuche tief zu atmen. Schau dabei auf den Boden, der gerade vor dir ist.",
+        execution="Setzen Sie sich so an die Stuhlkante, dass die Knie auseinander sind und Sie aufrecht sitzen. Neigen Sie sich nun mit ausgestrecktem Arm zur Seite und versuchen Sie tief zu atmen. Schaun Sie dabei auf den Boden, der gerade vor Ihnen ist.",
         name="Seitliche Dehnung links",
         videoPath="assets/videos/seitlicheDehnunglins.mp4",
         dauer=30,
@@ -238,7 +238,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Setze dich so an die Stuhlkante, dass deine Knie auseinander sind und du aufrecht sitzt. Neige dich nun mit ausgestrecktem Arm zur Seite und versuche tief zu atmen. Schau dabei auf den Boden, der gerade vor dir ist.",
+        execution="Setzen Sie sich so an die Stuhlkante, dass die Knie auseinander sind und Sie aufrecht sitzen. Neigen Sie sich nun mit ausgestrecktem Arm zur Seite und versuchen Sie tief zu atmen. Schaun Sie dabei auf den Boden, der gerade vor Ihnen ist.",
         name="Seitliche Dehnung rechts",
         videoPath="assets/videos/seitlicheDehnungm.rechts.mp4",
         dauer=30,
@@ -278,7 +278,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Setzen Sie sich aufrecht auf einen Stuhl. Legen Sie Ihre Hände an den Hinterkopf. Beugen Sie Ihren Nacken nach vorne und spüren Sie eine leichte Dehnung im Bereich der Halswirbelsäule.",
+        execution="Setzen Sie sich aufrecht auf einen Stuhl. Legen Sie Ihre Hände an den Hinterkopf. Beugen Sie Ihren Nacken nach vorne und spüren Sie eine leichte Dehnung im Bereich der Halswirbelsäule. Bitte reißen Sie nicht an Ihrem Nacken.",
         name="Dehnung HWS hinten",
         videoPath="assets/videos/DehnungHwsHinten.mp4",
         dauer=30,
@@ -449,7 +449,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Setzen Sie sich auf den Boden. Ihre Arme gehen hinter den Rücken auf den Boden, als ob Sie sich abstützen würden. Halten Sie Ihre Füße leicht angewinkelt. Ihre Ellenbogen bleiben gerade, während Sie Ihre Hände langsam nach hinten tippeln, bis sie eine Dehnung spürem. Dann drücken sie die Hände gegen den Boden, bis sie eine leichte bis mittelstarke Dehnung spüren. Führen Sie die Übung etwa 60 Sekunden lang aus.",
+        execution="Setzen Sie sich auf den Boden. Ihre Arme gehen hinter den Rücken auf den Boden, als ob Sie sich abstützen würden. Halten Sie Ihre Füße leicht angewinkelt. Ihre Ellenbogen bleiben gerade, während Sie Ihre Hände langsam nach hinten tippeln, bis sie eine Dehnung spüren. Dann drücken sie die Hände gegen den Boden, bis sie eine leichte bis mittelstarke Dehnung spüren. Führen Sie die Übung etwa 60 Sekunden aus. Achten Sie darauf, dass nur die Arme nach hinten gehen und der Schultergürtel fixiert bleibt.",
         name="Dehnung im Halbliegen",
         videoPath="assets/videos/DehnungImHalbliegen.mp4",
         dauer=60,
@@ -501,7 +501,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Knien Sie sich zunächst auf eine Matte. Machen Sie es dann wie eine Katze, lassen Sie ihren Oberkörper nach vorne absinken, bleiben sie mit den Knien und den Füßen am Boden und strecken sie ihre Hände soweit wie möglich nach vorne aus. Schieben sie ihren Oberkörper dann nach hinten um eine leichte Dehnung im Bereich der Schultern zu spüren.",
+        execution="Knien Sie sich zunächst auf eine Matte. Machen Sie es dann wie eine Katze, lassen Sie ihren Oberkörper nach vorne absinken, bleiben sie mit den Knien und den Füßen am Boden und strecken sie ihre Hände soweit wie möglich nach vorne aus. Schieben sie ihren Oberkörper dann nach hinten um eine leichte Dehnung im Bereich der Schultern zu spüren. Achten Sie auf eine tiefe Atmung.",
         name="Kinderstellung",
         videoPath="assets/videos/Kinderstellung.mp4",
         dauer=30,
@@ -633,7 +633,7 @@ uebungen = [
     UebungList(
         looping=True,
         timer=True,
-        execution="Stehen Sie aufrecht, leicht in den Knien. Lassen Sie Ihre Arme wie eine Windmühle nach vorne kreisen, während Ihr Kopf nach vorne schaut. Der Rücken sollte gerade bleiben und der Oberkörper sich möglichst wenig mitbewegen.",
+        execution="Stehen Sie aufrecht, leicht in den Knien. Lassen Sie Ihre Arme wie eine Windmühle nach vorne kreisen, während Ihr Kopf nach vorne schaut. Der Rücken sollte gerade bleiben und der Oberkörper sich möglichst wenig mitbewegen. Achten Sie darauf, Ihren Bauch anzuspannen.",
         name="Armkreisen/ Windmühle nach vorne",
         videoPath="assets/videos/WindmuehleVorne.mp4",
         dauer=60,
@@ -883,7 +883,7 @@ uebungen = [
     UebungList(
         looping=True,
         timer=True,
-        execution="Nehmen Sie eine aufrechte Sitzposition ein. Imitieren Sie die Armbewegungen eines Kaktus: Ihr linker Arm bildet einen 90-Grad-Winkel zwischen Ober- und Unterarm und zeigt zum Boden, während Ihre Handfläche nach hinten gerichtet ist. Ihr rechter Arm bildet ebenfalls einen 90-Grad-Winkel zwischen Ober- und Unterarm, zeigt zur Decke und die Handfläche ist nach vorne gerichtet. Der rechte Arm geht nun in die Position des linken Arms und umgekehrt. Dabei sollten die Oberarme parallel zum Boden bleiben und sich möglichst nicht bewegen. Die 90 Grad Winkel sollten möglichst dauerhaft erhalten bleiben.",
+        execution="Nehmen Sie eine aufrechte Sitzposition ein. Imitieren Sie die Armbewegungen eines Kaktus: Ihr linker Arm bildet einen 90-Grad-Winkel zwischen Ober- und Unterarm und zeigt zum Boden, während Ihre Handfläche nach hinten gerichtet ist. Ihr rechter Arm bildet ebenfalls einen 90-Grad-Winkel zwischen Ober- und Unterarm, zeigt zur Decke und die Handfläche ist nach vorne gerichtet. Achten Sie darauf, dass der Schultergürtel fixiert bleibt.",
         name="Kaktus",
         videoPath="assets/videos/Kaktus.mp4",
         dauer=60,
@@ -896,7 +896,7 @@ uebungen = [
     UebungList(
         looping=True,
         timer=False,
-        execution="Begeben Sie sich in die Position für einen Liegestütz, allerdings stützen sie ihr Gewicht auf den Knien ab und nicht wie beim normalen Liegestütz auf den Füßen. Ihr Rücken sollte während der Übung gerade sein, und Ihre Hände sollten sich etwa auf Höhe der Schultern am Boden befinden. Beim Hochkommen aus der Liegestützposition atmen Sie aus und beim runtergehen Atmen Sie ein.",
+        execution="Begeben Sie sich in die Position für einen Liegestütz, allerdings stützen sie Ihr Gewicht auf den Knien ab und nicht wie beim normalen Liegestütz auf den Füßen. Ihr Rücken sollte während der Übung gerade sein, und Ihre Hände sollten sich etwa auf Höhe der Schultern am Boden befinden. Beim Hochkommen aus der Liegestützposition atmen Sie aus und beim runtergehen atmen Sie ein.",
         name="Abgewandte Liegestütz",
         videoPath="assets/videos/AbgewandterLiegestuetz2.mp4",
         dauer=15,
@@ -1262,7 +1262,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Sie können die Übung bei Bedarf bzw. Schmerzen unverzüglich abbrechen.Thorakale Drehung links: Setzen Sie sich auf einen Stuhl, Rücken gerade. Legen Sie die linke Hand auf die rechte Außenseite Ihres rechten Oberschenkels. Drehen Sie Ihren Oberkörper nach rechts und benutzen Sie Ihre rechte Hand, um den Boden hinter Ihnen zu greifen. Halten Sie die Drehung für 15-20 Sekunden. Versuchen Sie die Hüfte nicht zu verrutschen und bleiben Sie während der gesamten Übung mit Ihrem Rücken gerade.",
+        execution="Sie können die Übung bei Bedarf bzw. Schmerzen unverzüglich abbrechen.Thorakale Drehung links: Setzen Sie sich auf einen Stuhl, Rücken gerade. Legen Sie die linke Hand auf die rechte Außenseite Ihres rechten Oberschenkels. Drehen Sie Ihren Oberkörper nach rechts und benutzen Sie Ihre rechte Hand, um den Boden hinter Ihnen zu greifen. Halten Sie die Drehung für 15-30 Sekunden. Versuchen Sie die Hüfte nicht zu bewegen.",
         name="Thorakale Drehung links",
         videoPath="assets/videos/ThorakaleDenungLinks.mp4",
         dauer=30,
@@ -1275,7 +1275,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Sie können die Übung bei Bedarf bzw. Schmerzen unverzüglich abbrechen.Thorakale Drehung rechts: Setzen Sie sich auf einen Stuhl, Rücken gerade. Legen Sie die rechte Hand auf die linke Außenseite Ihres linken Oberschenkels. Drehen Sie Ihren Oberkörper nach links und benutzen Sie Ihre linke Hand, um den Boden hinter Ihnen zu greifen. Halten Sie die Drehung für 15-20 Sekunden. Versuchen Sie die Hüfte nicht zu verrutschen und bleiben Sie während der gesamten Übung mit Ihrem Rücken gerade.",
+        execution="Sie können die Übung bei Bedarf bzw. Schmerzen unverzüglich abbrechen.Thorakale Drehung rechts: Setzen Sie sich auf einen Stuhl, Rücken gerade. Legen Sie die rechte Hand auf die linke Außenseite Ihres linken Oberschenkels. Drehen Sie Ihren Oberkörper nach links und benutzen Sie Ihre linke Hand, um den Boden hinter Ihnen zu greifen. Halten Sie die Drehung für 15-30 Sekunden. Versuchen Sie die Hüfte nicht zu bewegen.",
         name="Thorakale Drehung rechts",
         videoPath="assets/videos/ThorakaleDenungRechts.mp4",
         dauer=30,
@@ -1288,7 +1288,7 @@ uebungen = [
     UebungList(
         looping=True,
         timer=False,
-        execution="Sie können die Übung bei Bedarf bzw. Schmerzen unverzüglich abbrechen.Katzen-Kuh-Dehnung: Beginnen Sie die Übung auf Händen und Knien im Vierfüßlerstand, mit den Händen unter den Schultern und den Knien unter den Hüften. Bei der Einatmung senken Sie den Rücken nach unten, heben den Kopf und schauen nach oben (Kuh-Haltung). Bei der Ausatmung runden Sie den Rücken, ziehen das Kinn zur Brust und schieben den Rücken nach oben (Katzenhaltung). Verwenden Sie eine Matte. Halten Sie jede Position für ca. 10 Sekunden",
+        execution="Sie können die Übung bei Bedarf bzw. Schmerzen unverzüglich abbrechen.Katzen-Kuh-Dehnung: Beginnen Sie die Übung auf Händen und Knien im Vierfüßlerstand, mit den Händen unter den Schultern und den Knien unter den Hüften. Bei der Einatmung senken Sie den Rücken nach unten, heben den Kopf und schauen nach oben (Kuh-Haltung). Bei der Ausatmung runden Sie den Rücken, ziehen das Kinn zur Brust.",
         name="Katzen-Kuh-Dehnung",
         videoPath="assets/videos/KatzenKuhDehnung.mp4",
         dauer=30,
@@ -1301,7 +1301,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Sie können die Übung bei Bedarf bzw. Schmerzen unverzüglich abbrechen.Erleichterte Plank: Stützen Sie sich mit den Händen und den Knien auf einer Matte ab. Ihr Rücken ist gerade, der Kopf schaut nach vorne. Strecken Sie nun abwechselnd den linken und dann den rechten Arm für eine kurze Zeit nach vorne/oben aus. Halten Sie die Plank mit nur einer Hand und versuchen stabil zu bleiben. Strecken Sie den Arm, der oben ist, voll aus.",
+        execution="Sie können die Übung bei Bedarf bzw. Schmerzen unverzüglich abbrechen.Erleichterte Plank: Stützen Sie sich mit den Händen und den Knien auf einer Matte ab. Ihr Rücken ist gerade, der Kopf schaut nach vorne.",
         name="Erleichterte Plank",
         videoPath="assets/videos/ErleichtertePlank.mp4",
         dauer=40,
@@ -1340,7 +1340,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Sie können die Übung bei Bedarf bzw. Schmerzen unverzüglich abbrechen.Fliegen: Legen Sie sich mit dem Bauch auf eine Matte. Strecken Sie Ihre Arme seitlich aus, mit 90 Grad zwischen Oberkörper und Armen. Der Kopf schaut in den Boden. Heben Sie nun Ihre Arme mit dem Oberkörper nach oben, als würden Sie mit den Flügeln schlagen, und senken ihn langsam wieder ab. Die Arme sind die ganze Zeit in der Luft. Vergessen Sie nicht zu atmen.",
+        execution="Sie können die Übung bei Bedarf bzw. Schmerzen unverzüglich abbrechen.Fliegen: Legen Sie sich mit dem Bauch auf eine Matte. Strecken Sie Ihre Arme seitlich aus, mit 90 Grad zwischen Oberkörper und Armen. Der Kopf schaut in den Boden. Heben Sie nun Ihre Arme mit dem Oberkörper nach oben, als würden Sie mit den Flügeln schlagen, und senken ihn langsam wieder ab.",
         name="Fliegen",
         videoPath="assets/videos/Fliegen.mp4",
         dauer=30,
@@ -1380,7 +1380,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=False,
-        execution="Sie können die Übung bei Bedarf bzw. Schmerzen unverzüglich abbrechen.Ruderübung mit Theraband: Befestigen Sie ein Theraband an einem festen Punkt, ca auf Bauchnabelhöhe. Nehmen Sie die Enden des Therabands in beide Hände und stehen Sie mit leicht gebeugten Knien. Ziehen Sie das Theraband zu sich, während Sie den Rücken gerade halten und die Ellbogen eng am Körper behalten. Spannen Sie den Bauch dabei an. Diese Übung stärkt die Muskeln im oberen und mittleren Rücken, was zur Entlastung des unteren Rückens beiträgt.",
+        execution="Sie können die Übung bei Bedarf bzw. Schmerzen unverzüglich abbrechen.Ruderübung mit Theraband: Befestigen Sie ein Theraband an einem festen Punkt, ca auf Bauchnabelhöhe. Nehmen Sie die Enden des Therabands in beide Hände und stehen Sie mit leicht gebeugten Knien. Ziehen Sie das Theraband zu sich, während Sie den Rücken gerade halten und die Ellbogen eng am Körper behalten. Spannen Sie den Bauch dabei an.",
         name="Ruderübung mit Theraband",
         videoPath="assets/videos/RuderuebungMitTheraband.mp4",
         dauer=30,
@@ -1406,7 +1406,7 @@ uebungen = [
     UebungList(
         looping=True,
         timer=True,
-        execution="Aufdrehen im Vierfüßler Stand links: Gehen Sie in den Vierfüßler Stand. Strecken Sie nun Ihr rechtes Bein nach hinten aus. Drehen Sie Ihren linken Arm nach außen und stützen Sie sich mit der rechten Hand ab. Schauen Sie dem Arm hinterher. Führen Sie die Bewegung langsam aus. Tauchen Sie dann ab, indem Ihr linker Arm unter Ihrem Körper hindurchgeht und Ihr Oberkörper sich leicht verknotet. Gehen Sie zurück in die Grundstellung und führen Sie diese Übung für 1 Minute aus.",
+        execution="Aufdrehen im Vierfüßler Stand links: Gehen Sie in den Vierfüßler Stand. Strecken Sie nun Ihr rechtes Bein nach hinten aus. Drehen Sie Ihren linken Arm nach außen und stützen Sie sich mit der rechten Hand ab. Schauen Sie dem Arm hinterher. Führen Sie die Bewegung langsam aus. Tauchen Sie dann ab, indem Ihr linker Arm unter Ihrem Körper hindurchgeht und Ihr Oberkörper sich leicht öffnet.",
         name="Aufdrehen im Vierfüßler Stand links",
         videoPath="assets/videos/AufdrehenVLinks.mp4",
         dauer=60,
@@ -1419,7 +1419,7 @@ uebungen = [
     UebungList(
         looping=True,
         timer=True,
-        execution="Aufdrehen im Vierfüßler Stand rechts: Gehen Sie in den Vierfüßler Stand. Strecken Sie nun Ihr linkes Bein nach hinten aus. Drehen Sie Ihren rechten Arm nach außen und stützen Sie sich mit der linken Hand ab. Schauen Sie dem Arm hinterher. Führen Sie die Bewegung langsam aus. Tauchen Sie dann ab, indem Ihr rechter Arm unter Ihrem Körper hindurchgeht und Ihr Oberkörper sich leicht verknotet. Gehen Sie zurück in die Grundstellung und führen Sie diese Übung für 1 Minute aus.",
+        execution="Aufdrehen im Vierfüßler Stand rechts: Gehen Sie in den Vierfüßler Stand. Strecken Sie nun Ihr linkes Bein nach hinten aus. Drehen Sie Ihren rechten Arm nach außen und stützen Sie sich mit der linken Hand ab. Schauen Sie dem Arm hinterher. Führen Sie die Bewegung langsam aus. Tauchen Sie dann ab, indem Ihr rechter Arm unter Ihrem Körper hindurchgeht und Ihr Oberkörper sich leicht öffnet.",
         name="Aufdrehen im Vierfüßler Stand rechts",
         videoPath="assets/videos/AufdrehenVRechts.mp4",
         dauer=60,
@@ -1445,7 +1445,7 @@ uebungen = [
     UebungList(
         looping=True,
         timer=True,
-        execution="Drehung im Stehen: Verknoten Sie Ihre Arme vor dem Oberkörper, während Sie aufrecht stehen. Ihre Schultern sind tief und unten. Ihr Kopf ist gerade und schaut nach vorne. Drehen Sie sich ausatmend auf die eine Seite, dann einatmend zurück zur Ausgangsposition und dann ausatmend zur anderen Seite. Führen Sie diese Übung für ca. 1 Minute aus, sie kann auch im Sitzen ausgeführt werden. Ihr Bauch sollte leicht angespannt sein und ihre Beine in einer stabilen Stellung und die Knie sollten leicht gebeugt sein.",
+        execution="Drehung im Stehen: Verschränken Sie Ihre Arme vor dem Oberkörper, während Sie aufrecht stehen. Ihre Schultern sind tief und unten. Ihr Kopf ist gerade und schaut nach vorne. Drehen Sie sich ausatmend auf die eine Seite, dann einatmend zurück zur Ausgangsposition und dann ausatmend zur anderen Seite. Führen Sie diese Übung für ca. 1 Minute aus, sie kann auch im Sitzen ausgeführt werden. Ihr Bauch sollte leicht angespannt sein und ihre Beine in einer stabilen Stellung und die Knie sollten leicht gebeugt sein.",
         name="Drehung im Stehen",
         videoPath="assets/videos/DrehungImStehen.mp4",
         dauer=60,
@@ -1457,7 +1457,7 @@ uebungen = [
     UebungList(
         looping=True,
         timer=True,
-        execution="Öffnen und schließen BWS: Stellen Sie sich etwas breitbeinig hin. Strecken Sie Ihre Arme nach oben, dannach lehnen Sie sich nach hinten und spreizen Ihre Finger auseinander. Die Daumen sollten nach hinten zeigen, und Sie sollten während dieser Bewegung einatmen. Atmen Sie aus und führen Sie Ihren ausgestreckten Armen eine Art Kreisbewegung aus, bei der Sie sie aus der Ausgangsposition wie eine Windmühle nach vorne drehen, bis es nicht weitergeht. Runden Sie dabei Ihren Rücken (wie der Ronaldo mit gekrümmtem Rücken). Gehen Sie wieder zurück zur Ausgangsposition.",
+        execution="Öffnen und schließen BWS: Stellen Sie sich breitbeinig hin. Strecken Sie Ihre Arme nach oben, dannach lehnen Sie sich nach hinten und spreizen Ihre Finger auseinander. Die Daumen sollten nach hinten zeigen, und Sie sollten während dieser Bewegung einatmen. Atmen Sie aus und führen Sie mit Ihren ausgestreckten Armen eine Kreisbewegung aus. Achten Sie darauf, den Bauch anzuspannen.",
         name="Öffnen BWS",
         videoPath="assets/videos/OeffnenBWS.mp4",
         dauer=60,
@@ -1470,7 +1470,7 @@ uebungen = [
     UebungList(
         looping=True,
         timer=True,
-        execution="Mobilisierung Oberer Rücken: Stehen Sie breitbeinig und aufrecht. Strecken Sie beide Arme nach oben und fassen Sie sich selbst an den Händen, so als würden Sie sich selbst in die Länge ziehen. Beginnen Sie nun im stabilen Stand, Ihren Oberkörper in kreisartigen Bewegungen hin und her zu schwingen. Die Arme bleiben oben und der Rücken gerade, wobei sie versuchen die Drehung aus dem Rücken heraus zu machen und nicht aus der Hüfte heraus. Diese bewegt sich möglichst nicht. Brechen Sie die Übung bei Schmerzen sofort ab.",
+        execution="Mobilisierung Oberer Rücken: Stehen Sie breitbeinig und aufrecht. Strecken Sie beide Arme nach oben und fassen Sie sich selbst an den Händen, so als würden Sie sich selbst in die Länge ziehen. Achten Sie dabei darauf, nicht ins Hohlkreuz zu gehen. Beginnen Sie nun im stabilen Stand, Ihren Oberkörper in kreisartigen Bewegungen hin und her zu schwingen. Die Arme bleiben oben und der Rücken gerade, wobei sie versuchen die Drehung aus dem Rücken heraus zu machen.",
         name="Mobilisierung Oberer Rücken",
         videoPath="assets/videos/MORuecken.mp4",
         dauer=60,
@@ -1548,7 +1548,7 @@ uebungen = [
     UebungList(
         looping=True,
         timer=True,
-        execution="Kobradehnung: Legen Sie sich mit Bauch auf eine Matte. Stützen Sie sich nun mit den Händen ab, als wären Sie eine Kobra. Halten Sie die Dehnung und übnerstrecken Sie den Kopf leicht. Sollten Sie Schmerzen/Schwindel spüren oder eine Dehnung, die nicht im Zielbereich liegt, brechen Sie die Übung bitte sofort ab.",
+        execution="Kobradehnung: Legen Sie sich mit Bauch auf eine Matte. Stützen Sie sich nun mit den Händen ab, als wären Sie eine Kobra. Halten Sie die Dehnung und überstrecken Sie den Kopf leicht. Sollten Sie Schmerzen/Schwindel spüren oder eine Dehnung, die nicht im Zielbereich liegt, brechen Sie die Übung bitte sofort ab.",
         name="Kobradehnung",
         videoPath="assets/videos/Kobradehnung.mp4",
         dauer=30,
@@ -1561,7 +1561,7 @@ uebungen = [
     UebungList(
         looping=True,
         timer=True,
-        execution="Lendenwirbeldehnung links: Legen Sie sich mit dem Rücken auf eine Matte. Winkeln Sie Ihr linkes Knie an und lassen Sie es nach rechts fallen. Drehen Sie Ihre Hüfte, sodass ein 90-Grad-Winkel zwischen dem Boden und Ihrem Gesäß entsteht. Strecken Sie den linken Arm seitlich aus. Die rechte Hand liegt am linken Knie und zieht dieses leicht in Richtung Boden. Atmen Sie natürlich und schauen sie nach oben, wobei ihre Hüfte am Boden fixiert bleibt. Das linke Knie sollte mit ca. 90 Grad angewinkelt sein. Sollten Sie Schmerzen spüren oder eine Dehnung, die nicht im Zielbereich liegt, brechen Sie die Übung bitte sofort ab.",
+        execution="Lendenwirbeldehnung links: Legen Sie sich mit dem Rücken auf eine Matte. Winkeln Sie Ihr linkes Knie an und lassen Sie es nach rechts fallen. Drehen Sie Ihre Hüfte, sodass ein 90-Grad-Winkel zwischen dem Boden und Ihrem Gesäß entsteht. Strecken Sie den linken Arm seitlich aus. Die rechte Hand liegt am linken Knie und zieht dieses leicht in Richtung Boden. Atmen Sie natürlich und schauen sie zur linken Hand.",
         name="Lendenwirbeldehnung links",
         videoPath="assets/videos/LendernwirbeldehnungLinks.mp4",
         dauer=30,
@@ -1574,7 +1574,7 @@ uebungen = [
     UebungList(
         looping=True,
         timer=True,
-        execution="Lendenwirbeldehnung rechts: Legen Sie sich mit dem Rücken auf eine Matte. Winkeln Sie Ihr rechtes Knie an und lassen Sie es nach links fallen. Drehen Sie Ihre Hüfte, sodass ein 90-Grad-Winkel zwischen dem Boden und Ihrem Gesäß entsteht. Strecken Sie den rechten Arm seitlich aus. Die linke Hand liegt am rechtem Knie und zieht dieses leicht in Richtung Boden. Atmen Sie natürlich und schauen sie nach oben, wobei ihre Hüfte am Boden fixiert bleibt. Das rechte Knie sollte mit ca. 90 Grad angewinkelt sein. Sollten Sie Schmerzen spüren oder eine Dehnung, die nicht im Zielbereich liegt, brechen Sie die Übung bitte sofort ab.",
+        execution="Lendenwirbeldehnung rechts: Legen Sie sich mit dem Rücken auf eine Matte. Winkeln Sie Ihr rechtes Knie an und lassen Sie es nach links fallen. Drehen Sie Ihre Hüfte, sodass ein 90-Grad-Winkel zwischen dem Boden und Ihrem Gesäß entsteht. Strecken Sie den rechten Arm seitlich aus. Die linke Hand liegt am rechtem Knie und zieht dieses leicht in Richtung Boden. Atmen Sie natürlich und schauen sie zur rechten Hand",
         name="Lendenwirbeldehnung rechts",
         videoPath="assets/videos/LendenwirbeldehnungRechts.mp4",
         dauer=30,
@@ -1743,7 +1743,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Hüftbeuger Dehnung rechts: Gehen Sie zunächst in den Kniestand auf einer Matte. Nehmen Sie den linken Fuß nach vorne, sodass Sie einen rechten Winkel im Knie haben. Fußgelenk und Knie sind in einer Linie. Nehmen Sie Ihre Hände nach oben und schieben Sie Ihre Hüfte nun mit geradem Rücken nach vorne. Ihre Füße bleiben am Boden. Halten Sie diese Position. Sollten Sie Schmerzen spüren oder eine Dehnung, die nicht im Zielbereich liegt, brechen Sie die Übung bitte sofort ab.",
+        execution="Hüftbeuger Dehnung rechts: Gehen Sie zunächst in den Kniestand auf einer Matte. Nehmen Sie den linken Fuß nach vorne, sodass Sie einen rechten Winkel im Knie haben. Fußgelenk und Knie sind in einer Linie. Nehmen Sie Ihre Hände nach oben und schieben Sie Ihre Hüfte nun mit geradem Rücken nach vorne. Ihre Füße bleiben am Boden. Halten Sie diese Position. Sollten Sie Schmerzen spüren brechen Sie die Übung bitte ab.",
         name="Hüftbeuger Dehnung rechts",
         videoPath="assets/videos/HueftbeugerRechts.mp4",
         dauer=30,
@@ -1756,7 +1756,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Hüftbeuger Dehnung links: Gehen Sie zunächst in den Kniestand auf einer Matte. Nehmen Sie den linken Fuß nach vorne, sodass Sie einen rechten Winkel im Knie haben. Fußgelenk und Knie sind in einer Linie. Nehmen Sie Ihre Hände nach oben und schieben Sie Ihre Hüfte nun mit geradem Rücken nach vorne. Ihre Füße bleiben am Boden. Halten Sie diese Position. Sollten Sie Schmerzen spüren oder eine Dehnung, die nicht im Zielbereich liegt, brechen Sie die Übung bitte sofort ab.",
+        execution="Hüftbeuger Dehnung links: Gehen Sie zunächst in den Kniestand auf einer Matte. Nehmen Sie den linken Fuß nach vorne, sodass Sie einen rechten Winkel im Knie haben. Fußgelenk und Knie sind in einer Linie. Nehmen Sie Ihre Hände nach oben und schieben Sie Ihre Hüfte nun mit geradem Rücken nach vorne. Ihre Füße bleiben am Boden. Halten Sie diese Position. Sollten Sie Schmerzen spüren brechen Sie die Übung bitte sofort ab.",
         name="Hüftbeuger Dehnung links",
         videoPath="assets/videos/HueftbeugerLinks.mp4",
         dauer=30,
@@ -1783,7 +1783,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Zusammenrollen: Legen Sie sich mit dem Rücken auf eine Matte. Winkeln Sie anschließend die Knie an und ziehen Sie sie in Richtung Kopf. Ihre Arme unterstützen das Knie zum Körper hinzuiehen, indem Sie auf die Kniee mit den Händen eine leichte Zugkraft ausüben. Ziehen Sie die Knie so nah zum Bauch, dass Sie Ihre Arme wie gezeigt zu einem Paket verschnüren können. Atmen Sie ganz ruhig und entspannt. Sollten bei dieser Übung Schmerzen entstehen, brechen Sie sie bitte sofort ab.",
+        execution="Zusammenrollen: Legen Sie sich mit dem Rücken auf eine Matte. Winkeln Sie anschließend die Knie mit Hilfe der Arme an und ziehen Sie sie in Richtung Brust. Ziehen Sie die Knie soweit, dass Sie Ihre Arme wie gezeigt zu einem Paket verschnüren können. Atmen Sie ganz ruhig und entspannt.",
         name="Zusammenrollen",
         videoPath="assets/videos/Zusammenrollen.mp4",
         dauer=30,
@@ -1822,7 +1822,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Kräftigung in Rückenlage: Legen Sie sich mit dem Rücken auf eine Matte. Setzen Sie Ihre Hände rechts und links neben dem Körper ab. Heben Sie nun Ihr Gesäß leicht vom Boden ab und stützen Sie sich mit den Händen oder legen Sie sie, wenn es von der Kraftanstrengung her geht am besten auf Ihrer Hüfte ab. Halten Sie diese Position für 45 Sekunden und atmen Sie ganz natürlich. Der Blick ist dabei zur Decke gerichtet. Sollten Sie Schmerzen spüren, brechen Sie die Übung bitte sofort ab.",
+        execution="Kräftigung in Rückenlage: Legen Sie sich mit dem Rücken auf eine Matte. Setzen Sie Ihre Hände rechts und links neben dem Körper ab. Heben Sie nun Ihr Gesäß leicht vom Boden ab und stützen Sie sich mit den Händen oder legen Sie sie, wenn es von der Kraftanstrengung her geht am besten auf Ihrer Hüfte ab. Halten Sie diese Position für 45 Sekunden und atmen Sie ganz natürlich. Der Blick ist dabei zur Decke gerichtet.",
         name="Kräftigung in Rückenlage",
         videoPath="assets/videos/KraeRueckenlage.mp4",
         dauer=45,
@@ -1835,7 +1835,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Po Brücke: Legen Sie sich mit dem Rücken auf eine Matte. Setzen Sie Ihre Hände rechts und links neben dem Körper ab. Ziehen Sie Ihre Füße an und stellen Sie sie auf dem Boden ab, sodass die Waden senkrecht zum Boden sind. Drücken Sie nun Ihren unteren Rücken nach oben, sodass nur der Schulterbereich und Ihre Füße den Boden berühren. Verschränken Sie Ihre Arme unter Ihrem Po, damit sie zusätzlich stützen können. Halten Sie die Position für etwa 40 Sekunden. Achten Sie darauf, dass Ihr Rücken und Ihr Bauch eine gerade sind und Ihr Gesäß nicht nach unten hängt, ansonsten erzielt die Übung nicht die gewünschte Wirkung. Sollten Sie Schmerzen spüren, brechen Sie die Übung bitte sofort ab.",
+        execution="Po Brücke: Legen Sie sich mit dem Rücken auf eine Matte. Setzen Sie Ihre Hände rechts und links neben dem Körper ab. Ziehen Sie Ihre Füße an und stellen Sie sie auf dem Boden ab, sodass die Waden senkrecht zum Boden sind. Drücken Sie nun Ihren unteren Rücken nach oben, sodass nur der Schulterbereich und Ihre Füße den Boden berühren. Verschränken Sie Ihre Arme unter Ihrem Gesäß.",
         name="Po Brücke",
         videoPath="assets/videos/Po-Bruecke.mp4",
         dauer=40,
@@ -1848,7 +1848,7 @@ uebungen = [
     UebungList(
         looping=True,
         timer=False,
-        execution="Kniebeugen: Stehen Sie aufrecht, die Füße schulterbreit auseinander. Strecken Sie ihre Arme zur Stabilisation gerade nach vorne aus und richten Sie ihren Blick ebenfalls nach vorne. Beugen Sie die Knie und senken Sie sich, als ob Sie sich setzen würden. Stellen Sie sicher, dass Ihre Knie nicht über Ihre Zehen hinausragen. Kehren Sie zur aufrechten Position zurück. Diese Übung stärkt den gesamten unteren Rücken sowie die Beinmuskulatur. Sollten Sie Schmerzen spüren, brechen Sie die Übung bitte sofort ab.",
+        execution="Kniebeugen: Stehen Sie aufrecht, die Füße schulterbreit auseinander. Strecken Sie ihre Arme zur Stabilisation gerade nach vorne aus und richten Sie ihren Blick ebenfalls nach vorne. Beugen Sie die Knie und senken Sie sich, als ob Sie sich setzen würden. Stellen Sie sicher, dass Ihre Knie nicht über Ihre Zehen hinausragen und während der Bewegung nicht nach innen gehen. Kehren Sie zur aufrechten Position zurück.",
         name="Kniebeugen",
         videoPath="assets/videos/Kniebeugen.mp4",
         dauer=20,
@@ -1992,7 +1992,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Oberschenkeldehnung Links im Stehen: Stellen Sie sich an eine Wand. Stützen Sie sich ab und stellen Sie sich auf ein Bein. In diesem Fall sollten Sie auf dem rechten Bein stehen und Ihr linkes Bein anziehen. Nehmen Sie den linken Fuß in die Hand, sodass es im Oberschenkel zieht. Achten Sie darauf, dass die Kniee möglichst nah nebeneinander sind und der Rücken gerade ist. Sollten Sie Schmerzen spüren, brechen Sie die Übung bitte sofort ab.",
+        execution="Oberschenkeldehnung Links im Stehen: Stellen Sie sich optional an eine Wand. Stützen Sie sich ab und stellen Sie sich auf ein Bein. In diesem Fall sollten Sie auf dem rechten Bein stehen und Ihr linkes Bein anziehen. Nehmen Sie den linken Fuß in die Hand, sodass es im Oberschenkel zieht. Achten Sie darauf, dass die Knie möglichst nah nebeneinander sind und der Rücken gerade ist. Sollten Sie Schmerzen spüren, brechen Sie die Übung bitte sofort ab.",
         name="Oberschenkeldehnung Links im Stehen",
         videoPath="assets/videos/OberschenkeldehnungL.mp4",
         dauer=50,
@@ -2005,7 +2005,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Oberschenkeldehnung Rechts im Stehen: Stellen Sie sich an eine Wand. Stützen Sie sich ab und stellen Sie sich auf ein Bein. In diesem Fall sollten Sie auf dem linken Bein stehen und Ihr rechtes Bein anziehen. Nehmen Sie den rechten Fuß in die Hand, sodass es im Oberschenkel zieht. Achten Sie darauf, dass die Kniee möglichst nah nebeneinander sind und der Rücken gerade ist. Sollten Sie Schmerzen spüren, brechen Sie die Übung bitte sofort ab.",
+        execution="Oberschenkeldehnung Rechts im Stehen: Stellen Sie sich optional an eine Wand. Stützen Sie sich ab und stellen Sie sich auf ein Bein. In diesem Fall sollten Sie auf dem linken Bein stehen und Ihr rechtes Bein anziehen. Nehmen Sie den rechten Fuß in die Hand, sodass es im Oberschenkel zieht. Achten Sie darauf, dass die Knie möglichst nah nebeneinander sind und der Rücken gerade ist. Sollten Sie Schmerzen spüren, brechen Sie die Übung bitte sofort ab.",
         name="Oberschenkeldehnung Rechts im Stehen",
         videoPath="assets/videos/OberschenkeldehnungR.mp4",
         dauer=50,
@@ -2201,7 +2201,7 @@ uebungen = [
     UebungList(
         looping=False,
         timer=True,
-        execution="Nehmen Sie, wenn Ihr linkes Knie vorne ist, Ihren rechten Arm mit und umgekehrt. Führen Sie die Übung langsam aus. Beginnen Sie hiefür mit aufrechter Haltung und den Füßen schulterbreit auseinander. Machen Sie einen großen Schritt nach vorne, wobei Sie sicherstellen, dass das Knie des vorderen Beins im rechten Winkel über Ihrem Knöchel liegt. Das hintere Bein sollte ausgestreckt sein. Kehren Sie anschließend in die Ausgangsposition zurück und wiederholen Sie die Übung auf der anderen Seite. Das Knie darf nicht nach innen wegknicken, idealerweise bleibt es gerade ausgerichtet. Sollten Sie Schmerzen spüren, brechen Sie die Übung bitte sofort ab.",
+        execution="Führen Sie die Übung langsam aus. Beginnen Sie hiefür mit aufrechter Haltung und den Füßen schulterbreit auseinander. Machen Sie einen großen Schritt nach vorne, wobei Sie sicherstellen, dass das Knie des vorderen Beins im rechten Winkel über Ihrem Knöchel liegt. Das hintere Bein sollte ausgestreckt sein. ",
         name="Ausfallschritte",
         videoPath="assets/videos/Ausfallschritte.mp4",
         dauer=60,
@@ -2788,7 +2788,6 @@ uebungen = [
         required="",
         onlineVidePath="",
     ),
-
 ]
 
 
