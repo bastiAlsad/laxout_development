@@ -4378,21 +4378,21 @@ uebungen = [
 
 @login_required(login_url="login")
 def admin_power(request):
-    id = 1
-    all_exercises = models.Uebungen_Models.objects.all()
-    print("Test")
-    print(len(uebungen))
-    print(len(all_exercises))
-    for i in uebungen:
-        exercise = models.Uebungen_Models.objects.get(id=id)
-        exercise.execution = i.execution
-        exercise.save()
-        id += 1
+    ##Update Executions
+    # id = 1
+    # all_exercises = models.Uebungen_Models.objects.all()
+    # print("Test")
+    # print(len(uebungen))
+    # print(len(all_exercises))
+    # for i in uebungen:
+    #     exercise = models.Uebungen_Models.objects.get(id=id)
+    #     exercise.execution = i.execution
+    #     exercise.save()
+    #     id += 1
         
-    print("done")
+    # print("done")
         
-
-
+    ##Create new Exercises
     # for i in additionalUebungList2:
     #             Uebungen_Models.objects.create(
     #                 looping=i.looping,
@@ -4410,26 +4410,26 @@ def admin_power(request):
     #             )
     # inizialize_first_second()
 
-    for i in signals.uebungen:
-                Uebungen_Models.objects.create(
-                    looping=i.looping,
-                    timer=i.timer,
-                    execution=i.execution,
-                    name=i.name,
-                    videoPath=i.videoPath,
-                    dauer=i.dauer,
-                    imagePath=i.imagePath,
-                    added=i.added,
-                    instruction=i.instruction,
-                    required=i.required,
-                    onlineVideoPath = i.onlineVidePath
+    # for i in signals.uebungen:
+    #             Uebungen_Models.objects.create(
+    #                 looping=i.looping,
+    #                 timer=i.timer,
+    #                 execution=i.execution,
+    #                 name=i.name,
+    #                 videoPath=i.videoPath,
+    #                 dauer=i.dauer,
+    #                 imagePath=i.imagePath,
+    #                 added=i.added,
+    #                 instruction=i.instruction,
+    #                 required=i.required,
+    #                 onlineVideoPath = i.onlineVidePath
 
-                )
+    #             )
 
-    for i in models.LaxoutUser.objects.all():
-        laxout_tree = models.LaxTree.objects.create()
-        i.lax_tree_id = laxout_tree.id
-        i.save()
+    # for i in models.LaxoutUser.objects.all():
+    #     laxout_tree = models.LaxTree.objects.create()
+    #     i.lax_tree_id = laxout_tree.id
+    #     i.save()
 
     return HttpResponse("all clear")
 
