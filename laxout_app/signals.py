@@ -2788,10 +2788,452 @@ uebungen = [
         required="",
         onlineVidePath="",
     ),
+    UebungList(  # 211
+        looping=False,
+        timer=True,
+        execution="Legen Sie sich seitlich auf eine Matte. Das untere Bein ist möglichst angezogen, während das obere Bein gestreckt ist. Beginnen Sie nun Ihren Fuß langsam und ohne Schwung auf und abwärts zu bewegen.",
+        name="Abduktion rechts",
+        videoPath="assets/videos/abduktionR.mp4",
+        dauer=35,
+        imagePath="assets/images/AbduktionR.png",
+        added=False,
+        instruction="",
+        required="Matte",
+        onlineVidePath="",
+    ),
+    UebungList(  # 212
+        looping=False,
+        timer=True,
+        execution="Legen Sie sich seitlich auf eine Matte. Das untere Bein ist möglichst angezogen, während das obere Bein gestreckt ist. Beginnen Sie nun Ihren Fuß langsam und ohne Schwung auf und abwärts zu bewegen.",
+        name="Abduktion links",
+        videoPath="assets/videos/abduktionL.mp4",
+        dauer=35,
+        imagePath="assets/images/AbduktionL.png",
+        added=False,
+        instruction="",
+        required="Matte",
+        onlineVidePath="",
+    ),
+    UebungList(  # 213
+        looping=False,
+        timer=True,
+        execution="Legen Sie sich mit dem Rücken auf eine Matte. Ziehen Sie im Wechsel ein Bein am, während das andere Bein ausgestreckt ist. Der untere Rücken soll während der Übung stabil bleiben und die Beine dürfen nicht abgesetzt werden.",
+        name="Bauchmuskeln Kräftigen",
+        videoPath="assets/videos/bauchmuskelKraeftigigen.mp4",
+        dauer=30,
+        imagePath="assets/images/bauchmuskelKraeftigen.png",
+        added=False,
+        instruction="",
+        required="Matte",
+        onlineVidePath="",
+    ),
+    UebungList(  # 214
+        looping=False,
+        timer=True,
+        execution="Legen Sie sich mit dem Rücken auf eine Matte. Ihre Füße sind bei dieser Übung aufgestellt und das Becken schiebt sich von links nach rechts. Hierbei ist wichtig, dass die Bewegung ausschließlich durch Bewegung er Knie erfolgt.",
+        name="Becken Mobilisation Liegend",
+        videoPath="assets/videos/beckenMobilisationLiegend.mp4",
+        dauer=30,
+        imagePath="assets/images/beckenMobilistionLiegend.png",
+        added=False,
+        instruction="",
+        required="Matte",
+        onlineVidePath="",
+    ),
+    UebungList(  # 215
+        looping=False,
+        timer=True,
+        execution="Nehmen Sie die im Video gezeigt vorgebeugte Haltung ein. Achten Sie auf einen geraden Rücken und lassen Sie Ihr Becken nach vorne Kippen. Ihre Versen sollten sich hierbei nicht bewegen.",
+        name="Dehnung Beinrückseite Vorbeugen",
+        videoPath="assets/videos/DehnungBeinrueckseite.mp4",
+        dauer=30,
+        imagePath="assets/images/dehnungBeinrueckseite.png",
+        added=False,
+        instruction="",
+        required="Stuhl",
+        onlineVidePath="",
+    ),
+    UebungList(  # 216
+        looping=False,
+        timer=True,
+        execution="Setzen Sie sich zunächst aufrecht auf einen Stuhl. Achten Sie dann darauf, dass Ihre Arme während der Übung nicht zu weit nach unten gehen und darauf, dass Sie Ihre Brust herausstrecken. Außerdem sollten Sie die Finger auseinanderspreitzen und die Handgelenke anwinkeln.",
+        name="Dehnung Plexus Brachialis",
+        videoPath="assets/videos/dehnungPlexusBrachialis.mp4",
+        dauer=30,
+        imagePath="assets/images/DehnungPlexusBrachialis.png",
+        added=False,
+        instruction="",
+        required="Stuhl",
+        onlineVidePath="",
+    ),
+    UebungList(  # 217
+        looping=False,
+        timer=True,
+        execution="Nehmen Sie zunächst die gezeigte Vorgebeugte Haltung ein. Bei der Ausführung der Übung ist es wichtig, dass Ihr Rücken gerade ist und die Dehnung über eine Gewichtsverlagerung von rechts nach links stattfindet. Halten Sie die Dehnung kurz an der intensivsten Stelle.",
+        name="Dehnung Rumpfmuskulatur Vorbeugen",
+        videoPath="assets/videos/dehnungRumpfVorbeuge.mp4",
+        dauer=30,
+        imagePath="assets/images/dehnungBeinrueckseite.png",
+        added=False,
+        instruction="",
+        required="Stuhl",
+        onlineVidePath="",
+    ),
+    UebungList(  # 218
+        looping=False,
+        timer=True,
+        execution="Gehen Sie zunächst in die Position des Vierfüßlerstandes. Nehmen Sie dann den linken Arm weiter nach vorne und überkreuzen Sie Ihn mit dem rechten Arm. Versuchen Sie sich nun soweit wie möglich nach hinten zu lehnen.",
+        name="Fasziensitz überkreuzte Arme links",
+        videoPath="assets/videos/fasziensitzUeArmeL.mp4",
+        dauer=30,
+        imagePath="assets/images/fasziensitzUeArmeL.png",
+        added=False,
+        instruction="",
+        required="Matte",
+        onlineVidePath="",
+    ),
+    UebungList(  # 219
+        looping=False,
+        timer=True,
+        execution="Gehen Sie zunächst in die Position des Vierfüßlerstandes. Nehmen Sie dann den rechten Arm weiter nach vorne und überkreuzen Sie Ihn mit dem linken Arm. Versuchen Sie sich nun soweit wie möglich nach hinten zu lehnen.",
+        name="Fasziensitz überkreuzte Arme rechts",
+        videoPath="assets/videos/fasziensitzUeArmeR.mp4",
+        dauer=30,
+        imagePath="assets/images/fasziensitzUeArmeR.png",
+        added=False,
+        instruction="",
+        required="Matte",
+        onlineVidePath="",
+    ),
+    UebungList(  # 220
+        looping=False,
+        timer=True,
+        execution="Achten Sie bei dieser Übung darauf, dass Ihr Bein nicht nach außen sondern mehr nach hinten pendelt.",
+        name="Kräftigung Abduktion im Stand rechts",
+        videoPath="assets/videos/kraeftigungAbduktionStandR.mp4",
+        dauer=30,
+        imagePath="assets/images/kraeftigungAbduktionStandR.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="",
+    ),
+    UebungList(  # 221
+        looping=False,
+        timer=True,
+        execution="Achten Sie bei dieser Übung darauf, dass Ihr Bein nicht nach außen sondern mehr nach hinten pendelt.",
+        name="Kräftigung Abduktion im Stand links",
+        videoPath="assets/videos/kraeftigungAbduktionStandL.mp4",
+        dauer=30,
+        imagePath="assets/images/kraeftigungAbduktionStandL.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="",
+    ),
+    UebungList(  # 222
+        looping=False,
+        timer=True,
+        execution="Achten Sie bei dieser Übung darauf, dass Ihre Füße während der Ausführung übereinander bleiben und ein Knie hoch und runter geht. ",
+        name="Kräftigung Außenrotation links",
+        videoPath="assets/videos/kraeftigungAussenrotationL.mp4",
+        dauer=30,
+        imagePath="assets/images/kraeftigungAusenrotationL.png",
+        added=False,
+        instruction="",
+        required="Matte",
+        onlineVidePath="",
+    ),
+    UebungList(  # 223
+        looping=False,
+        timer=True,
+        execution="Achten Sie bei dieser Übung darauf, dass Ihre Füße während der Ausführung übereinander bleiben und ein Knie hoch und runter geht. ",
+        name="Kräftigung Außenrotation rechts",
+        videoPath="assets/videos/kraeftigungAussenrotationR.mp4",
+        dauer=30,
+        imagePath="assets/images/kraeftigungAusenrotationR.png",
+        added=False,
+        instruction="",
+        required="Matte",
+        onlineVidePath="",
+    ),
+    UebungList(  # 224
+        looping=False,
+        timer=True,
+        execution="Nehmen Sie zunächst die Position des Vierfüßlerstandes ein. Dannach ist es wichtig, dass Sie kein Hohlkreuz machen. Außerdem sollten Sie ein Hohlkreuz vermeiden und ohne Schwung arbeiten.",
+        name="Kräftigung Gluteen links",
+        videoPath="assets/videos/kraeftigungGluteenL.mp4",
+        dauer=30,
+        imagePath="assets/images/kraeftigungGluteenL.png",
+        added=False,
+        instruction="",
+        required="Matte",
+        onlineVidePath="",
+    ),
+    UebungList(  # 225
+        looping=False,
+        timer=True,
+        execution="Nehmen Sie zunächst die Position des Vierfüßlerstandes ein. Dannach ist es wichtig, dass Sie kein Hohlkreuz machen. Außerdem sollten Sie ein Hohlkreuz vermeiden und ohne Schwung arbeiten.",
+        name="Kräftigung Gluteen rechts",
+        videoPath="assets/videos/kraeftigungGluteenR.mp4",
+        dauer=30,
+        imagePath="assets/images/kraeftigungGluteenR.png",
+        added=False,
+        instruction="",
+        required="Matte",
+        onlineVidePath="",
+    ),
+    UebungList(  # 226
+        looping=False,
+        timer=True,
+        execution="Achten Sie auf einen geraden Rücken und stehen Sie etwa 0,5 Meter von der Wand entfernt.",
+        name="Liegestütz an der Wand",
+        videoPath="assets/videos/liegestuetzAnDerWand.mp4",
+        dauer=30,
+        imagePath="assets/images/liegestuetzAnDerWand.png",
+        added=False,
+        instruction="",
+        required="Wand",
+        onlineVidePath="",
+    ),
+     UebungList(  # 227
+        looping=False,
+        timer=True,
+        execution="Wählen Sie wenn möglich eine Sitzmöglichkeit mit festem Untergrund. Halten Sie sich mit Ihren Händen an den Knien fest. Nur die Knie bewegen sich, indem sie nach vorne und zurück gehen.",
+        name="Mobilisation ISG Sitzen",
+        videoPath="assets/videos/mobilisationIsgSitzen.mp4",
+        dauer=30,
+        imagePath="assets/images/mobilisationISGsitzend.png",
+        added=False,
+        instruction="",
+        required="Stuhl",
+        onlineVidePath="",
+    ),
+    UebungList(  # 228
+        looping=False,
+        timer=True,
+        execution="Setzen Sie sich aufrecht hin und legen Sie Ihre Hände auf die Knie. Wechseln Sie anschließend zwischen einem Rundrücken und einer aufgerichteten Position.",
+        name="Oberkörper Aufrichten im Sitzen",
+        videoPath="assets/videos/oberkoerperAufrichtenSitzen.mp4",
+        dauer=30,
+        imagePath="assets/images/oberkoerperAufrichtenSitzend.png",
+        added=False,
+        instruction="",
+        required="Stuhl",
+        onlineVidePath="",
+    ),
+    UebungList(  # 229
+        looping=False,
+        timer=True,
+        execution="Achten Sie bei dieser Übung darauf, dass Ihr Kopf gerade ist und lediglich eine Seitverschiebung stattfindet. Der Kopf geht bei dieser Bewegung mit runter.",
+        name="Oberkörper Pendeln",
+        videoPath="assets/videos/oberkoerperPendeln.mp4",
+        dauer=30,
+        imagePath="assets/images/oberkoerperPendeln.png",
+        added=False,
+        instruction="",
+        required="Stuhl",
+        onlineVidePath="",
+    ),
+    UebungList(  # 230
+        looping=False,
+        timer=True,
+        execution="Achten Sie bei dieser Übung darauf, dass Ihr Rücken gerade ist und Ihre Hände auf dem angewinkeltem Bei liegen. Versuchen Sie Ihre Fußspitze soweit wie möglich anzuziehen.",
+        name="Oberschenkeldehung Beinrückseite links",
+        videoPath="assets/videos/oberschenkeldehnungBRueckL.mp4",
+        dauer=30,
+        imagePath="assets/images/oberschenkelDehungBRuekL.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="",
+    ),
+    UebungList(  # 231
+        looping=False,
+        timer=True,
+        execution="Achten Sie bei dieser Übung darauf, dass Ihr Rücken gerade ist und Ihre Hände auf dem angewinkeltem Bei liegen. Versuchen Sie Ihre Fußspitze soweit wie möglich anzuziehen.",
+        name="Oberschenkeldehung Beinrückseite rechts",
+        videoPath="assets/videos/oberschenkeldehnungBRueckR.mp4",
+        dauer=30,
+        imagePath="assets/images/oberschenkelDehungBRuekR.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="",
+    ),
+    UebungList(  # 232
+        looping=False,
+        timer=True,
+        execution="Achten Sie bei dieser Übung darauf, dass Ihr Rücken gerade ist und der Kopf bei der Ausführung mit nach hinten geht. Versuchen Sie Ihren unteren Rücken zu fixieren und führen Sie die Bewegung abwechselnd links und rechts aus.",
+        name="Pfeil und Bogen",
+        videoPath="assets/videos/pfeilUndBogen.mp4",
+        dauer=30,
+        imagePath="assets/images/pfeilUndBogen.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="",
+    ),
+    UebungList(  # 233
+        looping=False,
+        timer=True,
+        execution="Stellen Sie sich aufrecht vor eine Wand (Abstand ca. 0,5 m) und gehen Sie in eine Art Unterarmstütz an dieser Wand. Anschließend gehen Ihre Schulterblätter abwechselnd wie gezeigt auseinander und wieder zusammen.",
+        name="Plank an der Wand (Als Mobilisationsübung)",
+        videoPath="assets/videos/plankAnDerWand.mp4",
+        dauer=30,
+        imagePath="assets/images/plankAnDerWand.png",
+        added=False,
+        instruction="",
+        required="Wand",
+        onlineVidePath="",
+    ),
+    UebungList(  # 234
+        looping=False,
+        timer=True,
+        execution="Setzen Sie sich aufrecht hin und nehmen Sie Ihre Arme in einer überkreuzten Haltung über den Kopf. Führen Sie sie anschließend in einer Abwärtsbewegung in eine Stützposition. Wichtig ist das Beibehalten einer aufrechten Körperhaltung und dass Ihre Arme in der oberen Position eine Faust bilden.",
+        name="PNF",
+        videoPath="assets/videos/pnf.mp4",
+        dauer=30,
+        imagePath="assets/images/pnf.png",
+        added=False,
+        instruction="",
+        required="Stuhl",
+        onlineVidePath="",
+    ),
+    UebungList(  # 235
+        looping=False,
+        timer=True,
+        execution="Wichtig ist bei dieser Übung, dass Sie ein Kissen unterlegen und Ihren Bauch einziehen. Versuchen Sie außerdem Ihre Leiste nach vorne zu bringen.",
+        name="Quadrizepsdehnung Kniestand links",
+        videoPath="assets/videos/quadrizepsdehnungKniestandL1.mp4",
+        dauer=30,
+        imagePath="assets/images/dehnungquadrizepsdehnungKniestandL.png",
+        added=False,
+        instruction="",
+        required="Kissen",
+        onlineVidePath="",
+    ),
+    UebungList(  # 236
+        looping=False,
+        timer=True,
+        execution="Wichtig ist bei dieser Übung, dass Sie ein Kissen unterlegen und Ihren Bauch einziehen. Versuchen Sie außerdem Ihre Leiste nach vorne zu bringen.",
+        name="Quadrizepsdehnung Kniestand rechts",
+        videoPath="assets/videos/quadrizepsdehnungKniestandR.mp4",
+        dauer=30,
+        imagePath="assets/images/dehnungquadrizepsdehnungKniestandR.png",
+        added=False,
+        instruction="",
+        required="Stuhl",
+        onlineVidePath="",
+    ),
+     UebungList(  # 237
+        looping=False,
+        timer=True,
+        execution="Wenn Sie möchten können Sie die Übung schwerer machen, indem Sie die Übung auf einem instabilen Untergrund durchführen oder indem Sie die Augen schlißen.",
+        name="Tip Top rechter Fuß vorne",
+        videoPath="assets/videos/tipTopR.mp4",
+        dauer=30,
+        imagePath="assets/images/tiptopR.png",
+        added=False,
+        instruction="",
+        required="Handtuch",
+        onlineVidePath="",
+    ),
+    UebungList(  # 238
+        looping=False,
+        timer=True,
+        execution="Wenn Sie möchten können Sie die Übung schwerer machen, indem Sie die Übung auf einem instabilen Untergrund durchführen oder indem Sie die Augen schlißen.",
+        name="Tip Top linker Fuß vorne",
+        videoPath="assets/videos/tipTopL.mp4",
+        dauer=30,
+        imagePath="assets/images/tiptopL.png",
+        added=False,
+        instruction="",
+        required="Handtuch",
+        onlineVidePath="",
+    ),
+    UebungList(  # 239
+        looping=False,
+        timer=True,
+        execution="Achten Sie darauf, dass der Tritt, bzw die Treppenstufe stabil und rutschfest sind, damit Sie sich nicht verletzen! Außerdem sollte Ihr Rücken während der gesamten Übung gerade sein und Ihr Sprunggelenk sollte, sobald Sie den höchsten Punkt der Bewegung erreichen senkrecht zu Ihrer Wade sein.",
+        name="Treppensteigen",
+        videoPath="assets/videos/treppensteigen.mp4",
+        dauer=30,
+        imagePath="assets/images/Treppensteigen.png",
+        added=False,
+        instruction="",
+        required="Treppenstufe/Tritt",
+        onlineVidePath="",
+    ),
+    UebungList(  # 240
+        looping=False,
+        timer=True,
+        execution="Achten Sie darauf, dass sich lediglich Ihre Sprungelenke bewegen. Versuchen Sie das Gleichgewicht zu halten, indem Sie sich auf einen ruhigen Punkt vor sich konzentrieren.",
+        name="Vier-Flex",
+        videoPath="assets/videos/VierFlex.mp4",
+        dauer=30,
+        imagePath="assets/images/vieFlex.png",
+        added=False,
+        instruction="",
+        required="",
+        onlineVidePath="",
+    ),
+    UebungList(  # 241
+        looping=False,
+        timer=True,
+        execution="Versuchen Sie während der Übung ruhig zu atmen und aufrecht zu sitzen. Gähnen Sie langsam und ganz entspannt.",
+        name="Gähnen",
+        videoPath="assets/videos/gaehnen.mp4",
+        dauer=30,
+        imagePath="assets/images/gaehnen.png",
+        added=False,
+        instruction="",
+        required="Stuhl",
+        onlineVidePath="",
+    ),
+    UebungList(  # 242
+        looping=False,
+        timer=True,
+        execution="Achten Sie darauf, das die Arme nicht zu weit unten oder zu weit oben sind. Atmen Sie während der Dehnung ganz normal weiter.",
+        name="Aufrichten im Sitzen",
+        videoPath="assets/videos/aufrichtenImSitzen.mp4",
+        dauer=30,
+        imagePath="assets/images/aufrichtenImSitzen.png",
+        added=False,
+        instruction="",
+        required="Stuhl",
+        onlineVidePath="",
+    ),
+    UebungList(  # 243
+        looping=False,
+        timer=True,
+        execution="Achten Sie darauf, langsam in die Dehnung zu gehen und vorsichtig Zug auf die Schulter auszuüben. Der ausgestreckte Arm sollte etwa auf Schulterhöhe positioniert werden.",
+        name="Schulter-Brust-Dehnung links",
+        videoPath="assets/videos/Schulter-Brust-DehnungL.mp4",
+        dauer=30,
+        imagePath="assets/images/schulter-brust-dehnungL.png",
+        added=False,
+        instruction="",
+        required="Wand",
+        onlineVidePath="",
+    ),
+    UebungList(  # 244
+        looping=False,
+        timer=True,
+        execution="Achten Sie darauf, langsam in die Dehnung zu gehen und vorsichtig Zug auf die Schulter auszuüben. Der ausgestreckte Arm sollte etwa auf Schulterhöhe positioniert werden.",
+        name="Schulter-Brust-Dehnung rechts",
+        videoPath="assets/videos/Schulter-Brust-DehnungR.mp4",
+        dauer=30,
+        imagePath="assets/images/schulter-brust-dehnungR.png",
+        added=False,
+        instruction="",
+        required="Wand",
+        onlineVidePath="",
+    ),
 ]
 
 
-uebungen_to_append00 = [1, 2, 3, 23, 48, 49, 174]
+uebungen_to_append00 = [1, 2, 3, 23, 48, 49, 174,241]
 uebungen_to_append01 = [24, 25, 27, 28]
 uebungen_to_append02 = [4, 5, 19, 20, 21, 22]
 uebungen_to_append07 = [
@@ -2811,12 +3253,12 @@ uebungen_to_append07 = [
     20,
     21,
     22,
-    174
+    174,241
 ]
 
 # Schultern
 
-uebungen_to_append10 = [1, 29, 30, 31, 41, 43, 44, 45, 46, 47, 48, 49, 67, 182, 183, 190, 191, 192, 199, 201]
+uebungen_to_append10 = [1, 29, 30, 31, 41, 43, 44, 45, 46, 47, 48, 49, 67, 182, 183, 190, 191, 192, 199, 201,206,207,210,234]
 uebungen_to_append11 = [
     26,
     29,
@@ -2832,9 +3274,9 @@ uebungen_to_append11 = [
     68,
     69,
     70,
-    170,199
+    170,199,226
 ]
-uebungen_to_append12 = [6, 7, 8, 9, 32, 33, 34, 35, 36, 171,]
+uebungen_to_append12 = [6, 7, 8, 9, 32, 33, 34, 35, 36, 171,216,217,218,219,242,243,244]
 uebungen_to_append17 = [
     6,
     7,
@@ -2874,6 +3316,7 @@ uebungen_to_append17 = [
     67,
     170,
     171,
+    206,207,210,216,217, 218,219,226,234,242,243,244
 ]
 
 # mittlerer RÜcken
@@ -2890,9 +3333,9 @@ uebungen_to_append20 = [14, 117, 18, 105, 106, 107, 108, 109, 110, 179,
     190,
     191,
     194,
-    195,]
-uebungen_to_append21 = [38, 96, 10, 103, 196, 197, 198, 199, 200]
-uebungen_to_append22 = [15, 16, 94, 95]
+    195,202,203,204,205,206,207,210,228,229,232,233]
+uebungen_to_append21 = [38, 96, 10, 103, 196, 197, 198, 199, 200,202,203,204,205,206,207,210,226,233]
+uebungen_to_append22 = [15, 16, 94, 95,216,217,218,219]
 uebungen_to_append27 = [
     15,
     16,
@@ -2910,7 +3353,7 @@ uebungen_to_append27 = [
     107,
     108,
     109,
-    110,
+    110,202,203,204,205,206,207,210,216,217,218,219,226,228,229,232,233
 ]
 
 # bauch
@@ -2930,7 +3373,7 @@ uebungen_to_append31 = [
     127,
     128,
     141,
-    196, 197, 199
+    196, 197, 199,213,
 ]
 uebungen_to_append32 = [
     92,
@@ -2944,7 +3387,7 @@ uebungen_to_append32 = [
     115,
     116,
     117,
-    118,
+    118,217
 ]
 uebungen_to_append37 = [
     92,
@@ -2972,7 +3415,7 @@ uebungen_to_append37 = [
     126,
     127,
     128,
-    141,
+    141,213,217
 ]
 
 # unterer Rücken
@@ -3003,7 +3446,7 @@ uebungen_to_append40 = [
     190,
     191,
     194,
-    195,
+    195,202,203,204,205,206,207,208,209,210,211,212,213,214,227
 ]
 uebungen_to_append41 = [
     97,
@@ -3023,7 +3466,7 @@ uebungen_to_append41 = [
     141,
     158,
     165,
-    166,198
+    166,198,202,203,204,205,206,207,208,209,210,220,221,222,223
 ]
 uebungen_to_append42 = [
     12,
@@ -3097,7 +3540,7 @@ uebungen_to_append47 = [
     147,
     158,
     165,
-    166,
+    166,202,203,204,205,206,207,208,209,210,211,212,213,214,220,221,222,223,227
 ]
 
 # Beine
@@ -3118,9 +3561,9 @@ uebungen_to_append51 = [
     166,
     167,
     168,
-    172, 173
+    172, 173,224,225,237,238
 ]
-uebungen_to_append52 = [148, 149, 150, 151, 152, 153, 154, 155, 166, 168, 176, 177]
+uebungen_to_append52 = [148, 149, 150, 151, 152, 153, 154, 155, 166, 168, 176, 177,215,230,231,235,236,239,240]
 uebungen_to_append57 = [
     148,
     149,
@@ -3158,7 +3601,7 @@ uebungen_to_append57 = [
     164,
     165,
     172,
-    173, 176, 177
+    173, 176, 177,215,224,225,230,231,235,236,237,238,239,240
 ]
 
 # Arme
