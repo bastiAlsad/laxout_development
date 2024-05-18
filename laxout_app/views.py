@@ -5,7 +5,9 @@ from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 
-# Create your views here.
+#Test
+
+# Create your views here. 
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.template.loader import render_to_string
