@@ -1310,7 +1310,8 @@ class UebungList:
         self.onlineVidePath = onlineVidePath
 
 
-additionalUebungList2 = [  # Übnungen Papi
+additionalUebungList2 = [  
+    
 ]
 
 
@@ -1341,7 +1342,7 @@ uebungen_to_append57 = []
 uebungen_to_append60 = []  # Arme Hände
 uebungen_to_append61 = []
 uebungen_to_append62 = []
-uebungen_to_append67 = []
+uebungen_to_append67 = [254, 255, 256, 257]
 
 
 
@@ -1521,7 +1522,7 @@ def admin_power(request):
                     onlineVideoPath = i.onlineVidePath
 
                 )
-    inizialize_first_second(387)#auf pythonanywhere ist dieser wert aktuell 387 erklärung bei 'def' inizialize..
+    inizialize_first_second(0)#auf pythonanywhere ist dieser wert aktuell 387 erklärung bei 'def' inizialize..
 
     # models.Uebungen_Models.objects.all().delete()
     # models.First.objects.all().delete()

@@ -17,12 +17,12 @@ from django.utils import timezone
 from datetime import date, datetime, timedelta
 import math
 from uuid import uuid4
+import random
 
 
 @api_view(["POST"])
 def autorise_laxout_user(request):
     user_uid = request.data["user_uid"]
-
     try:
         user = models.LaxoutUser.objects.get(user_uid=user_uid)
     except models.LaxoutUser.DoesNotExist:
@@ -90,6 +90,7 @@ def get_username(request):
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def get_exercises(request):
+    print("anfrage bekommen")
     user_id = request.headers.get("user_uid")
     if user_id is None:
         return Response(status=status.HTTP_403_FORBIDDEN)
@@ -410,6 +411,8 @@ def finish_workout(request):
         user_instance_coins += 100
         user_instance.laxout_credits = user_instance_coins
         user_instance.last_login_2 = datetime.now()
+        if user_instance.instruction_in_int == 0:
+            user_instance.instruction_in_int = 1
         user_instance.water_drops_count += math.ceil(
             100 / user_instance.instruction_in_int
         )
@@ -841,4 +844,209 @@ def create_user_through_app(request):
     token, created = Token.objects.get_or_create(user=admin_in_charge)
     return Response({"token": token.key, "user_uid": new_user_uid})
 
+def generate_code():
+    return ''.join([str(random.randint(0, 9)) for _ in range(4)])
 
+
+#web_view
+
+@api_view(["POST"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def create_web_code(request):
+    decoded_user_uid = unquote(request.headers.get("user_uid"))
+    if decoded_user_uid == None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    user = models.LaxoutUser.objects.get(user_uid= decoded_user_uid)
+    web_code = generate_code()
+    while models.WebCodes.objects.filter(code = web_code).exists():
+        web_code = generate_code()
+    print(web_code)
+    models.WebCodes.objects.create(created_by = user.id, code = web_code)
+    return Response({"web_code":web_code}, status=status.HTTP_200_OK)
+
+
+
+
+@api_view(["POST"])
+def log_webuser_in(request):
+    code = request.data["web_code"]
+    print(code)
+    try:
+        web_code = models.WebCodes.objects.get(code= code)
+    except:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    web_code.delete()
+    user = models.LaxoutUser.objects.get(id= web_code.created_by)
+    return Response({"code":user.user_uid}, status=status.HTTP_200_OK)
+
+
+
+@api_view(["POST"])
+def get_web_workout(request):
+    user_id = request.data["user_uid"]
+    if user_id is None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    decoded_user_uid = unquote(user_id)
+    user_instance = models.LaxoutUser.objects.get(user_uid=decoded_user_uid)
+    if user_instance is None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    exercises = []
+    order_objects = models.Laxout_Exercise_Order_For_User.objects.filter(
+        laxout_user_id=user_instance.id
+    )
+    sorted_list = sorted(order_objects, key=lambda x: x.order)
+    for i in sorted_list:
+        exercises.append(models.Laxout_Exercise.objects.get(id=i.laxout_exercise_id))
+
+    exercises_ids = []
+    for i in exercises:
+        exercises_ids.append(i.id)
+    # print("IDS THAT GET RETURNED:{}".format(exercises_ids))
+    serializer = serializers.LaxoutExerciseSerializer(exercises, many=True)
+    # print(serializer.data)
+    return Response(serializer.data)
+
+
+
+@api_view(["POST"])
+def get_web_intruction(request):
+    user_uid = request.data["user_uid"]
+    if user_uid == None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    decoded_user_uid = unquote(user_uid)
+    user_instance = models.LaxoutUser.objects.get(user_uid=decoded_user_uid)
+    instruction = user_instance.instruction
+    print(instruction)
+    return Response({"instruction": str(instruction)})
+
+@api_view(["POST"])
+def get_progress_week_web(request):
+    user_uid = request.data["user_uid"]
+    if user_uid == None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    decoded_user_uid = unquote(user_uid)
+    user_instance = models.LaxoutUser.objects.get(user_uid=decoded_user_uid)
+    week = weeks_since_first_login(user_instance.creation_date)
+    print("WEEK{}".format(week))
+    return Response({"week": week})
+
+
+
+@api_view(["POST"])
+def post_web_progress_conrtroll(request):
+    decoded_user_uid = unquote(request.data["user_uid"])
+    if decoded_user_uid == None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    try:
+        user = models.LaxoutUser.objects.get(user_uid=decoded_user_uid)
+    except:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    better = request.data["better"]
+    if better == True:
+        print("better")
+        models.SuccessControll.objects.create(created_by=user.id, better=True)
+    if better == False:
+        print("worse")
+        models.SuccessControll.objects.create(created_by=user.id, better=False)
+    return Response(status=status.HTTP_200_OK)
+
+
+
+@api_view(["POST"])
+def finish_workout_web(request):
+    user_uid = unquote(request.data["user_uid"])
+    if user_uid == None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    user_instance = models.LaxoutUser.objects.get(user_uid=user_uid)
+    if user_instance == None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    workout_id = request.data["workout_id"]
+    if workout_id == None:
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    models.DoneWorkouts.objects.create(
+        workout_id=workout_id, laxout_user_id=user_instance.id
+    )
+    if user_instance.last_login_2.date() != date.today():
+        user_instance_coins = user_instance.laxout_credits
+        user_instance_coins += 100
+        user_instance.laxout_credits = user_instance_coins
+        user_instance.last_login_2 = datetime.now()
+        if user_instance.instruction_in_int == 0:
+            user_instance.instruction_in_int = 1
+        user_instance.water_drops_count += math.ceil(
+            100 / user_instance.instruction_in_int
+        )
+        user_instance.save()
+    return Response(status=status.HTTP_201_CREATED)
+
+@api_view(["POST"])
+def skip_exercise_web(request):
+    user_uid = unquote(request.data["user_uid"])
+    if user_uid == None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    user_instance = models.LaxoutUser.objects.get(user_uid=user_uid)
+    if user_instance == None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    exercise_id = request.data["exercise_id"]
+    if exercise_id == None:
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    models.SkippedExercises.objects.create(
+        skipped_exercise_id=exercise_id, laxout_user_id=user_instance.id
+    )
+    return Response(status=status.HTTP_200_OK)
+# note a skipped exercise
+
+@api_view(["POST"])
+def finish_exercise_web(request):
+    user_uid = unquote(request.data["user_uid"])
+    if user_uid == None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    user_instance = models.LaxoutUser.objects.get(user_uid=user_uid)
+    if user_instance == None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    exercise_id = request.data["exercise_id"]
+    if exercise_id == None:
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    models.DoneExercises.objects.create(
+        exercise_id=exercise_id, laxout_user_id=user_instance.id
+    )
+    return Response(status=status.HTTP_201_CREATED)
+
+
+@api_view(["POST"])
+def post_pain_level_web(request):
+    user_uid = request.data["user_uid"]
+    decoded_user_uid = unquote(user_uid)
+    user_instance = models.LaxoutUser.objects.get(user_uid=decoded_user_uid)
+    if user_instance == None:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    physio = user_instance.created_by
+    pain_level = request.data["pain_level"]
+    if pain_level == None:
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    physio_instance = models.UserProfile.objects.get(user=physio)
+
+    painlevel = pain_level
+
+    if painlevel <= 2:
+        models.LaxoutUserPains.objects.create(
+            created_by=user_instance.id, zero_two=1, admin_id=physio_instance.id
+        )
+        print("created 2")
+    if painlevel >= 3 and painlevel <= 5:
+        models.LaxoutUserPains.objects.create(
+            created_by=user_instance.id, theree_five=1, admin_id=physio_instance.id
+        )
+        print("created 5")
+    if painlevel >= 6 and painlevel <= 8:
+        models.LaxoutUserPains.objects.create(
+            created_by=user_instance.id, six_eight=1, admin_id=physio_instance.id
+        )
+        print("created 6")
+    if painlevel >= 9 and painlevel <= 10:
+        models.LaxoutUserPains.objects.create(
+            created_by=user_instance.id, nine_ten=1, admin_id=physio_instance.id
+        )
+        print("created 9")
+    return Response(status=status.HTTP_200_OK)

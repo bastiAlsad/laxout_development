@@ -188,3 +188,7 @@ class BillingCount(models.Model):
 
 class SovendusCustomerUid(models.Model):
     uid = models.CharField(default="", max_length=200)
+
+class WebCodes(models.Model):
+    created_by = models.IntegerField(default=0)
+    code = models.CharField(default="", max_length=20)

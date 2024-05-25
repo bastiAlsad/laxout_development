@@ -64,10 +64,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    # "https://dashboardlaxout.pythonanywhere.com",
-    "http://192.168.178.41",
-]
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'laxout.urls'
 

@@ -51,5 +51,15 @@ urlpatterns = [
     re_path("createuserapp", api_views.create_user_through_app),
     re_path("couponbuysovendus", api_views.buy_sovendus_coupon),
     re_path("uniqueuidsovendus", api_views.get_unique_customer_uid),
+    re_path("createwebcode", api_views.create_web_code),
+    re_path("logwebuserin",api_views.log_webuser_in),
+    re_path("getwebworkout", api_views.get_web_workout),
+    path("getwebinstruction", api_views.get_web_intruction),
+    path("getwebsuccesweek", api_views.get_progress_week_web),
+    path("websuccespost", api_views.post_web_progress_conrtroll),
+    path("webcompleteworkout", api_views.finish_workout_web),
+    path("webskipexercise", api_views.skip_exercise_web),
+    path("webfinishexercise", api_views.finish_exercise_web),
+    path("webaddsomepain",api_views.post_pain_level_web)
 ]
 #Test

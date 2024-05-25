@@ -3230,6 +3230,175 @@ uebungen = [
         required="Wand",
         onlineVidePath="",
     ),
+    UebungList(  # 245
+        looping=False,
+        timer=True,
+        execution="Halten Sie die Ellenbogen körpernah und die Schultern tief. Die Unterarme sollten parallel zum Boden sein, wobei die Daumen nach oben zeigen und die Finger gespreizt sind. Spannen Sie dabei den Bauch an.",
+        name="Außenrotatoren mit Band",
+        videoPath="assets/videos/aussenrotTherraband.mp4",
+        dauer=30,
+        imagePath="assets/images/aussenrotTherraband.png",
+        added=False,
+        instruction="",
+        required="Fitnessband",
+        onlineVidePath="",
+    ),
+    UebungList(  # 246
+        looping=False,
+        timer=True,
+        execution="Heben Sie die Arme über den Kopf und richten Sie den Blick nach vorne. Ziehen Sie das Band in den Nacken und verlagern Sie das Gewicht auf die Fußballen. Führen Sie die Bewegung bis zum Schultergürtel aus.",
+        name="Lat-Zug mit Band",
+        videoPath="assets/videos/latzug.mp4",
+        dauer=30,
+        imagePath="assets/images/latzug.png",
+        added=False,
+        instruction="",
+        required="Fitnessband",
+        onlineVidePath="",
+    ),
+    UebungList(  # 247
+        looping=False,
+        timer=True,
+        execution="Der äußere Arm bildet den Bogen, während die Schulter tief und der Nacken locker bleibt. Stehen Sie schulterbreit und spannen Sie den Bauch an. Achten Sie darauf, dass die Handgelenke gerade sind.",
+        name="Bogenschießen links",
+        videoPath="assets/videos/bogenschiessenL.mp4",
+        dauer=30,
+        imagePath="assets/images/bogenschiessenL.png",
+        added=False,
+        instruction="",
+        required="Fitnessband",
+        onlineVidePath="",
+    ),
+    UebungList(  # 248
+        looping=False,
+        timer=True,
+        execution="Der äußere Arm bildet den Bogen, während die Schulter tief und der Nacken locker bleibt. Stehen Sie schulterbreit und spannen Sie den Bauch an. Achten Sie darauf, dass die Handgelenke gerade sind.",
+        name="Bogenschießen rechts",
+        videoPath="assets/videos/bogenschiessenR.mp4",
+        dauer=30,
+        imagePath="assets/images/bogenschiessenR.png",
+        added=False,
+        instruction="",
+        required="Fitnessband",
+        onlineVidePath="",
+    ),
+    UebungList(  # 249
+        looping=False,
+        timer=True,
+        execution="Halten Sie die Handrücken oben und die Handgelenke gerade. Die Schulterblätter bleiben tief, während Sie in einem schulterbreiten Stand stehen und den Bauch anspannen.",
+        name="Brustmuskulatur mit Band",
+        videoPath="assets/videos/brustmuskulaturTB.mp4",
+        dauer=30,
+        imagePath="assets/images/brustmuskulaturTB.png",
+        added=False,
+        instruction="",
+        required="Fitnessband",
+        onlineVidePath="",
+    ),
+    UebungList(  # 250
+        looping=False,
+        timer=True,
+        execution="Halten Sie die Handgelenke gerade und beugen Sie das vordere Bein. Führen Sie die Übung im Ausfallschritt aus, wobei der Rücken gerade bleibt und die Ellenbogen körpernah geführt werden. Ziehen Sie das Band in Richtung Brustbein.",
+        name="Rudern mit Band",
+        videoPath="assets/videos/rudernTB.mp4",
+        dauer=30,
+        imagePath="assets/images/rudernTB.png",
+        added=False,
+        instruction="",
+        required="Fitnessband",
+        onlineVidePath="",
+    ),
+    UebungList(  # 251
+        looping=False,
+        timer=True,
+        execution="Führen Sie das Band unter den Achseln entlang, sodass die Unterarme parallel zum Boden sind. Halten Sie das Band auf Brusthöhe und strecken Sie die Arme nicht ganz durch. Achten Sie darauf, dass die Handgelenke gerade bleiben.",
+        name="Brustpresse mit Band",
+        videoPath="assets/videos/brustpresse.mp4",
+        dauer=30,
+        imagePath="assets/images/brustpresse.png",
+        added=False,
+        instruction="",
+        required="Fitnessband",
+        onlineVidePath="",
+    ),
+    UebungList(  # 252
+        looping=False,
+        timer=True,
+        execution="Machen Sie einen schulterbreiten Ausfallschritt und führen Sie die Handrücken zur Decke. Spannen Sie den Bauch an und halten Sie die Handgelenke gerade.",
+        name="Aufdrehen mit Band rechts",
+        videoPath="assets/videos/aufdrehenTbR.mp4",
+        dauer=30,
+        imagePath="assets/images/aufdrehenTbR.png",
+        added=False,
+        instruction="",
+        required="Fitnessband",
+        onlineVidePath="",
+    ),
+     UebungList(  # 253
+        looping=False,
+        timer=True,
+        execution="Machen Sie einen schulterbreiten Ausfallschritt und führen Sie die Handrücken zur Decke. Spannen Sie den Bauch an und halten Sie die Handgelenke gerade.",
+        name="Aufdrehen mit Band links",
+        videoPath="assets/videos/aufdrehenTbL.mp4",
+        dauer=30,
+        imagePath="assets/images/aufdrehenTbL.png",
+        added=False,
+        instruction="",
+        required="Fitnessband",
+        onlineVidePath="",
+    ),
+    UebungList(  # 254
+        looping=False,
+        timer=True,
+        execution="Halten Sie den Rücken gerade und stellen Sie beide Füße auf die Schlaufe. Die Ellenbogen bleiben am Körper und die Handgelenke gerade. Am Ende der Bewegung sollten die Daumen nach außen zeigen.",
+        name="Bizeps abwechselnd mit Band",
+        videoPath="assets/videos/bizepsAbwechselnd.mp4",
+        dauer=30,
+        imagePath="assets/images/bizepsAbwechselnd.png",
+        added=False,
+        instruction="",
+        required="Fitnessband",
+        onlineVidePath="",
+    ),
+     UebungList(  # 255
+        looping=False,
+        timer=True,
+        execution="Halten Sie den Rücken gerade und stellen Sie beide Füße auf die Schlaufe. Die Ellenbogen bleiben am Körper und die Handgelenke gerade. Am Ende der Bewegung sollten die Daumen nach außen zeigen.",
+        name="Bizeps gleichzeitig mit Band",
+        videoPath="assets/videos/bizepsGleichzeitig.mp4",
+        dauer=30,
+        imagePath="assets/images/bizepsGleichzeitg.png",
+        added=False,
+        instruction="",
+        required="Fitnessband",
+        onlineVidePath="",
+    ),
+    UebungList(  # 256
+        looping=False,
+        timer=True,
+        execution="Stellen Sie sicher, dass die untere Hand parallel zum Boden ist und auf Höhe des unteren Schulterblatts liegt. Halten Sie einen schulterbreiten Stand ein und vermeiden Sie es, den Ellenbogen ganz durchzustrecken.",
+        name="Trizeps rechts mit Band",
+        videoPath="assets/videos/trizepsTbR.mp4",
+        dauer=30,
+        imagePath="assets/images/trizepsTbR.png",
+        added=False,
+        instruction="",
+        required="Fitnessband",
+        onlineVidePath="",
+    ),
+    UebungList(  # 257
+        looping=False,
+        timer=True,
+        execution="Stellen Sie sicher, dass die untere Hand parallel zum Boden ist und auf Höhe des unteren Schulterblatts liegt. Halten Sie einen schulterbreiten Stand ein und vermeiden Sie es, den Ellenbogen ganz durchzustrecken.",
+        name="Trizeps links mit Band",
+        videoPath="assets/videos/trizepsTbL.mp4",
+        dauer=30,
+        imagePath="assets/images/trizepsTbL.png",
+        added=False,
+        instruction="",
+        required="Fitnessband",
+        onlineVidePath="",
+    ),
 ]
 
 
@@ -3258,7 +3427,7 @@ uebungen_to_append07 = [
 
 # Schultern
 
-uebungen_to_append10 = [1, 29, 30, 31, 41, 43, 44, 45, 46, 47, 48, 49, 67, 182, 183, 190, 191, 192, 199, 201,206,207,210,234]
+uebungen_to_append10 = [1, 29, 30, 31, 41, 43, 44, 45, 46, 47, 48, 49, 67, 182, 183, 190, 191, 192, 199, 201,206,207,210,234,245,]
 uebungen_to_append11 = [
     26,
     29,
@@ -3274,7 +3443,7 @@ uebungen_to_append11 = [
     68,
     69,
     70,
-    170,199,226
+    170,199,226,247,248,
 ]
 uebungen_to_append12 = [6, 7, 8, 9, 32, 33, 34, 35, 36, 171,216,217,218,219,242,243,244]
 uebungen_to_append17 = [
@@ -3316,7 +3485,7 @@ uebungen_to_append17 = [
     67,
     170,
     171,
-    206,207,210,216,217, 218,219,226,234,242,243,244
+    206,207,210,216,217, 218,219,226,234,242,243,244,245,247,248,
 ]
 
 # mittlerer RÜcken
@@ -3334,7 +3503,7 @@ uebungen_to_append20 = [14, 117, 18, 105, 106, 107, 108, 109, 110, 179,
     191,
     194,
     195,202,203,204,205,206,207,210,228,229,232,233]
-uebungen_to_append21 = [38, 96, 10, 103, 196, 197, 198, 199, 200,202,203,204,205,206,207,210,226,233]
+uebungen_to_append21 = [38, 96, 10, 103, 196, 197, 198, 199, 200,202,203,204,205,206,207,210,226,233,246,249,250,251,252,253,]
 uebungen_to_append22 = [15, 16, 94, 95,216,217,218,219]
 uebungen_to_append27 = [
     15,
@@ -3353,7 +3522,7 @@ uebungen_to_append27 = [
     107,
     108,
     109,
-    110,202,203,204,205,206,207,210,216,217,218,219,226,228,229,232,233
+    110,202,203,204,205,206,207,210,216,217,218,219,226,228,229,232,233,246,249,250,251,252,253
 ]
 
 # bauch
@@ -3373,7 +3542,7 @@ uebungen_to_append31 = [
     127,
     128,
     141,
-    196, 197, 199,213,
+    196, 197, 199,213,252,253
 ]
 uebungen_to_append32 = [
     92,
@@ -3415,7 +3584,7 @@ uebungen_to_append37 = [
     126,
     127,
     128,
-    141,213,217
+    141,213,217,252,253
 ]
 
 # unterer Rücken
@@ -3628,7 +3797,7 @@ uebungen_to_append60 = [
     183, 184
 ]
 
-uebungen_to_append61 = [64, 65, 66, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77,175]
+uebungen_to_append61 = [64, 65, 66, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77,175,254,255, 256,257]
 uebungen_to_append62 = [
     50,
     51,
@@ -3689,7 +3858,7 @@ uebungen_to_append67 = [
     62,
     63,
     169,
-    175
+    175,254, 255, 256, 257,
 
 ]
 
