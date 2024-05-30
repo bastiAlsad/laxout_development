@@ -220,9 +220,9 @@ def send_user_welcome_email(email, user_uid):
                 <h1>Willkommen!</h1>
                 <p>Vielen Dank für Ihre Anmeldung bei Laxout. Wir freuen uns, Sie als Nutzer unserer App begrüßen zu dürfen.
                 </p>
-                <p>Für die Nutzung der App bitten wir Sie, den im Leistungsnachweis (befindet sich im Anhang) genannten
-                    Betrag an unser Firmenkonto zu überweisen.</p>
-                <p>Dannach können Sie auch schon auf den <a href="${link}" style=" color: blue;">Loslegen</a> Button drücken und mit Ihrem Training beginnen!</p>
+                <p>Sie können die App 2 Wochen kostenlos und unverbindlich benutzen. Nach der 2 wöchigen Testphase werden wir Sie fragen, ob Sie die App für einmalig 29€ weiternutzen möchten.</p>
+                <p>Wenn Sie darauf nicht antworten, oder Sie sich gegen die weitere Nutzung entscheiden, werden wir Ihre Daten löschen und Ihr Zugang wird ungültig. </p>
+                <p>Drücken Sie nun bitte auf den <a href="${link}" style=" color: blue;">Loslegen</a> Button, um mit Ihrem Training beginnen!</p>
                 <div style="text-align: center; margin: 50px;">
                     <button
                         style="height: 50px; width: 140px; border-radius: 10px; background-color: rgb(176, 224, 230); color: black; cursor: pointer; border: none;">
@@ -276,33 +276,34 @@ def send_user_welcome_email(email, user_uid):
     # Hinzufügen des HTML-Inhalts zur Nachricht
     html_content = html_template.substitute(link=link)
     msg.attach(MIMEText(html_content, 'html'))
-    billing_model, created = models.BillingCount.objects.get_or_create(id=1)
-    billing_count = str(billing_model.billing_count)
-    new_billing_count = billing_model.billing_count+1
-    billing_model.billing_count = new_billing_count
-    billing_model.save()
-    current_billing_id = ""
-    how_many_zeros = 12-len(billing_count)
-    for i in range(how_many_zeros):
-        current_billing_id+= "0"
-    current_billing_id+= billing_count
-    #Produktion
-    #/home/dashboardlaxout/backup_laxout/laxout_app/leistungsnachweise/ 
-    #Dev
-    #D:/DEV/laxout_backend_development/laxout/laxout_app/leistungsnachweise/
-    print(f"Current billing Id {current_billing_id}")
-    input_pdf_path = "/home/dashboardlaxout/backup_laxout/laxout_app/leistungsnachweise/leistungsnachweis_vorlage.pdf"  # Passe den Pfad zur vorhandenen PDF-Datei an D:/DEV/laxout_backend_development/laxout/laxout_app/leistungsnachweise/leistungsnachweis
-    output_pdf_path = f"/home/dashboardlaxout/backup_laxout/laxout_app/leistungsnachweise/leistungsnachweis_{current_billing_id}.pdf"  # Passe den Pfad für die neu erstellte PDF-Datei an
-    pdf.modifyPdf(input_pdf_path,output_pdf_path,current_billing_id)
+    # billing_model, created = models.BillingCount.objects.get_or_create(id=1)
+    # billing_count = str(billing_model.billing_count)
+    # new_billing_count = billing_model.billing_count+1
+    # billing_model.billing_count = new_billing_count
+    # billing_model.save()
+    # current_billing_id = ""
+    # how_many_zeros = 12-len(billing_count)
 
-    # Pfad zur PDF-Datei
-    pdf_attachment_path = f"/home/dashboardlaxout/backup_laxout/laxout_app/leistungsnachweise/leistungsnachweis_{current_billing_id}.pdf"
+    # for i in range(how_many_zeros):
+    #     current_billing_id+= "0"
+    # current_billing_id+= billing_count
+    # #Produktion
+    # #/home/dashboardlaxout/backup_laxout/laxout_app/leistungsnachweise/ 
+    # #Dev
+    # #D:/DEV/laxout_backend_development/laxout/laxout_app/leistungsnachweise/
+    # print(f"Current billing Id {current_billing_id}")
+    # input_pdf_path = "/home/dashboardlaxout/backup_laxout/laxout_app/leistungsnachweise/leistungsnachweis_vorlage.pdf"  # Passe den Pfad zur vorhandenen PDF-Datei an D:/DEV/laxout_backend_development/laxout/laxout_app/leistungsnachweise/leistungsnachweis
+    # output_pdf_path = f"/home/dashboardlaxout/backup_laxout/laxout_app/leistungsnachweise/leistungsnachweis_{current_billing_id}.pdf"  # Passe den Pfad für die neu erstellte PDF-Datei an
+    # pdf.modifyPdf(input_pdf_path,output_pdf_path,current_billing_id)
 
-    # Hinzufügen der PDF-Datei als Anhang
-    with open(pdf_attachment_path, 'rb') as pdf_attachment:
-        part = MIMEApplication(pdf_attachment.read(), 'pdf')
-        part.add_header('Content-Disposition', f'attachment; filename= {pdf_attachment_path}')
-        msg.attach(part)
+    # # Pfad zur PDF-Datei
+    # pdf_attachment_path = f"/home/dashboardlaxout/backup_laxout/laxout_app/leistungsnachweise/leistungsnachweis_{current_billing_id}.pdf"
+
+    # # Hinzufügen der PDF-Datei als Anhang
+    # with open(pdf_attachment_path, 'rb') as pdf_attachment:
+    #     part = MIMEApplication(pdf_attachment.read(), 'pdf')
+    #     part.add_header('Content-Disposition', f'attachment; filename= {pdf_attachment_path}')
+    #     msg.attach(part)
 
     # SMTP-Verbindung und Versenden der E-Mail
     with smtplib.SMTP(smtp_server, smtp_port) as server:
@@ -509,14 +510,14 @@ def edit_user(request, id=None):
     ###skip logik###
 
     current_exercises = user.exercises.all()
-    if user.note != "":
-        old_training_data = models.AiTrainingData.objects.filter(created_for=user.id)
-        for i in old_training_data:
-            i.related_exercises.all().delete()
-        old_training_data.delete()
-        ai_training_data = models.AiTrainingData.objects.create(
-            illness=user.note, created_by=request.user.id, created_for=user.id
-        )
+    # if user.note != "":
+    #     old_training_data = models.AiTrainingData.objects.filter(created_for=user.id)
+    #     for i in old_training_data:
+    #         i.related_exercises.all().delete()
+    #     old_training_data.delete()
+    #     ai_training_data = models.AiTrainingData.objects.create(
+    #         illness=user.note, created_by=request.user.id, created_for=user.id
+    #     )
 
     current_order_objects = models.Laxout_Exercise_Order_For_User.objects.filter(
         laxout_user_id=id
@@ -565,13 +566,13 @@ def edit_user(request, id=None):
         # print("RELEVANT ERROR ID")
         # print(order.laxout_exercise_id)
         try:
-            ai_training_data.related_exercises.add(
-                models.AiExercise.objects.create(
-                    exercise_id=models.Laxout_Exercise.objects.get(
-                        id=order.laxout_exercise_id
-                    ).appId
-                )
-            )
+            # ai_training_data.related_exercises.add(
+            #     models.AiExercise.objects.create(
+            #         exercise_id=models.Laxout_Exercise.objects.get(
+            #             id=order.laxout_exercise_id
+            #         ).appId
+            #     )
+            # )
             exercise = models.Laxout_Exercise.objects.get(id=order.laxout_exercise_id)
             for skipped_exercis in skipped_exercises:
 

@@ -47,7 +47,7 @@
             <div style="display: flex; align-items: center; margin-top: 25px;">
                 <input type="checkbox" style="height: 15px; width: 15px; border-radius: 20px;" id="checkbox_payment">
                 <div style="justify-content: center; margin-left: 25px;">
-                    Der Patient zahlt 39€
+                    Der Patient möchte eine kostenlose Testversion starten. 
                 </div>
             </div>
             <div style="display: flex; align-items: center; margin-top: 25px;">
@@ -64,6 +64,30 @@
 </div>
 
 <script>
+ function showLoadingScreen() {
+        var loadingScreen = document.createElement('div');
+        loadingScreen.id = 'loading-screen';
+        loadingScreen.style.position = 'fixed';
+        loadingScreen.style.top = '0';
+        loadingScreen.style.left = '0';
+        loadingScreen.style.width = '100%';
+        loadingScreen.style.height = '100%';
+        loadingScreen.style.backgroundColor = 'rgba(0,0,0,0.5)';
+        loadingScreen.style.display = 'flex';
+        loadingScreen.style.alignItems = 'center';
+        loadingScreen.style.justifyContent = 'center';
+        loadingScreen.style.zIndex = '1000';
+        loadingScreen.innerHTML = '<div style="color: white; font-size: 20px;">Verarbeiten...</div>';
+        document.body.appendChild(loadingScreen);
+    }
+
+    // Funktion, um den Ladebildschirm zu verstecken
+    function hideLoadingScreen() {
+        var loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+            document.body.removeChild(loadingScreen);
+        }
+    }   
 
 function validateForm() {
         // Hole alle Pflichtfelder
@@ -96,6 +120,7 @@ function validateForm() {
     };
 
     function submitForm() {
+        showLoadingScreen();
         console.log(validateForm());
         var checkbox = document.getElementById("checkbox_payment");
         var checkbox2 = document.getElementById("checkbox_datasafety");
@@ -119,7 +144,7 @@ function validateForm() {
             }
         } else {
             // Wenn die Checkbox nicht aktiviert ist, gib eine Warnung aus oder ergreife andere Maßnahmen
-            alert("Bitte bestätigen Sie die Zahlung!");
+            alert("Bitte bestätigen Sie, dass der Patient die Testversion starten möchte!");
         }
     }
 
