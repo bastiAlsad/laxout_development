@@ -1,0 +1,651 @@
+{% extends 'laxout_app/main.html' %}
+{% block title %}Plan bearbeiten{% endblock title %}
+{%load static%}
+{% block praxisname %}Plan bearbeiten{% endblock praxisname %}
+{% load crispy_forms_tags %}
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    #loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    .spinner {
+        border: 16px solid #f3f3f3;
+        border-top: 16px solid #3498db;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .customer-item {
+        height: 90px;
+        background-color: white;
+        margin-left: 90px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        width: 90%;
+        color: black;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        flex-direction: row;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        align-content: space-around;
+
+    }
+
+    #video-container {
+        position: absolute;
+        top: 60%;
+        border-radius: 10px;
+        left: 60%;
+        transform: translate(-60%, -60%);
+        overflow: hidden;
+    }
+
+    #video {
+        border-radius: 10px;
+        width: 90%;
+        height: 90%;
+        object-fit: contain;
+        transform-origin: center;
+        transition: transform 0.2s ease-out;
+    }
+
+    #close-button {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        background-color: rgb(44, 67, 81);
+        border: none;
+        border-radius: 50%;
+        color: white;
+        width: 40px;
+        height: 40px;
+    }
+
+    .delete-button.zoomed {
+        transform: scale(1.1);
+    }
+
+    .row-basti-analysePage-Charts {
+        justify-content: start;
+        flex-direction: row;
+        align-items: start;
+        display: flex;
+        padding-top: 40px;
+        padding-left: 100px;
+        flex-direction: row;
+        justify-content: start;
+        align-items: start;
+
+        height: 60vh;
+        width: 80vw;
+    }
+
+    @media only screen and (min-width:1200px) {
+        .row-calender-user {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding-left: 30px;
+            padding-right: 30px;
+            height: 30vh;
+        }
+
+        .chart-legend-container {
+            height: 100%;
+            width: 30vw;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: start;
+            align-items: start;
+            padding-top: 30px;
+
+            border-radius: 10px;
+
+            color: black;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .calender-container {
+            height: 100%;
+            width: 50vw;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: start;
+            align-items: start;
+            padding-top: 60px;
+            margin-bottom: 20px;
+
+            border-radius: 10px;
+
+            color: black;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    @media only screen and (min-width:769px) and (max-width:1199px) {
+        .row-calender-user {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-left: 30px;
+            padding-right: 30px;
+            height: 40vh;
+        }
+
+        .chart-legend-container {
+            height: 100%;
+            width: 70vw;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: start;
+            align-items: start;
+            padding-top: 30px;
+            margin-bottom: 20px;
+
+            border-radius: 10px;
+
+            color: black;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .calender-container {
+            height: 50%;
+            width: 80vw;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: start;
+            align-items: start;
+            padding-top: 30px;
+            margin-bottom: 20px;
+
+            border-radius: 10px;
+
+            color: black;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .list-view {
+            flex: 1;
+            overflow-y: scroll;
+            padding: 20px;
+            width: 300px;
+            height: 200px;
+        }
+
+        .button {
+            background: none;
+            border-radius: 25px;
+            color: rgb(44, 67, 81);
+            border: 2px solid rgb(44, 67, 81);
+            padding-top: 7px;
+            padding-bottom: 7px;
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+
+
+    }
+</style>
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div style="padding-left: 20px; margin-bottom: 30px;">
+    <div style="display: flex; flex-direction: column; align-items: flex-start;">
+        <div style="display: flex; flex-direction: row; align-items: center;">
+            <div style="padding-right: 25px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor"
+                    class="bi bi-person-circle" viewBox="0 0 16 16">
+                    <path fill="rgb(44, 67, 81)" d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                    <path fill="rgb(44, 67, 81)" fill-rule="evenodd"
+                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                </svg>
+            </div>
+            <h1 style="color: rgb(44, 67, 81);">
+                {{ plan.illness }}
+            </h1>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div
+        style="display: flex; flex-direction: row; justify-content: space-between; justify-items: center; align-items: center;padding-left: 0px; width: 90%;">
+        <h3 style="color: rgb(44, 67, 81); margin-left: 150px;">
+            Eingestellte Übungen:
+        </h3>
+
+        <div style="flex-direction: row; display: flex;">
+
+            <h3 id="how-much-time" style="color: rgb(44, 67, 81);">
+
+            </h3>
+        </div>
+        <button class="action-button" onclick="addExercises('{{plan.id}}')">
+            Hinzufügen
+        </button>
+    </div>
+    <!-- users.exercises.all -->
+
+    {% for exercises in related_exercises%}
+    {% if exercises %}
+    <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-around;">
+
+        <div class="user-item"
+            style="justify-items: center; justify-content: space-between; height: 200px; width: 90%;">
+            <div>
+
+            </div>
+            <div
+                style="flex-direction: column; display: flex; justify-content: space-between; align-items: center; align-self: center; ">
+                <button style="background:none; border: none;" onclick="moveUp('{{exercises.id}}')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                        class="bi bi-chevron-up" viewBox="0 0 16 16">
+                        <path fill="rgb(44, 67, 81)" fill-rule="evenodd"
+                            d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                    </svg>
+                </button>
+                <div style="height: 75px ;"></div>
+                <button style="background:none; border: none;" onclick="moveDown('{{exercises.id}}')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                        class="bi bi-chevron-down" viewBox="0 0 16 16">
+                        <path fill="rgb(44, 67, 81)" fill-rule="evenodd"
+                            d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                    </svg>
+                </button>
+
+            </div>
+            <div style="padding-left: 30px; height: 100px; width: 100px;">
+                <img src="https://bastialsad.github.io/laxout_development/{%static exercises.imagePath %}" alt=""
+                    style="height: 100px; width: 100px;">
+            </div>
+            <div style="padding-right: 30px; width: 40vw;">
+
+                <h5 style="color: rgb(44, 67, 81);">
+                    {{ exercises.name }}
+                </h5>
+                <div style="justify-content: start; align-items: center;">
+                    <div style="color: grey; font-size: 13px;">
+                        <textarea id="{{exercises.id}}name" style="width: 100%; border: none;"
+                            onchange="makeVisible('{{exercises.id}}id')" readonly>{{ exercises.execution }}
+                           
+                        </textarea>
+                    </div>
+                    <button
+                        style="display: flex; justify-items: center; justify-content: center; align-items: center; width: 70; font-size: 16px; border: none; background-color: rgb(44, 67, 81); border-radius: 10px; height: 30px;"
+                        onclick="toggleEditMode('{{exercises.id}}name')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-pen" viewBox="0 0 16 16">
+                            <path fill="rgb(255, 255, 255)"
+                                d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
+                        </svg>
+                    </button>
+
+
+
+
+                </div>
+            </div>
+            <div
+                style="padding-right: 30px;color: rgb(44, 67, 81); flex-direction: row; align-items: center; justify-items: center;">
+                <input type="number" onchange="makeVisible('{{exercises.id}}id')"
+                    style="width: 40px; border: 2.4px solid rgb(44, 67, 81); border-radius: 10px; color: rgb(44, 67, 81); align-items: center;"
+                    placeholder="{{exercises.dauer}}" id="{{exercises.id}}">
+                {% if exercises.timer == True %}
+                sek
+                {% else %}
+                mal
+                {% endif %}
+            </div>
+
+            <div style="display: flex; flex-direction: row;">
+                <div style="flex-direction: column; justify-content: center; align-items: center;  display: flex; ">
+                    <div style="flex-direction: row; display: flex;">
+                        <button class="delete-button" style="width: 70; font-size: 16px;"
+                            onclick="deleteExercise('{{exercises.id}}', '{{users.id}}')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                class="bi bi-trash3" viewBox="0 0 16 16">
+                                <path fill="rgb(255, 255, 255)"
+                                    d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div style="height: 30px;">
+
+                    </div>
+                    <div style="flex-direction: row;">
+                        <button class="delete-button"
+                            style="display: flex; justify-items: center; justify-content: center; align-items: center; width: 70; font-size: 16px;"
+                            onclick="viewVideo('{%static exercises.videoPath %}')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
+                                class="bi bi-eye" viewBox="0 0 16 16">
+                                <path
+                                    d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                                <path
+                                    d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-around;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor"
+                        class="bi bi-skip-forward-fill" viewBox="0 0 16 16">
+                        <path fill="rgb(44, 67, 81)"
+                            d="M15.5 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V8.753l-6.267 3.636c-.54.313-1.233-.066-1.233-.697v-2.94l-6.267 3.636C.693 12.703 0 12.324 0 11.693V4.308c0-.63.693-1.01 1.233-.696L7.5 7.248v-2.94c0-.63.693-1.01 1.233-.696L15 7.248V4a.5.5 0 0 1 .5-.5" />
+                    </svg>
+                    <h6 style="padding-right: 13px; padding-left: 10px;">
+                        {{exercises.skippedAmount}}-mal
+                    </h6>
+
+
+                </div>
+                <button class="text-button-arme " id="{{exercises.id}}id"
+                    onclick="refreshWorkout('{{exercises.id}}name','{{exercises.dauer}}', '{{exercises.id}}', '{{plan.id}}')"
+                    style="visibility:hidden; padding-right: 25px; padding-top: 15px;">
+                    Speichern
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+    {% else %}
+    <p>Keine Übung zugewiesen</p>
+    {% endif %}
+    {%endfor%}
+
+
+</div>
+
+
+
+<div id="video-container" style="visibility: hidden;">
+    <button id="close-button" onclick="hideVideo()">X</button>
+    <video id="video" muted>
+        <source src="{% static 'assets/videos/NackenSeitlicheNeigungen.mp4' %}" type="video/mp4">
+        Dein Browser unterstützt das Video-Tag nicht.
+    </video>
+</div>
+
+
+
+<script>
+
+    function showLoadingScreen() {
+        var loadingScreen = document.createElement('div');
+        loadingScreen.id = 'loading-screen';
+        loadingScreen.style.position = 'fixed';
+        loadingScreen.style.top = '0';
+        loadingScreen.style.left = '0';
+        loadingScreen.style.width = '100%';
+        loadingScreen.style.height = '100%';
+        loadingScreen.style.backgroundColor = 'rgba(0,0,0,0.5)';
+        loadingScreen.style.display = 'flex';
+        loadingScreen.style.alignItems = 'center';
+        loadingScreen.style.justifyContent = 'center';
+        loadingScreen.style.zIndex = '1000';
+        loadingScreen.innerHTML = '<div style="color: white; font-size: 20px;">Verarbeiten...</div>';
+        document.body.appendChild(loadingScreen);
+    }
+
+    // Funktion, um den Ladebildschirm zu verstecken
+    function hideLoadingScreen() {
+        var loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+            document.body.removeChild(loadingScreen);
+        }
+    }
+
+    
+
+    const videoContainer = document.getElementById('video-container');
+    const video = document.getElementById('video');
+    const videoSource = document.getElementById('video-source');
+    const playButton = document.getElementById('play-button');
+    const time = document.getElementById('how-much-time');
+    // Extrahiere alle Elemente mit der Klasse "user-item"
+    const userItems = document.querySelectorAll('.user-item');
+
+    // Initialisiere eine leere Liste für die Workouts
+    const workoutsList = [];
+    let completeTime = 0;
+
+    // Iteriere über alle gefundenen Elemente
+    userItems.forEach(userItem => {
+        // Extrahiere die Informationen aus jedem Element und füge sie zur Workouts-Liste hinzu
+        const name = userItem.querySelector('h5').textContent.trim();
+        const execution = userItem.querySelector('textarea').textContent.trim();
+        const id = userItem.querySelector('textarea').id.replace('name', '');
+        // Extrahiere die Dauer aus dem entsprechenden Input-Element
+        const duration = parseInt(userItem.querySelector('.user-item input[type="number"]').getAttribute('placeholder').trim());
+        workoutsList.push({
+            duration: duration,
+
+            // Füge hier weitere Eigenschaften hinzu, die du extrahieren möchtest
+        });
+    });
+
+    // Nun hast du eine Liste von JavaScript-Objekten, die die Informationen aus den "user-item"-Elementen enthalten
+    workoutsList.forEach(workoutItem => {
+        completeTime += workoutItem.duration;
+    })
+    console.log(workoutsList);
+    console.log(completeTime);
+    time.textContent = Math.round(completeTime / 60) + " min";
+
+
+
+
+    let isZoomed = false;
+
+    videoContainer.addEventListener('click', () => {
+        togglePlay();
+    });
+
+    function togglePlay() {
+        if (video.paused) {
+            video.play();
+            playButton.style.display = 'none';
+        } else {
+            video.pause();
+            playButton.style.display = 'block';
+        }
+    }
+
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+
+
+
+    function viewVideo(videoPath) {
+        scrollToTop();
+        // Neue Videoquelle hinzufügen
+        var source = document.createElement('source');
+        source.src = "https://bastialsad.github.io/laxout_development/" + videoPath;;
+        source.type = 'video/mp4';
+
+        // Alte Quelle entfernen und neue hinzufügen
+        video.innerHTML = ''; // leert den Video-Container
+        video.appendChild(source);
+
+        videoContainer.style.visibility = 'visible';
+        video.load();
+        togglePlay();
+    }
+
+
+    function hideVideo() {
+        videoContainer.style.visibility = 'hidden';
+    }
+
+    function moveUp(exerciseId) {
+        showLoadingScreen();
+        let formedData = new FormData();
+        let csrf_token = "{{csrf_token}}";
+        formedData.append("csrfmiddlewaretoken", csrf_token);
+        formedData.append("exercise_id", exerciseId);
+
+        fetch("move-up/", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrf_token
+            },
+            body: formedData
+
+        }).then(response => {
+            // Verstecke den Ladebildschirm
+            hideLoadingScreen();
+            // Lade die Seite neu
+            window.location.reload();
+        }).catch(error => {
+            // Verstecke den Ladebildschirm auch im Fehlerfall
+            hideLoadingScreen();
+            console.error('Error:', error);
+        });
+    }
+
+    function moveDown(exerciseId) {
+        showLoadingScreen();
+        let formedData = new FormData();
+        let csrf_token = "{{csrf_token}}";
+        formedData.append("csrfmiddlewaretoken", csrf_token);
+        formedData.append("exercise_id", exerciseId);
+
+        fetch("move-down/", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrf_token
+            },
+            body: formedData  // Füge den body mit den Daten hinzu
+        }).then(response => {
+            // Verstecke den Ladebildschirm
+            hideLoadingScreen();
+            // Lade die Seite neu
+            window.location.reload();
+        }).catch(error => {
+            // Verstecke den Ladebildschirm auch im Fehlerfall
+            hideLoadingScreen();
+            console.error('Error:', error);
+        });
+    }
+
+    function makeVisible(cssId) {
+        element = document.getElementById(cssId);
+        element.style.visibility = 'visible';
+    }
+
+
+    function addExercises() {
+        window.location.href = "add-exercises/";
+    }
+
+    function toggleEditMode(workoutName) {
+        const executionTextarea = document.getElementById(workoutName);
+        if (executionTextarea) {
+            executionTextarea.readOnly = !executionTextarea.readOnly;
+            executionTextarea.focus();
+        }
+    }
+
+    function refreshWorkout(cssId, newDauer, cssId2, planId) {
+        showLoadingScreen();
+        console.log(planId);
+        const executionTextarea = document.getElementById(cssId);
+        const inputDauer = document.getElementById(cssId2);
+        document.getElementById(cssId2 + "id").style.visibility = 'hidden';
+        let execution = executionTextarea.value;
+        let dauer = inputDauer.value;
+        let formedData = new FormData();
+        let token = "{{csrf_token}}";
+        formedData.append("csrfmiddlewaretoken", token);
+        formedData.append("execution", execution);
+        formedData.append("dauer", dauer);
+        formedData.append("id", cssId2);
+        formedData.append("planId", planId);
+        fetch("edit-plan-exercise/", {
+            headers: {
+                'X-CSRFToken': token,
+            },
+            method: "POST",
+            body: formedData
+        }).then(response => {
+            // Verstecke den Ladebildschirm
+            hideLoadingScreen();
+            // Lade die Seite neu
+            window.location.reload();
+        }).catch(error => {
+            // Verstecke den Ladebildschirm auch im Fehlerfall
+            hideLoadingScreen();
+            console.error('Error:', error);
+        });
+    }
+
+    function deleteExercise(workoutId, planId) {
+        showLoadingScreen();
+        let formedData = new FormData();
+        let token = "{{csrf_token}}";
+        formedData.append("csrfmiddlewaretoken", token);
+        formedData.append("id", workoutId);
+        formedData.append("planId", planId)
+        fetch("delete-plan-exercise/", {
+            headers: {
+                'X-CSRFToken': token,
+            },
+            method: "POST",
+            body: formedData
+        }).then(response => {
+            // Verstecke den Ladebildschirm
+            hideLoadingScreen();
+            // Lade die Seite neu
+            window.location.reload();
+        }).catch(error => {
+            // Verstecke den Ladebildschirm auch im Fehlerfall
+            hideLoadingScreen();
+            console.error('Error:', error);
+        });
+    }
+
+
+</script>
+
+
+{% endblock content %}

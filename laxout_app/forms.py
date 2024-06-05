@@ -5,12 +5,9 @@ from django.contrib.auth.models import User
 class UserForm(forms.ModelForm):
     class Meta:
         model = LaxoutUser
-        fields = ["laxout_user_name", "note", "email_adress"]
+        fields = ["laxout_user_name", "email_adress"]
 
-    def __init__(self, *args, **kwargs):
-        super(UserForm, self).__init__(*args, **kwargs)
-        self.fields['note'].required = False
-        self.fields['note'].label = 'Name der Neuen Diagnose'
+
  # not  fields = ["laxout_user_name, note"] !
 
 
@@ -22,3 +19,8 @@ class ExerciseForm(forms.ModelForm):
     class Meta:
         model = Uebungen_Models
         fields = ["execution", "name", "dauer", "videoPath", "looping", "timer", "required", "imagePath", "onlineVideoPath", ]
+
+class TrainingDataForm(forms.Form):
+    illness = forms.CharField(max_length=100, required=True)
+    
+    

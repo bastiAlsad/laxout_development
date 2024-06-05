@@ -166,16 +166,12 @@ class SuccessControll(models.Model):
     better = models.BooleanField(default = False)
     created_by = models.IntegerField(default = 0)
 
-class AiExercise(models.Model):
-    exercise_id = models.IntegerField(default = 0)
-
-class AiTrainingData(models.Model):
+class AiTrainingDataGlobal(models.Model):
     def __str__(self):
         return f"{self.illness}"
     illness = models.CharField(default = "", max_length = 200)
-    related_exercises = models.ManyToManyField(AiExercise)
+    related_exercises = models.ManyToManyField(Laxout_Exercise)
     created_by = models.IntegerField(default = 0) # Physio Id
-    created_for = models.IntegerField(default =0) # LaxoutUserId 
 
 class ChatDataModel(models.Model):
     is_sender = models.BooleanField(default = False)
@@ -192,3 +188,15 @@ class SovendusCustomerUid(models.Model):
 class WebCodes(models.Model):
     created_by = models.IntegerField(default=0)
     code = models.CharField(default="", max_length=20)
+
+##Old
+class AiExercise(models.Model):
+    exercise_id = models.IntegerField(default = 0)
+
+class AiTrainingData(models.Model):
+    def __str__(self):
+        return f"{self.illness}"
+    illness = models.CharField(default = "", max_length = 200)
+    related_exercises = models.ManyToManyField(AiExercise)
+    created_by = models.IntegerField(default = 0) # Physio Id
+    created_for = models.IntegerField(default =0) # LaxoutUserId 

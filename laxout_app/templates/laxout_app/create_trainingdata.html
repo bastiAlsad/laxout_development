@@ -1,0 +1,81 @@
+{% extends 'laxout_app/main.html' %}
+{% block praxisname %}Kunden Abrechnen{% endblock praxisname %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+    .submit_button {
+        height: 50px;
+        width: 240px;
+        border-radius: 10px;
+        background-color: rgb(44, 67, 81);
+        color: white;
+        margin-left: 0px;
+        cursor: pointer;
+        border: none;
+        margin-top: 25px;
+        font-size: 20px;
+    }
+</style>
+<div style="padding-left: 45px; width: 400px;">
+    <form method="post" onsubmit="return validateForm()">
+        {% csrf_token %}
+        <div class="form-group">
+            <div style="flex: 1;">
+                <label for="illness">Name des Plans</label>
+                <input type="text" id="illness" name="illness" class="form-control" required>
+            </div>
+        </div>
+        <button type="button" class="submit_button" onclick="submitForm()">Plan erstellen</button>
+    </form>
+</div>
+
+<script>
+    function showLoadingScreen() {
+        var loadingScreen = document.createElement('div');
+        loadingScreen.id = 'loading-screen';
+        loadingScreen.style.position = 'fixed';
+        loadingScreen.style.top = '0';
+        loadingScreen.style.left = '0';
+        loadingScreen.style.width = '100%';
+        loadingScreen.style.height = '100%';
+        loadingScreen.style.backgroundColor = 'rgba(0,0,0,0.5)';
+        loadingScreen.style.display = 'flex';
+        loadingScreen.style.alignItems = 'center';
+        loadingScreen.style.justifyContent = 'center';
+        loadingScreen.style.zIndex = '1000';
+        loadingScreen.innerHTML = '<div style="color: white; font-size: 20px;">Verarbeiten...</div>';
+        document.body.appendChild(loadingScreen);
+    }
+
+    // Funktion, um den Ladebildschirm zu verstecken
+    function hideLoadingScreen() {
+        var loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+            document.body.removeChild(loadingScreen);
+        }
+    }
+    function validateForm() {
+        var requiredFields = document.querySelectorAll('input[required]');
+        var alertshown = false;
+
+        for (var i = 0; i < requiredFields.length; i++) {
+            if (requiredFields[i].value.trim() === '') {
+                if (!alertshown) {
+                    alert('Bitte füllen Sie alle Pflichtfelder aus.');
+                }
+                alertshown = true;
+                requiredFields[i].focus();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function submitForm() {
+        showLoadingScreen();
+        if (validateForm()) {
+            document.getElementsByTagName("form")[0].submit();
+        }
+    }
+</script>
+{% endblock content %}
