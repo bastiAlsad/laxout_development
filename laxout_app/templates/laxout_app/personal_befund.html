@@ -2584,6 +2584,985 @@ Befund von {{user.laxout_user_name}}
     {% endfor %}
     {% endif %}
 
+    {% if red_flag_screening_schulter_list %}
+    {% for item in red_flag_screening_schulter_list %}
+    <label for="ananmese-container" style="margin-left: 15px; color: rgb(44, 67, 81);">
+        <div style="display: flex; justify-content: space-around;">
+            <button class="header-button">
+                <h6>Red Flag Screening Schulter | Infos |</h6>
+            </button>
+
+            <button class="header-button" onclick="addBefund('red_flag_screening_schulter')">
+                <h6>Re-Befund |</h6>
+            </button>
+            <button class="header-button" onclick="deleteBefund('red_flag_screening_schulter','{{item.id}}')">
+                <h6>Löschen |</h6>
+            </button>
+        </div>
+    </label>
+    <div id="ananmese-container" style="margin-bottom: 30px;">
+        <h3 style="color: rgb(44, 67, 81); margin-bottom: 20px;">
+            Durchgeführt am {{ item.created_at|date:"d.m.Y" }}
+        </h3>
+
+        <table>
+            <tr>
+                <th>Vizerale Pathologie</th>
+                <th>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="mild" value="mild"
+                                id="viszerale_pathologie_ob_rfss{{item.id}}" {% if item.viszerale_pathologie_ob_rfss
+                                %}checked{% endif %}>
+                            o.B.</label>
+                        <label><input type="checkbox" name="mild" value="mild"
+                                id="viszerale_pathologie_schmerzen_nicht_reproduzierbar_rfss{{item.id}}" {% if
+                                item.viszerale_pathologie_schmerzen_nicht_reproduzierbar_rfss %}checked{% endif %}>
+                            Schmerzen die nicht
+                            reproduziert werden können </label>
+                        <label><input type="checkbox" name="mild" value="mild"
+                                id="viszerale_pathologie_schmerzen_bei_anstrengung_rfss{{item.id}}" {% if
+                                item.viszerale_pathologie_schmerzen_bei_anstrengung_rfss %}checked{% endif %}> Schmerzen
+                            oder Symptome
+                            bei körperliche Antstrenung oder Atemwegsbelastung </label>
+                        <label><input type="checkbox" name="mild" value="mild"
+                                id="viszerale_pathologie_schmerzen_gastrointestinale_symptome_rfss{{item.id}}" {% if
+                                item.viszerale_pathologie_schmerzen_gastrointestinale_symptome_rfss %}checked{% endif
+                                %}> Schmerzen die
+                            mit gastrointestinalen Symptomen einhergehen</label>
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th>Infektionen</th>
+                <th>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="mild" value="mild" id="infektionen_ob_rfss{{item.id}}" {% if
+                                item.infektionen_ob_rfss %}checked{% endif %}>
+                            o.B.</label>
+                        <label><input type="checkbox" name="mild" value="mild"
+                                id="infektionen_geroetete_haut_rfss{{item.id}}" {% if
+                                item.infektionen_geroetete_haut_rfss %}checked{% endif %}> Gerötete Haut </label>
+                        <label><input type="checkbox" name="mild" value="mild" id="infektionen_fieber_rfss{{item.id}}"
+                                {% if item.infektionen_fieber_rfss %}checked{% endif %}>
+                            Fieber </label>
+                        <label><input type="checkbox" name="mild" value="mild"
+                                id="infektionen_allgemeines_unwohlsein_rfss{{item.id}}" {% if
+                                item.infektionen_allgemeines_unwohlsein_rfss %}checked{% endif %}> Allgemeines
+                            Unwohlsein </label>
+
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th>Tumor</th>
+                <th>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="mild" value="mild" id="tumor_ob_rfss{{item.id}}" {% if
+                                item.tumor_ob_rfss %}checked{% endif %}> o.B.</label>
+                        <label><input type="checkbox" name="mild" value="mild"
+                                id="tumor_krebs_vorgeschichte_rfss{{item.id}}" {% if item.tumor_krebs_vorgeschichte_rfss
+                                %}checked{% endif %}> Krebs in der Vorgeschichte </label>
+                        <label><input type="checkbox" name="mild" value="mild"
+                                id="tumor_symptome_unerklärlicher_gewichtsverlust_rfss{{item.id}}" {% if
+                                item.tumor_symptome_unerklärlicher_gewichtsverlust_rfss %}checked{% endif %}> Symptome
+                            und Anzeichen
+                            von Krebs einschließlich unklarem Gewichtsverlust und Schmerzen die nicht mit mechanischen
+                            Stress verbunden sind und unerklärlicher Müdigkeit </label>
+
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th>Neurologische Läsion</th>
+                <th>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="mild" value="mild"
+                                id="neurologische_laesion_ob_rfss{{item.id}}" {% if item.neurologische_laesion_ob_rfss
+                                %}checked{% endif %}>
+                            o.B.</label>
+                        <label><input type="checkbox" name="mild" value="mild"
+                                id="neurologische_laesion_sensorisches_defizit_rfss{{item.id}}" {% if
+                                item.neurologische_laesion_sensorisches_defizit_rfss %}checked{% endif %}> Unklares
+                            sensorisches oder
+                            motorisches Defizit </label>
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th>Fraktur oder Luxation</th>
+                <th>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="mild" value="mild" id="fraktur_luxation_ob_rfss{{item.id}}"
+                                {% if item.fraktur_luxation_ob_rfss %}checked{% endif %}>
+                            o.B.</label>
+                        <label><input type="checkbox" name="mild" value="mild"
+                                id="fraktur_luxation_signifikantes_trauma_rfss{{item.id}}" {% if
+                                item.neurologische_laesion_sensorisches_defizit_rfss %}checked{% endif %}>
+                            Siginifikantes Trauma </label>
+                        <label><input type="checkbox" name="mild" value="mild"
+                                id="fraktur_luxation_anfall_rfss{{item.id}}" {% if item.fraktur_luxation_anfall_rfss
+                                %}checked{% endif %}>
+                            Anfall </label>
+                        <label><input type="checkbox" name="mild" value="mild"
+                                id="fraktur_luxation_akut_behindernde_schmerzen_rfss{{item.id}}" {% if
+                                item.fraktur_luxation_akut_behindernde_schmerzen_rfss %}checked{% endif %}> Akut
+                            behinderende Schmerzen
+                        </label>
+                        <label><input type="checkbox" name="mild" value="mild"
+                                id="fraktur_luxation_akuter_bewegungsverlust_rfss{{item.id}}" {% if
+                                item.fraktur_luxation_akuter_bewegungsverlust_rfss %}checked{% endif %}> Aktuer
+                            Bewegungsverlsut
+                        </label>
+                        <label><input type="checkbox" name="mild" value="mild"
+                                id="fraktur_luxation_deformitaet_funktionsverlust_rfss{{item.id}}" {% if
+                                item.fraktur_luxation_deformitaet_funktionsverlust_rfss %}checked{% endif %}> Deformität
+                            ooder Verlsut
+                            der normalen Funktion </label>
+                    </div>
+                </th>
+            </tr>
+        </table>
+        <div style="height: 50px;">
+
+        </div>
+        <textarea name="bemerkung" id="bemerkung_rfss{{item.id}}" class="form-control"
+            style="height: 100px; width: 100%;" placeholder="Bemerkung">{{item.bemerkung_rfss}}</textarea>
+    </div>
+
+
+    {% endfor %}
+    {% endif %}
+
+    {% if aktive_beweglichkeit_schulter_list %}
+    {% for item in aktive_beweglichkeit_schulter_list %}
+    <label for="ananmese-container" style="margin-left: 15px; color: rgb(44, 67, 81);">
+        <div style="display: flex; justify-content: space-around;">
+            <button class="header-button">
+                <h6>Aktive Beweglichkeit Schulter | Infos |</h6>
+            </button>
+
+            <button class="header-button" onclick="addBefund('aktive_beweglichkeit_schulter')">
+                <h6>Re-Befund |</h6>
+            </button>
+            <button class="header-button" onclick="deleteBefund('aktive_beweglichkeit_schulter','{{item.id}}')">
+                <h6>Löschen |</h6>
+            </button>
+        </div>
+    </label>
+    <div id="ananmese-container" style="margin-bottom: 30px;">
+        <h3 style="color: rgb(44, 67, 81); margin-bottom: 20px;">
+            Durchgeführt am {{ item.created_at|date:"d.m.Y" }}
+        </h3>
+
+        <table cellspacing="0" cellpadding="0" style="border:0.75pt solid #bfbfbf; border-collapse:collapse">
+            <tr style="height:15pt">
+                <td colspan="7"
+                    style="width:443.25pt; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <div style="display: flex; flex-direction: row;">
+                        <label for="links_abs{{item.id}}"><input type="checkbox" name="mild" value="mild"
+                                id="links_abs{{item.id}}" {% if item.links_abs %}checked{% endif %}> links</label>
+                        <label for="links_abs{{item.id}}"><input type="checkbox" name="mild" value="mild"
+                                id="rechts_abs{{item.id}}" {% if item.rechts_abs %}checked{% endif %}> rechts</label>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:54pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        &#xa0;
+                    </p>
+                </td>
+                <td
+                    style="width:10.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">o.B.</span>
+                    </p>
+                </td>
+                <td
+                    style="width:60.75pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Leicht Begrenzt</span>
+                    </p>
+                </td>
+                <td
+                    style="width:69.65pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Moderat Begrenzt</span>
+                    </p>
+                </td>
+                <td
+                    style="width:54.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Stark begrenzt</span>
+                    </p>
+                </td>
+                <td
+                    style="width:46.3pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Schmerzhaft</span>
+                    </p>
+                </td>
+                <td
+                    style="width:103.05pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Unkoordiniert / Gehemmt</span>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:54pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Flexion</span>
+                    </p>
+                </td>
+                <td
+                    style="width:10.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="flexion_ob_abs{{item.id}}" {% if
+                        item.flexion_ob_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:60.75pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="flexion_leicht_begrenzt_abs{{item.id}}" {% if
+                        item.flexion_leicht_begrenzt_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:69.65pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="flexion_moderat_begrenzt_abs{{item.id}}" {% if
+                        item.flexion_moderat_begrenzt_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:54.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="flexion_stark_begrenzt_abs{{item.id}}" {% if
+                        item.flexion_stark_begrenzt_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:46.3pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="flexion_schmerzhaft_abs{{item.id}}" {% if
+                        item.flexion_schmerzhaft_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:103.05pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="flexion_unkoordiniert_gehemmt_abs{{item.id}}" {%
+                        if item.flexion_unkoordiniert_gehemmt_abs %}checked{% endif %}>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:54pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Extension</span>
+                    </p>
+                <td
+                    style="width:10.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="extension_ob_abs{{item.id}}" {% if
+                        item.extension_ob_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:60.75pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="extension_leicht_begrenzt_abs{{item.id}}" {% if
+                        item.extension_leicht_begrenzt_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:69.65pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="extension_moderat_begrenzt_abs{{item.id}}" {% if
+                        item.extension_moderat_begrenzt_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:54.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="extension_stark_begrenzt_abs{{item.id}}" {% if
+                        item.extension_stark_begrenzt_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:46.3pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="extension_schmerzhaft_abs{{item.id}}" {% if
+                        item.extension_schmerzhaft_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:103.05pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="extension_unkoordiniert_gehemmt_abs{{item.id}}"
+                        {% if item.extension_unkoordiniert_gehemmt_abs %}checked{% endif %}>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:54pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Abduktion</span>
+                    </p>
+                </td>
+                <td
+                    style="width:10.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="abduktion_ob_abs{{item.id}}" {% if
+                        item.abduktion_ob_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:60.75pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="abduktion_leicht_begrenzt_abs{{item.id}}" {% if
+                        item.abduktion_leicht_begrenzt_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:69.65pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="abduktion_moderat_begrenzt_abs{{item.id}}" {% if
+                        item.abduktion_moderat_begrenzt_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:54.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="abduktion_stark_begrenzt_abs{{item.id}}" {% if
+                        item.abduktion_stark_begrenzt_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:46.3pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="abduktion_schmerzhaft_abs{{item.id}}" {% if
+                        item.abduktion_schmerzhaft_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:103.05pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="abduktion_unkoordiniert_gehemmt_abs{{item.id}}"
+                        {% if item.abduktion_unkoordiniert_gehemmt_abs %}checked{% endif %}>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:54pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Adduktion</span>
+                    </p>
+                </td>
+                <td
+                    style="width:10.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="adduktion_ob_abs{{item.id}}" {% if
+                        item.adduktion_ob_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:60.75pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="adduktion_leicht_begrenzt_abs{{item.id}}" {% if
+                        item.adduktion_leicht_begrenzt_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:69.65pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="adduktion_moderat_begrenzt_abs{{item.id}}" {% if
+                        item.adduktion_moderat_begrenzt_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:54.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="adduktion_stark_begrenzt_abs{{item.id}}" {% if
+                        item.adduktion_stark_begrenzt_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:46.3pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="adduktion_schmerzhaft_abs{{item.id}}" {% if
+                        item.adduktion_schmerzhaft_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:103.05pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="adduktion_unkoordiniert_gehemmt_abs{{item.id}}"
+                        {% if item.adduktion_unkoordiniert_gehemmt_abs %}checked{% endif %}>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:54pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Innenrotation</span>
+                    </p>
+                <td
+                    style="width:10.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="innenrotation_ob_abs{{item.id}}" {% if
+                        item.innenrotation_ob_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:60.75pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="innenrotation_leicht_begrenzt_abs{{item.id}}" {%
+                        if item.innenrotation_leicht_begrenzt_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:69.65pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="innenrotation_moderat_begrenzt_abs{{item.id}}"
+                        {% if item.innenrotation_moderat_begrenzt_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:54.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="innenrotation_stark_begrenzt_abs{{item.id}}" {%
+                        if item.innenrotation_stark_begrenzt_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:46.3pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="innenrotation_schmerzhaft_abs{{item.id}}" {% if
+                        item.innenrotation_schmerzhaft_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:103.05pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild"
+                        id="innenrotation_unkoordiniert_gehemmt_abs{{item.id}}" {% if
+                        item.innenrotation_unkoordiniert_gehemmt_abs %}checked{% endif %}>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:54pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Außenrotation</span>
+                    </p>
+                <td
+                    style="width:10.25pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="außenrotation_ob_abs{{item.id}}" {% if
+                        item.außenrotation_ob_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:60.75pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="außenrotation_leicht_begrenzt_abs{{item.id}}" {%
+                        if item.außenrotation_leicht_begrenzt_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:69.65pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="außenrotation_moderat_begrenzt_abs{{item.id}}"
+                        {% if item.außenrotation_moderat_begrenzt_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:54.25pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="außenrotation_stark_begrenzt_abs{{item.id}}" {%
+                        if item.außenrotation_stark_begrenzt_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:46.3pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="außenrotation_schmerzhaft_abs{{item.id}}" {% if
+                        item.außenrotation_schmerzhaft_abs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:103.05pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild"
+                        id="außenrotation_unkoordiniert_gehemmt_abs{{item.id}}" {% if
+                        item.außenrotation_unkoordiniert_gehemmt_abs %}checked{% endif %}>
+                </td>
+            </tr>
+        </table>
+        <div style="height: 50px;">
+
+        </div>
+        <textarea name="bemerkung" id="bemerkung_abs{{item.id}}" class="form-control"
+            style="height: 100px; width: 100%;" placeholder="Bemerkung">{{item.bemerkung_abs}}</textarea>
+    </div>
+
+
+    {% endfor %}
+    {% endif %}
+
+    {% if passive_beweglichkeit_schulter_list %}
+    {% for item in passive_beweglichkeit_schulter_list %}
+    <label for="ananmese-container" style="margin-left: 15px; color: rgb(44, 67, 81);">
+        <div style="display: flex; justify-content: space-around;">
+            <button class="header-button">
+                <h6>Passive Beweglichkeit Schulter | Infos |</h6>
+            </button>
+
+            <button class="header-button" onclick="addBefund('passive_beweglichkeit_schulter')">
+                <h6>Re-Befund |</h6>
+            </button>
+            <button class="header-button" onclick="deleteBefund('passive_beweglichkeit_schulter','{{item.id}}')">
+                <h6>Löschen |</h6>
+            </button>
+        </div>
+    </label>
+    <div id="ananmese-container" style="margin-bottom: 30px;">
+        <h3 style="color: rgb(44, 67, 81); margin-bottom: 20px;">
+            Durchgeführt am {{ item.created_at|date:"d.m.Y" }}
+        </h3>
+
+        <table cellspacing="0" cellpadding="0" style="border:0.75pt solid #bfbfbf; border-collapse:collapse">
+            <tr style="height:15pt">
+                <td colspan="7"
+                    style="width:443.25pt; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <div style="display: flex; flex-direction: row;">
+                        <label for="links_pbs{{item.id}}"><input type="checkbox" name="mild" value="mild"
+                                id="links_pbs{{item.id}}" {% if item.links_abs %}checked{% endif %}> links</label>
+                        <label for="links_pbs{{item.id}}"><input type="checkbox" name="mild" value="mild"
+                                id="rechts_pbs{{item.id}}" {% if item.rechts_abs %}checked{% endif %}> rechts</label>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:54pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        &#xa0;
+                    </p>
+                </td>
+                <td
+                    style="width:10.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">o.B.</span>
+                    </p>
+                </td>
+                <td
+                    style="width:60.75pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Leicht Begrenzt</span>
+                    </p>
+                </td>
+                <td
+                    style="width:69.65pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Moderat Begrenzt</span>
+                    </p>
+                </td>
+                <td
+                    style="width:54.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Stark begrenzt</span>
+                    </p>
+                </td>
+                <td
+                    style="width:46.3pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Schmerzhaft</span>
+                    </p>
+                </td>
+                <td
+                    style="width:103.05pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Pathologisches Endgefühl</span>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:54pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Flexion</span>
+                    </p>
+                </td>
+                <td
+                    style="width:10.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="flexion_ob_pbs{{item.id}}" {% if
+                        item.flexion_ob_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:60.75pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="flexion_leicht_begrenzt_pbs{{item.id}}" {% if
+                        item.flexion_leicht_begrenzt_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:69.65pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="flexion_moderat_begrenzt_pbs{{item.id}}" {% if
+                        item.flexion_moderat_begrenzt_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:54.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="flexion_stark_begrenzt_pbs{{item.id}}" {% if
+                        item.flexion_stark_begrenzt_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:46.3pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="flexion_schmerzhaft_pbs{{item.id}}" {% if
+                        item.flexion_schmerzhaft_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:103.05pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="flexion_unkoordiniert_gehemmt_pbs{{item.id}}" {%
+                        if item.flexion_unkoordiniert_gehemmt_pbs %}checked{% endif %}>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:54pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Extension</span>
+                    </p>
+                <td
+                    style="width:10.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="extension_ob_pbs{{item.id}}" {% if
+                        item.extension_ob_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:60.75pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="extension_leicht_begrenzt_pbs{{item.id}}" {% if
+                        item.extension_leicht_begrenzt_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:69.65pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="extension_moderat_begrenzt_pbs{{item.id}}" {% if
+                        item.extension_moderat_begrenzt_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:54.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="extension_stark_begrenzt_pbs{{item.id}}" {% if
+                        item.extension_stark_begrenzt_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:46.3pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="extension_schmerzhaft_pbs{{item.id}}" {% if
+                        item.extension_schmerzhaft_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:103.05pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="extension_unkoordiniert_gehemmt_pbs{{item.id}}"
+                        {% if item.extension_unkoordiniert_gehemmt_pbs %}checked{% endif %}>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:54pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Abduktion</span>
+                    </p>
+                </td>
+                <td
+                    style="width:10.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="abduktion_ob_pbs{{item.id}}" {% if
+                        item.abduktion_ob_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:60.75pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="abduktion_leicht_begrenzt_pbs{{item.id}}" {% if
+                        item.abduktion_leicht_begrenzt_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:69.65pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="abduktion_moderat_begrenzt_pbs{{item.id}}" {% if
+                        item.abduktion_moderat_begrenzt_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:54.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="abduktion_stark_begrenzt_pbs{{item.id}}" {% if
+                        item.abduktion_stark_begrenzt_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:46.3pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="abduktion_schmerzhaft_pbs{{item.id}}" {% if
+                        item.abduktion_schmerzhaft_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:103.05pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="abduktion_unkoordiniert_gehemmt_pbs{{item.id}}"
+                        {% if item.abduktion_unkoordiniert_gehemmt_pbs %}checked{% endif %}>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:54pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Adduktion</span>
+                    </p>
+                </td>
+                <td
+                    style="width:10.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="adduktion_ob_pbs{{item.id}}" {% if
+                        item.adduktion_ob_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:60.75pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="adduktion_leicht_begrenzt_pbs{{item.id}}" {% if
+                        item.adduktion_leicht_begrenzt_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:69.65pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="adduktion_moderat_begrenzt_pbs{{item.id}}" {% if
+                        item.adduktion_moderat_begrenzt_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:54.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="adduktion_stark_begrenzt_pbs{{item.id}}" {% if
+                        item.adduktion_stark_begrenzt_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:46.3pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="adduktion_schmerzhaft_pbs{{item.id}}" {% if
+                        item.adduktion_schmerzhaft_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:103.05pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="adduktion_unkoordiniert_gehemmt_pbs{{item.id}}"
+                        {% if item.adduktion_unkoordiniert_gehemmt_pbs %}checked{% endif %}>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:54pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Innenrotation</span>
+                    </p>
+                <td
+                    style="width:10.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="innenrotation_ob_pbs{{item.id}}" {% if
+                        item.innenrotation_ob_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:60.75pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="innenrotation_leicht_begrenzt_pbs{{item.id}}" {%
+                        if item.innenrotation_leicht_begrenzt_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:69.65pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="innenrotation_moderat_begrenzt_pbs{{item.id}}"
+                        {% if item.innenrotation_moderat_begrenzt_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:54.25pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="innenrotation_stark_begrenzt_pbs{{item.id}}" {%
+                        if item.innenrotation_stark_begrenzt_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:46.3pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="innenrotation_schmerzhaft_pbs{{item.id}}" {% if
+                        item.innenrotation_schmerzhaft_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:103.05pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild"
+                        id="innenrotation_unkoordiniert_gehemmt_pbs{{item.id}}" {% if
+                        item.innenrotation_unkoordiniert_gehemmt_pbs %}checked{% endif %}>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:54pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Außenrotation</span>
+                    </p>
+                <td
+                    style="width:10.25pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="außenrotation_ob_pbs{{item.id}}" {% if
+                        item.außenrotation_ob_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:60.75pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="außenrotation_leicht_begrenzt_pbs{{item.id}}" {%
+                        if item.außenrotation_leicht_begrenzt_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:69.65pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="außenrotation_moderat_begrenzt_pbs{{item.id}}"
+                        {% if item.außenrotation_moderat_begrenzt_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:54.25pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="außenrotation_stark_begrenzt_pbs{{item.id}}" {%
+                        if item.außenrotation_stark_begrenzt_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:46.3pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild" id="außenrotation_schmerzhaft_pbs{{item.id}}" {% if
+                        item.außenrotation_schmerzhaft_pbs %}checked{% endif %}>
+                </td>
+                <td
+                    style="width:103.05pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <input type="checkbox" name="mild" value="mild"
+                        id="außenrotation_unkoordiniert_gehemmt_pbs{{item.id}}" {% if
+                        item.außenrotation_unkoordiniert_gehemmt_pbs %}checked{% endif %}>
+                </td>
+            </tr>
+        </table>
+        <div style="height: 50px;">
+
+        </div>
+        <textarea name="bemerkung" id="bemerkung_pbs{{item.id}}" class="form-control"
+            style="height: 100px; width: 100%;" placeholder="Bemerkung">{{item.bemerkung_pbs}}</textarea>
+    </div>
+
+
+    {% endfor %}
+    {% endif %}
+
+    {% if beweglichkeitsmessung_schulter_list %}
+    {% for item in beweglichkeitsmessung_schulter_list %}
+    <label for="ananmese-container" style="margin-left: 15px; color: rgb(44, 67, 81);">
+        <div style="display: flex; justify-content: space-around;">
+            <button class="header-button">
+                <h6>Beweglichkeitsmessung Schulter | Infos |</h6>
+            </button>
+
+            <button class="header-button" onclick="addBefund('beweglichkeitsmessung_schulter')">
+                <h6>Re-Befund |</h6>
+            </button>
+            <button class="header-button" onclick="deleteBefund('beweglichkeitsmessung_schulter','{{item.id}}')">
+                <h6>Löschen |</h6>
+            </button>
+        </div>
+    </label>
+    <div id="ananmese-container" style="margin-bottom: 30px;">
+        <h3 style="color: rgb(44, 67, 81); margin-bottom: 20px;">
+            Durchgeführt am {{ item.created_at|date:"d.m.Y" }}
+        </h3>
+
+        <table cellspacing="0" cellpadding="0" style="border:0.75pt solid #bfbfbf; border-collapse:collapse">
+            <tr style="height:15pt">
+                <td colspan="3"
+                    style="width:443.25pt; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <div style="display: flex; flex-direction: row;">
+                        <label for="links_bms{{item.id}}"><input type="checkbox" name="mild" value="mild"
+                                id="links_bms{{item.id}}" {% if item.links_bms %}checked{% endif %}> links</label>
+                        <label for="rechts_bms{{item.id}}"><input type="checkbox" name="mild" value="mild"
+                                id="rechts_bms{{item.id}}" {% if item.rechts_bms %}checked{% endif %}> rechts</label>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:376.15pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Bewegungen </span>
+                    </p>
+                </td>
+                <td
+                    style="width:15.45pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Werte </span>
+                    </p>
+                </td>
+                <td
+                    style="width:36.65pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <em><span style="font-family:Times; color:#4ea72e">Normwerte</span></em>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td colspan="3"
+                    style="width:443.25pt; border-top:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:376.15pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <strong><span style="font-family:Times; ">Flexion / Extension</span></strong>
+                    </p>
+                </td>
+                <td
+                    style="width:auto; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="text" value="flexion_extension_bms" id="flexion_extension_bms{{item.id}}">
+
+                    </p>
+                </td>
+                <td
+                    style="width:36.65pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <em><span style="font-family:Times; color:#4ea72e">170 / 0 / 40</span></em>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td colspan="3"
+                    style="width:443.25pt; border-top:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+
+
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:376.15pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <strong><span style="font-family:Times; ">Abduktion / Adduktion </span></strong>
+                    </p>
+                </td>
+                <td
+                    style="width:15.45pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="text" value="abduktion_adduktion_bms" id="abduktion_adduktion_bms{{item.id}}">
+                    </p>
+                </td>
+                <td
+                    style="width:36.65pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <em><span style="font-family:Times; color:#4ea72e">180 / 0 / 40</span></em>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td colspan="3"
+                    style="width:443.25pt; border-top:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:376.15pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <strong><span style="font-family:Times; ">Transversale Flexion / Extension </span></strong>
+                    </p>
+                </td>
+                <td
+                    style="width:15.45pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="text" value="flexion_extension_bms" id="flexion_extension_bms{{item.id}}">
+                    </p>
+                </td>
+                <td
+                    style="width:36.65pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <em><span style="font-family:Times; color:#4ea72e">130 / 0 / 40</span></em>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td colspan="3"
+                    style="width:443.25pt; border-top:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:376.15pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <strong><span style="font-family:Times; ">Innen / Außenrotation aus Nustellung mit 90 Grad
+                                Ellenbogelenk</span></strong>
+                    </p>
+                </td>
+                <td
+                    style="width:15.45pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="text" value="flexion_extension_bms" id="flexion_extension_bms{{item.id}}">
+                    </p>
+                </td>
+                <td
+                    style="width:36.65pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <em><span style="font-family:Times; color:#4ea72e">100 / 0 / 40</span></em>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td colspan="3"
+                    style="width:443.25pt; border-top:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:376.15pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <strong><span style="font-family:Times; ">Innen / Außenrotation bei 90 Grad Abd im
+                                Schultergelenk und 90 Grad Flexion im Ellenbogengelenk</span></strong><strong><span
+                                style="font-family:Times; ">&#xa0; </span></strong>
+                    </p>
+                </td>
+                <td
+                    style="width:15.45pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="text" value="flexion_extension_bms" id="flexion_extension_bms{{item.id}}">
+                    </p>
+                </td>
+                <td
+                    style="width:36.65pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <ul type="disc" style="margin:0pt; padding-left:0pt">
+                        <li
+                            style="margin-left:28.52pt; text-align:center; line-height:116%; padding-left:7.48pt; font-family:serif; font-size:12pt; color:#4ea72e">
+                            <em><span style="font-family:Times; ">0 / 80 </span></em>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    {% endfor %}
+    {% endif %}
+
     {% if c_sar_list %}
     {% for item in c_sar_list %}
     <label for="ananmese-container" style="margin-left: 15px; color: rgb(44, 67, 81);">
@@ -2634,8 +3613,6 @@ Befund von {{user.laxout_user_name}}
     </div>
     {% endfor %}
     {% endif %}
-
-
 
     {% if posteriore_schultersteifheit_list %}
     {% for item in posteriore_schultersteifheit_list %}
@@ -2699,18 +3676,18 @@ Befund von {{user.laxout_user_name}}
     {% endif %}
 
 
-    {% if red_flag_screening_schulter_list %}
-    {% for item in red_flag_screening_schulter_list %}
+    {% if isometrischer_krafttest_schulter_list %}
+    {% for item in isometrischer_krafttest_schulter_list %}
     <label for="ananmese-container" style="margin-left: 15px; color: rgb(44, 67, 81);">
         <div style="display: flex; justify-content: space-around;">
             <button class="header-button">
-                <h6>Red Flag Screening Schulter | Infos |</h6>
+                <h6>Isometrischer Krafttest Schulter | Infos |</h6>
             </button>
 
-            <button class="header-button" onclick="addBefund('red_flag_screening_schulter')">
+            <button class="header-button" onclick="addBefund('isometrischer_krafttest_schulter')">
                 <h6>Re-Befund |</h6>
             </button>
-            <button class="header-button" onclick="deleteBefund('red_flag_screening_schulter','{{item.id}}')">
+            <button class="header-button" onclick="deleteBefund('isometrischer_krafttest_schulter','{{item.id}}')">
                 <h6>Löschen |</h6>
             </button>
         </div>
@@ -2720,101 +3697,685 @@ Befund von {{user.laxout_user_name}}
             Durchgeführt am {{ item.created_at|date:"d.m.Y" }}
         </h3>
 
-        <table>
-            <tr>
-                <th>Vizerale Pathologie</th>
-                <th>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="mild" value="mild" id="viszerale_pathologie_ob_rfss{{item.id}}" {% if item.viszerale_pathologie_ob_rfss %}checked{% endif %}>
-                            o.B.</label>
-                        <label><input type="checkbox" name="mild" value="mild"
-                                id="viszerale_pathologie_schmerzen_nicht_reproduzierbar_rfss{{item.id}}" {% if item.viszerale_pathologie_schmerzen_nicht_reproduzierbar_rfss %}checked{% endif %}> Schmerzen die nicht
-                            reproduziert werden können </label>
-                        <label><input type="checkbox" name="mild" value="mild"
-                                id="viszerale_pathologie_schmerzen_bei_anstrengung_rfss{{item.id}}"{% if item.viszerale_pathologie_schmerzen_bei_anstrengung_rfss %}checked{% endif %}> Schmerzen oder Symptome
-                            bei körperliche Antstrenung oder Atemwegsbelastung </label>
-                        <label><input type="checkbox" name="mild" value="mild"
-                                id="viszerale_pathologie_schmerzen_gastrointestinale_symptome_rfss{{item.id}}"{% if item.viszerale_pathologie_schmerzen_gastrointestinale_symptome_rfss %}checked{% endif %}> Schmerzen die
-                            mit gastrointestinalen Symptomen einhergehen</label>
-                    </div>
-                </th>
-            </tr>
-            <tr>
-                <th>Infektionen</th>
-                <th>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="mild" value="mild" id="infektionen_ob_rfss{{item.id}}"{% if item.infektionen_ob_rfss %}checked{% endif %}>
-                            o.B.</label>
-                        <label><input type="checkbox" name="mild" value="mild"
-                                id="infektionen_geroetete_haut_rfss{{item.id}}"{% if item.infektionen_geroetete_haut_rfss %}checked{% endif %}> Gerötete Haut </label>
-                        <label><input type="checkbox" name="mild" value="mild" id="infektionen_fieber_rfss{{item.id}}"{% if item.infektionen_fieber_rfss %}checked{% endif %}>
-                            Fieber </label>
-                        <label><input type="checkbox" name="mild" value="mild"
-                                id="infektionen_allgemeines_unwohlsein_rfss{{item.id}}"{% if item.infektionen_allgemeines_unwohlsein_rfss %}checked{% endif %}> Allgemeines Unwohlsein </label>
 
-                    </div>
-                </th>
+        <table cellspacing="0" cellpadding="0" style="border:0.75pt solid #bfbfbf; border-collapse:collapse">
+            <tr style="height:15pt">
+                <td colspan="4"
+                    style="width:443.25pt; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times"><label for=""><input type="checkbox" name="mild" value="mild"
+                                    id="links_isks{{item.id}}" {% if item.links_isks %}checked{% endif %}>links</label>
+                            <label for=""><input type="checkbox" name="mild" value="mild" id="rechts_isks{{item.id}}" {%
+                                    if item.rechts_isks %}checked{% endif %}>rechts</label></span>
+                    </p>
+                </td>
             </tr>
-            <tr>
-                <th>Tumor</th>
-                <th>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="mild" value="mild" id="tumor_ob_rfss{{item.id}}"{% if item.tumor_ob_rfss %}checked{% endif %}> o.B.</label>
-                        <label><input type="checkbox" name="mild" value="mild"
-                                id="tumor_krebs_vorgeschichte_rfss{{item.id}}"{% if item.tumor_krebs_vorgeschichte_rfss %}checked{% endif %}> Krebs in der Vorgeschichte </label>
-                        <label><input type="checkbox" name="mild" value="mild"
-                                id="tumor_symptome_unerklärlicher_gewichtsverlust_rfss{{item.id}}"{% if item.tumor_symptome_unerklärlicher_gewichtsverlust_rfss %}checked{% endif %}> Symptome und Anzeichen
-                            von Krebs einschließlich unklarem Gewichtsverlust und Schmerzen die nicht mit mechanischen
-                            Stress verbunden sind und unerklärlicher Müdigkeit </label>
-
-                    </div>
-                </th>
+            <tr style="height:15pt">
+                <td
+                    style="width:35.35pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        &#xa0;
+                    </p>
+                </td>
+                <td
+                    style="width:158.4pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">o.B. </span>
+                    </p>
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">gegen Widerstand kann 8 Sekunden dagehalten werden </span>
+                    </p>
+                </td>
+                <td
+                    style="width:197pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Auffällig gegen Widerstand kann nicht 8 Sekunden gehalten werden
+                        </span>
+                    </p>
+                </td>
+                <td
+                    style="width:30pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Schmerzhaft</span>
+                    </p>
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        &#xa0;
+                    </p>
+                </td>
             </tr>
-            <tr>
-                <th>Neurologische Läsion</th>
-                <th>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="mild" value="mild" id="neurologische_laesion_ob_rfss{{item.id}}"{% if item.neurologische_laesion_ob_rfss %}checked{% endif %}>
-                            o.B.</label>
-                        <label><input type="checkbox" name="mild" value="mild"
-                                id="neurologische_laesion_sensorisches_defizit_rfss{{item.id}}"{% if item.neurologische_laesion_sensorisches_defizit_rfss %}checked{% endif %}> Unklares sensorisches oder
-                            motorisches Defizit </label>
-                    </div>
-                </th>
+            <tr style="height:15pt">
+                <td
+                    style="width:35.35pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Flexion</span>
+                    </p>
+                </td>
+                <td
+                    style="width:158.4pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="checkbox" name="mild" value="mild" id="flexion_ob_isks{{item.id}}" {% if
+                            item.flexion_ob_isks %}checked{% endif %}>
+                    </p>
+                </td>
+                <td
+                    style="width:197pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="checkbox" name="mild" value="mild" id="flexion_auffaellig_isks{{item.id}}" {% if
+                            item.flexion_auffaellig_isks %}checked{% endif %}>
+                    </p>
+                </td>
+                <td
+                    style="width:30pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="checkbox" name="mild" value="mild" id="flexion_schmerzhaft_isks{{item.id}}" {% if
+                            item.flexion_schmerzhaft_isks %}checked{% endif %}>
+                    </p>
+                </td>
             </tr>
-            <tr>
-                <th>Fraktur oder Luxation</th>
-                <th>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="mild" value="mild" id="fraktur_luxation_ob_rfss{{item.id}}"{% if item.fraktur_luxation_ob_rfss %}checked{% endif %}>
-                            o.B.</label>
-                        <label><input type="checkbox" name="mild" value="mild"
-                                id="fraktur_luxation_signifikantes_trauma_rfss{{item.id}}"{% if item.neurologische_laesion_sensorisches_defizit_rfss %}checked{% endif %}> Siginifikantes Trauma </label>
-                        <label><input type="checkbox" name="mild" value="mild" id="fraktur_luxation_anfall_rfss{{item.id}}"{% if item.fraktur_luxation_anfall_rfss %}checked{% endif %}>
-                            Anfall </label>
-                        <label><input type="checkbox" name="mild" value="mild"
-                                id="fraktur_luxation_akut_behindernde_schmerzen_rfss{{item.id}}"{% if item.fraktur_luxation_akut_behindernde_schmerzen_rfss %}checked{% endif %}> Akut behinderende Schmerzen
-                        </label>
-                        <label><input type="checkbox" name="mild" value="mild"
-                                id="fraktur_luxation_akuter_bewegungsverlust_rfss{{item.id}}"{% if item.fraktur_luxation_akuter_bewegungsverlust_rfss %}checked{% endif %}> Aktuer Bewegungsverlsut
-                        </label>
-                        <label><input type="checkbox" name="mild" value="mild"
-                                id="fraktur_luxation_deformitaet_funktionsverlust_rfss{{item.id}}"{% if item.fraktur_luxation_deformitaet_funktionsverlust_rfss %}checked{% endif %}> Deformität ooder Verlsut
-                            der normalen Funktion </label>
-                    </div>
-                </th>
+            <tr style="height:15pt">
+                <td
+                    style="width:35.35pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Extension</span>
+                    </p>
+                </td>
+                <td
+                    style="width:158.4pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="checkbox" name="mild" value="mild" id="extension_ob_isks{{item.id}}" {% if
+                            item.extension_ob_isks %}checked{% endif %}>
+                    </p>
+                </td>
+                <td
+                    style="width:197pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="checkbox" name="mild" value="mild" id="extension_auffaellig_isks{{item.id}}" {% if
+                            item.extension_auffaellig_isks %}checked{% endif %}>
+                    </p>
+                </td>
+                <td
+                    style="width:30pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="checkbox" name="mild" value="mild" id="extension_schmerzhaft_isks{{item.id}}" {% if
+                            item.extension_schmerzhaft_isks %}checked{% endif %}>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:35.35pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Abduktion</span>
+                    </p>
+                </td>
+                <td
+                    style="width:158.4pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="checkbox" name="mild" value="mild" id="abduktion_ob_isks{{item.id}}" {% if
+                            item.abduktion_ob_isks %}checked{% endif %}>
+                    </p>
+                </td>
+                <td
+                    style="width:197pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="checkbox" name="mild" value="mild" id="abduktion_auffaellig_isks{{item.id}}" {% if
+                            item.abduktion_auffaellig_isks %}checked{% endif %}>
+                    </p>
+                </td>
+                <td
+                    style="width:30pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="checkbox" name="mild" value="mild" id="abduktion_schmerzhaft_isks{{item.id}}" {% if
+                            item.abduktion_schmerzhaft_isks %}checked{% endif %}>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:35.35pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Adduktion</span>
+                    </p>
+                </td>
+                <td
+                    style="width:158.4pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="checkbox" name="mild" value="mild" id="adduktion_ob_isks{{item.id}}" {% if
+                            item.adduktion_ob_isks %}checked{% endif %}>
+                    </p>
+                </td>
+                <td
+                    style="width:197pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="checkbox" name="mild" value="mild" id="adduktion_auffaellig_isks{{item.id}}" {% if
+                            item.adduktion_auffaellig_isks %}checked{% endif %}>
+                    </p>
+                </td>
+                <td
+                    style="width:30pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="checkbox" name="mild" value="mild" id="adduktion_schmerzhaft_isks{{item.id}}" {% if
+                            item.adduktion_schmerzhaft_isks %}checked{% endif %}>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:35.35pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Innenrotation</span>
+                    </p>
+                </td>
+                <td
+                    style="width:158.4pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="checkbox" name="mild" value="mild" id="innenrotation_ob_isks{{item.id}}" {% if
+                            item.innenrotation_ob_isks %}checked{% endif %}>
+                    </p>
+                </td>
+                <td
+                    style="width:197pt; border:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="checkbox" name="mild" value="mild" id="innenrotation_auffaellig_isks{{item.id}}" {%
+                            if item.innenrotation_auffaellig_isks %}checked{% endif %}>
+                    </p>
+                </td>
+                <td
+                    style="width:30pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="checkbox" name="mild" value="mild"
+                            id="innenrotation_schmerzhaft_ob_isks{{item.id}}" {% if
+                            item.innenrotation_schmerzhaft_ob_isks %}checked{% endif %}>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:35.35pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Außenrotation</span>
+                    </p>
+                </td>
+                <td
+                    style="width:158.4pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="checkbox" name="mild" value="mild" id="außenrotation_ob_isks{{item.id}}" {% if
+                            item.außenrotation_ob_isks %}checked{% endif %}>
+                    </p>
+                </td>
+                <td
+                    style="width:197pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="checkbox" name="mild" value="mild" id="außenrotation_auffaellig_isks{{item.id}}" {%
+                            if item.außenrotation_auffaellig_isks %}checked{% endif %}>
+                    </p>
+                </td>
+                <td
+                    style="width:30pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <input type="checkbox" name="mild" value="mild" id="außenrotation_schmerzhaft_isks{{item.id}}"
+                            {% if item.außenrotation_schmerzhaft_isks %}checked{% endif %}>
+                    </p>
+                </td>
             </tr>
         </table>
-        <div style="height: 50px;">
-
-        </div>
-        <textarea name="bemerkung" id="bemerkung_rfss{{item.id}}" class="form-control" style="height: 100px; width: 100%;"
-        placeholder="Bemerkung">{{item.bemerkung_rfss}}</textarea>
     </div>
-        
-        
+
     {% endfor %}
     {% endif %}
+
+    {% if muskelfunktionspruefung_schulter_list %}
+    {% for item in muskelfunktionspruefung_schulter_list %}
+    <label for="ananmese-container" style="margin-left: 15px; color: rgb(44, 67, 81);">
+        <div style="display: flex; justify-content: space-around;">
+            <button class="header-button">
+                <h6>Muskelfunktionsprüfung Schulter | Infos |</h6>
+            </button>
+
+            <button class="header-button" onclick="addBefund('muskelfunktionspruefung_schulter')">
+                <h6>Re-Befund |</h6>
+            </button>
+            <button class="header-button" onclick="deleteBefund('muskelfunktionspruefung_schulter','{{item.id}}')">
+                <h6>Löschen |</h6>
+            </button>
+        </div>
+    </label>
+    <div id="ananmese-container" style="margin-bottom: 30px;">
+        <h3 style="color: rgb(44, 67, 81); margin-bottom: 20px;">
+            Durchgeführt am {{ item.created_at|date:"d.m.Y" }}
+        </h3>
+
+        <table cellspacing="0" cellpadding="0" style="border:0.75pt solid #bfbfbf; border-collapse:collapse">
+            <tr style="height:15pt">
+                <td colspan="2"
+                    style="width:256.45pt; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <label for=""><input type="checkbox" name="mild" value="mild" id="links_mfs{{item.id}}" {% if
+                            item.links_mfs %}checked{% endif %}>links</label>
+                    <label for=""><input type="checkbox" name="mild" value="mild" id="rechts_mfs{{item.id}}" {% if
+                            item.rechts_mfs %}checked{% endif %}>rechts</label>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:76.8pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        &#xa0;
+                    </p>
+                </td>
+                <td
+                    style="width:172.15pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Wert MuFu </span>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:76.8pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Flexion</span>
+                    </p>
+                </td>
+                <td
+                    style="width:172.15pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="flexion_1_mfs{{item.id}}" {% if
+                                item.flexion_1_mfs %}checked{% endif %}>1</label>
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="flexion_2_mfs{{item.id}}" {% if
+                                item.flexion_2_mfs %}checked{% endif %}>2</label>
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="flexion_3_mfs{{item.id}}" {% if
+                                item.flexion_3_mfs %}checked{% endif %}>3</label>
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="flexion_4_mfs{{item.id}}" {% if
+                                item.flexion_4_mfs %}checked{% endif %}>4</label><label for=""><input type="checkbox"
+                                name="mild" value="mild" id="flexion_5_mfs{{item.id}}" {% if item.flexion_5_mfs %}checked{%
+                                endif %}>5</label>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:76.8pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Extension</span>
+                    </p>
+                </td>
+                <td
+                    style="width:172.15pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="extension_1_mfs{{item.id}}" {% if
+                                item.extension_1_mfs %}checked{% endif %}>1</label>
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="extension_2_mfs{{item.id}}" {% if
+                                item.extension_2_mfs %}checked{% endif %}>2</label>
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="extension_3_mfs{{item.id}}" {% if
+                                item.extension_3_mfs %}checked{% endif %}>3</label>
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="extension_4_mfs{{item.id}}" {% if
+                                item.extension_4_mfs %}checked{% endif %}>4</label>
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="extension_5_mfs{{item.id}}" {% if
+                                item.extension_5_mfs %}checked{% endif %}>5</label>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:76.8pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Abduktion</span>
+                    </p>
+                </td>
+                <td
+                    style="width:172.15pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="abduktion_1_mfs{{item.id}}" {% if
+                            item.abduktion_1_mfs %}checked{% endif %}>1</label>
+                    <label for=""><input type="checkbox" name="mild" value="mild" id="abduktion_2_mfs{{item.id}}" {% if
+                            item.abduktion_2_mfs %}checked{% endif %}>2</label>
+                    <label for=""><input type="checkbox" name="mild" value="mild" id="abduktion_3_mfs{{item.id}}" {% if
+                            item.abduktion_3_mfs %}checked{% endif %}>3</label>
+                    <label for=""><input type="checkbox" name="mild" value="mild" id="abduktion_4_mfs{{item.id}}" {% if
+                            item.abduktion_4_mfs %}checked{% endif %}>4</label>
+                    <label for=""><input type="checkbox" name="mild" value="mild" id="abduktion_5_mfs{{item.id}}" {% if
+                            item.abduktion_5_mfs %}checked{% endif %}>5</label>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:76.8pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Adduktion</span>
+                    </p>
+                </td>
+                <td
+                    style="width:172.15pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="adduktion_1_mfs{{item.id}}" {% if
+                            item.adduktion_1_mfs %}checked{% endif %}>1</label>
+                    <label for=""><input type="checkbox" name="mild" value="mild" id="adduktion_2_mfs{{item.id}}" {% if
+                            item.adduktion_2_mfs %}checked{% endif %}>2</label>
+                    <label for=""><input type="checkbox" name="mild" value="mild" id="adduktion_3_mfs{{item.id}}" {% if
+                            item.adduktion_3_mfs %}checked{% endif %}>3</label>
+                    <label for=""><input type="checkbox" name="mild" value="mild" id="adduktion_4_mfs{{item.id}}" {% if
+                            item.adduktion_4_mfs %}checked{% endif %}>4</label>
+                    <label for=""><input type="checkbox" name="mild" value="mild" id="adduktion_5_mfs{{item.id}}" {% if
+                            item.adduktion_5_mfs %}checked{% endif %}>5</label>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:76.8pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Innenrotation</span>
+                    </p>
+                </td>
+                <td
+                    style="width:172.15pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="innenrotation_1_mfs{{item.id}}" {% if
+                            item.innenrotation_1_mfs %}checked{% endif %}>1</label>
+                    <label for=""><input type="checkbox" name="mild" value="mild" id="innenrotation_2_mfs{{item.id}}" {% if
+                            item.innenrotation_2_mfs %}checked{% endif %}>2</label>
+                    <label for=""><input type="checkbox" name="mild" value="mild" id="innenrotation_3_mfs{{item.id}}" {% if
+                            item.innenrotation_3_mfs %}checked{% endif %}>3</label>
+                    <label for=""><input type="checkbox" name="mild" value="mild" id="innenrotation_4_mfs{{item.id}}" {% if
+                            item.innenrotation_4_mfs %}checked{% endif %}>4</label>
+                    <label for=""><input type="checkbox" name="mild" value="mild" id="innenrotation_5_mfs{{item.id}}" {% if
+                            item.innenrotation_5_mfs %}checked{% endif %}>5</label>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td
+                    style="width:76.8pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Außenrotation</span>
+                    </p>
+                </td>
+                <td
+                    style="width:172.15pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_1_mfs{{item.id}}" {% if
+                            item.außenrotation_1_mfs %}checked{% endif %}>1</label>
+                    <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_2_mfs{{item.id}}" {% if
+                            item.außenrotation_2_mfs %}checked{% endif %}>2</label>
+                    <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}>3</label>
+                    <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_4_mfs{{item.id}}" {% if
+                            item.außenrotation_4_mfs %}checked{% endif %}>4</label>
+                    <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_5_mfs{{item.id}}" {% if
+                            item.außenrotation_5_mfs %}checked{% endif %}>5</label>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    {% endfor %}
+    {% endif %}
+    {% if feds_kalassifikation_list %}
+    {% for item in feds_kalassifikation_list %}
+    <label for="ananmese-container" style="margin-left: 15px; color: rgb(44, 67, 81);">
+        <div style="display: flex; justify-content: space-around;">
+            <button class="header-button">
+                <h6>FEDS-Kalassifikation Schulter | Infos |</h6>
+            </button>
+
+            <button class="header-button" onclick="addBefund('feds_kalassifikation')">
+                <h6>Re-Befund |</h6>
+            </button>
+            <button class="header-button" onclick="deleteBefund('feds_kalassifikation','{{item.id}}')">
+                <h6>Löschen |</h6>
+            </button>
+        </div>
+    </label>
+    <div id="ananmese-container" style="margin-bottom: 30px;">
+        <h3 style="color: rgb(44, 67, 81); margin-bottom: 20px;">
+            Durchgeführt am {{ item.created_at|date:"d.m.Y" }}
+        </h3>
+        <table cellspacing="0" cellpadding="0" style="border:0.75pt solid #bfbfbf; border-collapse:collapse">
+            <tr style="height:15pt">
+                <td style="width:258.15pt; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Haben oder hatten Sie das Gefühl das Ihre Schulter sich ausrenkt oder locker ist</span>
+                    </p>
+                </td>
+                <td style="width:177.6pt; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> Ja</label>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td style="width:258.15pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Wie oft haben Sie dieses Gefühl</span>
+                    </p>
+                </td>
+                <td style="width:177.6pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> 1x  (einmalig) </label>
+                    </p>
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> 2 – 5x (gegelengtlich)</label>
+                    </p>
+                   
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> 5x  (regelmäßig) </label>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td style="width:258.15pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Hatten Sie eine Verletzung die dieses Problem ausgelöst hat</span>
+                    </p>
+                </td>
+                <td style="width:177.6pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> Ja (traumatisch)</label>
+                    </p>
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> Nein (atraumatisch)</label>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td style="width:258.15pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">In welche Richtung renkt sich die Schulter hauptsähclich aus</span>
+                    </p>
+                </td>
+                <td style="width:177.6pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> Anterior</label>
+                    </p>
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> Inferior</label>
+                    </p>
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> Posterior</label>
+                    </p>
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> Keine Aussage möglich</label>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td style="width:258.15pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Musste Sie jemals Hilfe in Anspruch nehmen, um die Schulter wieder einzurenken</span>
+                    </p>
+                </td>
+                <td style="width:177.6pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> Ja (vollständige Luxation)</label>
+                    </p>
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> Nein (Subluxation)</label>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td style="width:258.15pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        &#xa0;
+                    </p>
+                </td>
+                <td style="width:177.6pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        &#xa0;
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td style="width:258.15pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Schweres Tragen an der betroffenen Seite wie bsp. Einseitiges Tragen eines Rucksacks</span>
+                    </p>
+                </td>
+                <td style="width:177.6pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> Inferior</label>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td style="width:258.15pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Flexion horizontale Flexion und Adduktion</span>
+                    </p>
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">T-Shirt ausziehen, Autofahren Liegestütze</span>
+                    </p>
+                </td>
+                <td style="width:177.6pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> Posterior</label>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td style="width:258.15pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Abduktion und Außenrotation wie Wurfbewegungen</span>
+                    </p>
+                </td>
+                <td style="width:177.6pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> Anterior</label>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td style="width:258.15pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        &#xa0;
+                    </p>
+                </td>
+                <td style="width:177.6pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        &#xa0;
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td style="width:258.15pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Anterior Aprenhension Test</span>
+                    </p>
+                </td>
+                <td style="width:177.6pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> Positiv (vordere Schulterinstabilität)</label>
+                    </p>
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> o.B.</label>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td style="width:258.15pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Jerk Test</span>
+                    </p>
+                </td>
+                <td style="width:177.6pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> Positiv (hintere Schulterinstabilität)</label>
+                    </p>
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> o.B.</label>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td style="width:258.15pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Sulcus Zeichen</span>
+                    </p>
+                </td>
+                <td style="width:177.6pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; border-bottom:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> Positiv (inferiore Schulterinstabilität)</label>
+                    </p>
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> o.B.</label>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:15pt">
+                <td style="width:258.15pt; border-top:0.75pt solid #bfbfbf; border-right:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; text-align:center; line-height:116%; font-size:12pt">
+                        <span style="font-family:Times">Translatorische Test</span>
+                    </p>
+                </td>
+                <td style="width:177.6pt; border-top:0.75pt solid #bfbfbf; border-left:0.75pt solid #bfbfbf; padding-right:3.38pt; padding-left:3.38pt; vertical-align:middle">
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> Positiv Anterior</label>
+                    </p>
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> Positiv Posterior</label>
+                    </p>
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> Positiv Inferior</label>
+                    </p>
+                    <p style="margin-top:12pt; margin-bottom:12pt; line-height:116%; font-size:12pt">
+                        <label for=""><input type="checkbox" name="mild" value="mild" id="außenrotation_3_mfs{{item.id}}" {% if
+                            item.außenrotation_3_mfs %}checked{% endif %}> o.B.</label>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    {% endfor %}
+    {% endif %}
+
+
+
 
 
 
@@ -3966,7 +5527,7 @@ Befund von {{user.laxout_user_name}}
             befundArguments["red_flag_screening_schulter"] = ['viszerale_pathologie_ob_rfss', 'viszerale_pathologie_schmerzen_nicht_reproduzierbar_rfss', 'viszerale_pathologie_schmerzen_bei_anstrengung_rfss', 'viszerale_pathologie_schmerzen_gastrointestinale_symptome_rfss', 'infektionen_ob_rfss', 'infektionen_geroetete_haut_rfss', 'infektionen_fieber_rfss', 'infektionen_allgemeines_unwohlsein_rfss', 'tumor_ob_rfss', 'tumor_krebs_vorgeschichte_rfss', 'tumor_symptome_unerklärlicher_gewichtsverlust_rfss', 'neurologische_laesion_ob_rfss', 'neurologische_laesion_sensorisches_defizit_rfss', 'fraktur_luxation_ob_rfss', 'fraktur_luxation_signifikantes_trauma_rfss', 'fraktur_luxation_anfall_rfss', 'fraktur_luxation_akut_behindernde_schmerzen_rfss', 'fraktur_luxation_akuter_bewegungsverlust_rfss', 'fraktur_luxation_deformitaet_funktionsverlust_rfss', 'bemerkung_rfss']
             befund_lists_list.push("{{red_flag_screening_schulter_list_ids}}");
         }
-        
+
 
 
         if (Array.isArray(parsed_posteriore_schultersteifheit) && parsed_posteriore_schultersteifheit.length > 0) {
